@@ -1,6 +1,8 @@
 import type { AuthTokens } from '../features/auth/types';
+import { mockAuthResponse, mockPatients, mockVitals, mockTimeline, mockPredictions, mockSimulations } from './mock-data';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true' || true; // Default to true for demo
 
 interface RequestConfig extends RequestInit {
   requireAuth?: boolean;
@@ -39,11 +41,49 @@ class ApiClient {
     return this.tokens;
   }
 
+  private async mockRequest<T>(endpoint: string, method: string): Promise<T> {
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    // Mock responses
+    if (endpoint === '/auth/login' && method === 'POST') {
+      return mockAuthResponse as T;
+    }
+    if (endpoint === '/auth/me') {
+      return mockAuthResponse.user as T;
+    }
+    if (endpoint === '/patients') {
+      return mockPatients as T;
+    }
+    if (endpoint.match(/\/patients\/\d+$/)) {
+      return mockPatients[0] as T;
+    }
+    if (endpoint.includes('/vitals')) {
+      return mockVitals as T;
+    }
+    if (endpoint.includes('/timeline')) {
+      return mockTimeline as T;
+    }
+    if (endpoint.includes('/predictions')) {
+      return mockPredictions as T;
+    }
+    if (endpoint.includes('/simulations')) {
+      return mockSimulations as T;
+    }
+
+    throw new Error('Mock endpoint not found');
+  }
+
   private async request<T>(
     endpoint: string,
     config: RequestConfig = {}
   ): Promise<T> {
     const { requireAuth = true, ...fetchConfig } = config;
+
+    // Use mock data if enabled
+    if (USE_MOCK_DATA) {
+      return this.mockRequest<T>(endpoint, fetchConfig.method || 'GET');
+    }
 
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
