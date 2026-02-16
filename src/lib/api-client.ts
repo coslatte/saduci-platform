@@ -41,22 +41,39 @@ class ApiClient {
     return this.tokens;
   }
 
-  private async mockRequest<T>(endpoint: string, method: string): Promise<T> {
+  private async mockRequest<T>(endpoint: string, method: string, body?: unknown): Promise<T> {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 300));
 
-    // Mock responses
+    // Mock responses for authentication
     if (endpoint === '/auth/login' && method === 'POST') {
+      return mockAuthResponse as T;
+    }
+    if (endpoint === '/auth/refresh' && method === 'POST') {
       return mockAuthResponse as T;
     }
     if (endpoint === '/auth/me') {
       return mockAuthResponse.user as T;
     }
-    if (endpoint === '/patients') {
+    if (endpoint === '/auth/logout' && method === 'POST') {
+      return {} as T;
+    }
+
+    // Mock responses for patients
+    if (endpoint === '/patients' && method === 'GET') {
       return mockPatients as T;
     }
-    if (endpoint.match(/\/patients\/\d+$/)) {
+    if (endpoint === '/patients' && method === 'POST') {
+      return { ...(body as Record<string, unknown>), id: String(mockPatients.length + 1) } as T;
+    }
+    if (endpoint.match(/\/patients\/\d+$/) && method === 'GET') {
       return mockPatients[0] as T;
+    }
+    if (endpoint.match(/\/patients\/\d+$/) && method === 'PUT') {
+      return { ...mockPatients[0], ...(body as Record<string, unknown>) } as T;
+    }
+    if (endpoint.match(/\/patients\/\d+$/) && method === 'DELETE') {
+      return {} as T;
     }
     if (endpoint.includes('/vitals')) {
       return mockVitals as T;
@@ -64,14 +81,36 @@ class ApiClient {
     if (endpoint.includes('/timeline')) {
       return mockTimeline as T;
     }
-    if (endpoint.includes('/predictions')) {
+
+    // Mock responses for predictions
+    if (endpoint.includes('/predictions') && method === 'GET') {
       return mockPredictions as T;
     }
-    if (endpoint.includes('/simulations')) {
-      return mockSimulations as T;
+    if (endpoint === '/predictions' && method === 'POST') {
+      return { ...(body as Record<string, unknown>), id: String(mockPredictions.length + 1), timestamp: new Date().toISOString() } as T;
+    }
+    if (endpoint.match(/\/predictions\/\d+$/) && method === 'DELETE') {
+      return {} as T;
     }
 
-    throw new Error('Mock endpoint not found');
+    // Mock responses for simulations
+    if (endpoint.includes('/simulations') && method === 'GET') {
+      return mockSimulations as T;
+    }
+    if (endpoint === '/simulations' && method === 'POST') {
+      return { ...(body as Record<string, unknown>), id: String(mockSimulations.length + 1), createdAt: new Date().toISOString() } as T;
+    }
+    if (endpoint.match(/\/simulations\/\d+$/) && method === 'PUT') {
+      return { ...mockSimulations[0], ...(body as Record<string, unknown>) } as T;
+    }
+    if (endpoint.match(/\/simulations\/\d+$/) && method === 'DELETE') {
+      return {} as T;
+    }
+    if (endpoint.match(/\/simulations\/\d+\/run$/) && method === 'POST') {
+      return { ...mockSimulations[0], status: 'running' } as T;
+    }
+
+    throw new Error(`Mock endpoint not found: ${method} ${endpoint}`);
   }
 
   private async request<T>(
@@ -82,7 +121,8 @@ class ApiClient {
 
     // Use mock data if enabled
     if (USE_MOCK_DATA) {
-      return this.mockRequest<T>(endpoint, fetchConfig.method || 'GET');
+      const bodyData = fetchConfig.body ? JSON.parse(fetchConfig.body as string) : undefined;
+      return this.mockRequest<T>(endpoint, fetchConfig.method || 'GET', bodyData);
     }
 
     const headers: Record<string, string> = {

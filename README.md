@@ -99,22 +99,30 @@ The application expects a REST API with the following endpoints:
 ### Authentication
 - `POST /api/auth/login` - Login with credentials
 - `POST /api/auth/logout` - Logout
+- `POST /api/auth/refresh` - Refresh access token
 - `GET /api/auth/me` - Get current user
 
 ### Patients
 - `GET /api/patients` - List all patients
 - `GET /api/patients/:id` - Get patient details
+- `POST /api/patients` - Create new patient
+- `PUT /api/patients/:id` - Update patient
+- `DELETE /api/patients/:id` - Delete patient
 - `GET /api/patients/:id/vitals` - Get patient vitals
 - `GET /api/patients/:id/timeline` - Get patient timeline
 
 ### Predictions
-- `GET /api/predictions` - List predictions
+- `GET /api/predictions` - List predictions (optional query: `?patientId=:id`)
 - `GET /api/predictions/:id` - Get prediction details
+- `POST /api/predictions` - Create new prediction
+- `DELETE /api/predictions/:id` - Delete prediction
 
 ### Simulations
-- `GET /api/simulations` - List simulations
+- `GET /api/simulations` - List simulations (optional query: `?patientId=:id`)
 - `GET /api/simulations/:id` - Get simulation details
 - `POST /api/simulations` - Create simulation
+- `PUT /api/simulations/:id` - Update simulation
+- `DELETE /api/simulations/:id` - Delete simulation
 - `POST /api/simulations/:id/run` - Run simulation
 
 ## License
