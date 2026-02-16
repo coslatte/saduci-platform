@@ -68,7 +68,16 @@ cp .env.example .env
 
 Edit `.env` and set your API base URL.
 
-4. Start the development server:
+4. Verify setup (optional but recommended):
+```bash
+npm run verify
+# or
+./verify-setup.sh
+```
+
+This script checks Node.js version, dependencies, linting, and build process.
+
+5. Start the development server:
 ```bash
 npm run dev
 ```
@@ -79,10 +88,31 @@ The app will be available at `http://localhost:5173`
 
 ### Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+- `npm run dev` - Start development server (http://localhost:5173)
+- `npm run build` - Build for production (outputs to `dist/`)
+- `npm run preview` - Preview production build (http://localhost:4173)
+- `npm run lint` - Run ESLint for code quality checks
+- `npm run verify` - Verify development environment setup
+
+### Verification Checklist
+
+After cloning and setting up the repository, verify everything is working:
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Run linter (should pass with no errors)
+npm run lint
+
+# 3. Build the project (should complete successfully)
+npm run build
+
+# 4. Start development server
+npm run dev
+```
+
+✅ All commands should complete successfully with no errors.
 
 ### Code Standards
 
@@ -124,6 +154,46 @@ The application expects a REST API with the following endpoints:
 - `PUT /api/simulations/:id` - Update simulation
 - `DELETE /api/simulations/:id` - Delete simulation
 - `POST /api/simulations/:id/run` - Run simulation
+
+See [API_SPEC.md](API_SPEC.md) for complete API documentation with request/response schemas.
+
+## Troubleshooting
+
+### Common Issues
+
+**Port already in use:**
+```bash
+# Kill process on port 5173 (Unix/Linux/macOS)
+lsof -ti:5173 | xargs kill -9
+
+# Or use a different port
+npm run dev -- --port 3000
+```
+
+**Module not found errors:**
+```bash
+# Clear and reinstall dependencies
+rm -rf node_modules package-lock.json
+npm install
+```
+
+**Build failures:**
+- Verify Node.js version: `node --version` (requires v18.0.0+)
+- Clear build cache: `rm -rf dist`
+- Rebuild: `npm run build`
+
+**API connection issues:**
+- Check `.env` file has correct `VITE_API_BASE_URL`
+- Verify backend server is running
+- Check browser console for CORS errors
+
+## Contributing
+
+We welcome contributions! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for:
+- Development setup guide
+- Code standards and conventions
+- Commit message guidelines
+- Pull request process
 
 ## License
 
