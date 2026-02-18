@@ -1,8 +1,24 @@
-# SADECI Platform
+# SADECI Platform - Source Code Only
+
+> **Note**: This branch (`fix/dependecies-aid`) contains only the fundamental source code of the application. Configuration files, development tools, and documentation have been separated.
 
 Web client for SADECI, clinical decision support in the ICU, Hospital Arnaldo Milián Castro.
 
 > 📖 [Versión en español](LÉAME.md)
+
+## Branch Contents
+
+This branch includes:
+- ✅ **Source code** (`src/` directory) - All application code
+- ✅ **README.md** - Basic project information
+- ✅ **.gitignore** - Git configuration
+
+Excluded from this branch:
+- ❌ Configuration files (Next.js, TypeScript, ESLint, etc.)
+- ❌ Package management files (package.json, bun.lock)
+- ❌ Build artifacts and generated files
+- ❌ Development scripts and tools
+- ❌ Extended documentation
 
 ## Tech Stack
 
