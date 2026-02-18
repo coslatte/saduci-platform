@@ -4,7 +4,7 @@ export interface Simulation {
   name: string;
   description: string;
   createdAt: string;
-  status: 'draft' | 'running' | 'completed' | 'failed';
+  status: "draft" | "running" | "completed" | "failed";
   parameters: SimulationParameter[];
   results?: SimulationResult[];
 }
@@ -20,5 +20,5 @@ export interface SimulationResult {
   timestamp: string;
   metric: string;
   value: number;
-  status: 'normal' | 'warning' | 'critical';
+  status: "normal" | "warning" | "critical";
 }

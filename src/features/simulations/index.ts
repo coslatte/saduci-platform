@@ -1,3 +1,2 @@
-export { SimulationsPage } from './components';
-export * from './types';
-
+export { SimulationsPage } from "./components";
+export * from "./types";

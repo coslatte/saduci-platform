@@ -1,1 +1,1 @@
-export { PatientCard } from './PatientCard';
+export { PatientCard } from "./PatientCard";

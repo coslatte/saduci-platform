@@ -33,7 +33,7 @@ export const PatientCard = ({ patient }: PatientCardProps) => {
         <span
           className={cn(
             "px-3 py-1 rounded-full text-xs font-medium",
-            statusColors[patient.status]
+            statusColors[patient.status],
           )}
         >
           {patient.status.toUpperCase()}

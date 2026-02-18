@@ -1,5 +1,5 @@
-import { createContext } from 'react';
-import type { User, LoginCredentials } from '../types';
+import { createContext } from "react";
+import type { User, LoginCredentials } from "../types";
 
 export interface AuthContextType {
   user: User | null;
@@ -9,4 +9,6 @@ export interface AuthContextType {
   logout: () => Promise<void>;
 }
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined,
+);

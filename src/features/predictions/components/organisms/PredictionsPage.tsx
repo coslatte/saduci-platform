@@ -1,12 +1,12 @@
-import { useSearchParams } from 'react-router';
-import { usePredictions } from '../../hooks/usePredictions';
-import { PredictionCard } from '../molecules';
-import { LoadingSpinner } from '../../../../shared/components';
-import { Layout } from '../../../layout';
+import { useSearchParams } from "react-router";
+import { usePredictions } from "../../hooks/usePredictions";
+import { PredictionCard } from "../molecules";
+import { LoadingSpinner } from "../../../../shared/components";
+import { Layout } from "../../../layout";
 
 export const PredictionsPage = () => {
   const [searchParams] = useSearchParams();
-  const patientId = searchParams.get('patientId') || undefined;
+  const patientId = searchParams.get("patientId") || undefined;
   const { data: predictions, isLoading, error } = usePredictions(patientId);
 
   if (isLoading) {
@@ -23,7 +23,9 @@ export const PredictionsPage = () => {
     return (
       <Layout>
         <div className="text-center py-12">
-          <p className="text-red-600">Error loading predictions: {error.message}</p>
+          <p className="text-red-600">
+            Error loading predictions: {error.message}
+          </p>
         </div>
       </Layout>
     );
@@ -33,10 +35,12 @@ export const PredictionsPage = () => {
     <Layout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Prediction Results</h1>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Prediction Results
+          </h1>
           <p className="text-gray-600 mt-1">
             AI-powered clinical outcome predictions
-            {patientId && ' for selected patient'}
+            {patientId && " for selected patient"}
           </p>
         </div>
 

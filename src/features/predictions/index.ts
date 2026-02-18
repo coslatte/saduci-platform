@@ -1,3 +1,2 @@
-export { PredictionsPage } from './components';
-export * from './types';
-
+export { PredictionsPage } from "./components";
+export * from "./types";

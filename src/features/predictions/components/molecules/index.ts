@@ -1,1 +1,1 @@
-export { PredictionCard } from './PredictionCard';
+export { PredictionCard } from "./PredictionCard";

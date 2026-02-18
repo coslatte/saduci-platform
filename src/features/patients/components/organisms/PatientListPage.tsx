@@ -1,7 +1,7 @@
-import { usePatients } from '../../hooks/usePatients';
-import { PatientCard } from '../molecules';
-import { LoadingSpinner } from '../../../../shared/components';
-import { Layout } from '../../../layout';
+import { usePatients } from "../../hooks/usePatients";
+import { PatientCard } from "../molecules";
+import { LoadingSpinner } from "../../../../shared/components";
+import { Layout } from "../../../layout";
 
 export const PatientListPage = () => {
   const { data: patients, isLoading, error } = usePatients();
@@ -20,7 +20,9 @@ export const PatientListPage = () => {
     return (
       <Layout>
         <div className="text-center py-12">
-          <p className="text-red-600">Error loading patients: {error.message}</p>
+          <p className="text-red-600">
+            Error loading patients: {error.message}
+          </p>
         </div>
       </Layout>
     );

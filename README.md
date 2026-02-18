@@ -47,23 +47,26 @@ src/
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/coslatte/sadeci-platform.git
 cd sadeci-platform
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Configure environment variables:
+
 ```bash
 cp .env.example .env
 ```
@@ -71,6 +74,7 @@ cp .env.example .env
 Edit `.env` and set your API base URL.
 
 4. Verify setup (optional but recommended):
+
 ```bash
 npm run verify
 # or
@@ -80,6 +84,7 @@ npm run verify
 This script checks Node.js version, dependencies, linting, and build process.
 
 5. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -129,12 +134,14 @@ npm run dev
 The application expects a REST API with the following endpoints:
 
 ### Authentication
+
 - `POST /api/auth/login` - Login with credentials
 - `POST /api/auth/logout` - Logout
 - `POST /api/auth/refresh` - Refresh access token
 - `GET /api/auth/me` - Get current user
 
 ### Patients
+
 - `GET /api/patients` - List all patients
 - `GET /api/patients/:id` - Get patient details
 - `POST /api/patients` - Create new patient
@@ -144,12 +151,14 @@ The application expects a REST API with the following endpoints:
 - `GET /api/patients/:id/timeline` - Get patient timeline
 
 ### Predictions
+
 - `GET /api/predictions` - List predictions (optional query: `?patientId=:id`)
 - `GET /api/predictions/:id` - Get prediction details
 - `POST /api/predictions` - Create new prediction
 - `DELETE /api/predictions/:id` - Delete prediction
 
 ### Simulations
+
 - `GET /api/simulations` - List simulations (optional query: `?patientId=:id`)
 - `GET /api/simulations/:id` - Get simulation details
 - `POST /api/simulations` - Create simulation
@@ -164,6 +173,7 @@ See [API_SPEC.md](docs/API_SPEC.md) for complete API documentation with request/
 ### Common Issues
 
 **Port already in use:**
+
 ```bash
 # Kill process on port 5173 (Unix/Linux/macOS)
 lsof -ti:5173 | xargs kill -9
@@ -173,6 +183,7 @@ npm run dev -- --port 3000
 ```
 
 **Module not found errors:**
+
 ```bash
 # Clear and reinstall dependencies
 rm -rf node_modules package-lock.json
@@ -180,11 +191,13 @@ npm install
 ```
 
 **Build failures:**
+
 - Verify Node.js version: `node --version` (requires v18.0.0+)
 - Clear build cache: `rm -rf dist`
 - Rebuild: `npm run build`
 
 **API connection issues:**
+
 - Check `.env` file has correct `VITE_API_BASE_URL`
 - Verify backend server is running
 - Check browser console for CORS errors
@@ -192,6 +205,7 @@ npm install
 ## Contributing
 
 We welcome contributions! Please read [CONTRIBUTING.md](docs/CONTRIBUTING.md) for:
+
 - Development setup guide
 - Code standards and conventions
 - Commit message guidelines

@@ -15,7 +15,7 @@ export const PatientDetailPage = () => {
   const { data: patient, isLoading: patientLoading } = usePatient(id!);
   const { data: vitals, isLoading: vitalsLoading } = usePatientVitals(id!);
   const { data: timeline, isLoading: timelineLoading } = usePatientTimeline(
-    id!
+    id!,
   );
 
   if (patientLoading) {

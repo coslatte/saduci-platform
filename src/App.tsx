@@ -1,11 +1,11 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthProvider } from './features/auth';
-import { LoginPage } from './features/auth';
-import { PatientListPage, PatientDetailPage } from './features/patients';
-import { PredictionsPage } from './features/predictions';
-import { SimulationsPage } from './features/simulations';
-import { ProtectedRoute } from './routes';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "./features/auth";
+import { LoginPage } from "./features/auth";
+import { PatientListPage, PatientDetailPage } from "./features/patients";
+import { PredictionsPage } from "./features/predictions";
+import { SimulationsPage } from "./features/simulations";
+import { ProtectedRoute } from "./routes";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,7 +24,7 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-            
+
             <Route
               path="/patients"
               element={
@@ -33,7 +33,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            
+
             <Route
               path="/patients/:id"
               element={
@@ -42,7 +42,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            
+
             <Route
               path="/predictions"
               element={
@@ -51,7 +51,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            
+
             <Route
               path="/simulations"
               element={
@@ -60,7 +60,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            
+
             <Route path="/" element={<Navigate to="/patients" replace />} />
             <Route path="*" element={<Navigate to="/patients" replace />} />
           </Routes>

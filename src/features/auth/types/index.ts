@@ -2,7 +2,7 @@ export interface User {
   id: string;
   username: string;
   email: string;
-  role: 'doctor' | 'nurse' | 'admin';
+  role: "doctor" | "nurse" | "admin";
 }
 
 export interface AuthTokens {

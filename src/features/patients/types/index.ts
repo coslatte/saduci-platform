@@ -3,10 +3,10 @@ export interface Patient {
   firstName: string;
   lastName: string;
   dateOfBirth: string;
-  gender: 'male' | 'female' | 'other';
+  gender: "male" | "female" | "other";
   admissionDate: string;
   roomNumber: string;
-  status: 'stable' | 'critical' | 'recovering' | 'deceased';
+  status: "stable" | "critical" | "recovering" | "deceased";
   diagnosis: string;
   bedNumber: string;
 }
@@ -27,7 +27,7 @@ export interface TimelineEvent {
   id: string;
   patientId: string;
   timestamp: string;
-  type: 'medication' | 'procedure' | 'assessment' | 'alert';
+  type: "medication" | "procedure" | "assessment" | "alert";
   title: string;
   description: string;
   createdBy: string;

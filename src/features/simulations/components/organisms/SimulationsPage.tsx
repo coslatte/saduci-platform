@@ -1,12 +1,12 @@
-import { useSearchParams } from 'react-router';
-import { useSimulations, useRunSimulation } from '../../hooks/useSimulations';
-import { SimulationCard } from '../molecules';
-import { LoadingSpinner } from '../../../../shared/components';
-import { Layout } from '../../../layout';
+import { useSearchParams } from "react-router";
+import { useSimulations, useRunSimulation } from "../../hooks/useSimulations";
+import { SimulationCard } from "../molecules";
+import { LoadingSpinner } from "../../../../shared/components";
+import { Layout } from "../../../layout";
 
 export const SimulationsPage = () => {
   const [searchParams] = useSearchParams();
-  const patientId = searchParams.get('patientId') || undefined;
+  const patientId = searchParams.get("patientId") || undefined;
   const { data: simulations, isLoading, error } = useSimulations(patientId);
   const { mutate: runSimulation } = useRunSimulation();
 
@@ -28,7 +28,9 @@ export const SimulationsPage = () => {
     return (
       <Layout>
         <div className="text-center py-12">
-          <p className="text-red-600">Error loading simulations: {error.message}</p>
+          <p className="text-red-600">
+            Error loading simulations: {error.message}
+          </p>
         </div>
       </Layout>
     );
@@ -42,7 +44,7 @@ export const SimulationsPage = () => {
             <h1 className="text-3xl font-bold text-gray-900">Simulations</h1>
             <p className="text-gray-600 mt-1">
               Clinical scenario simulations
-              {patientId && ' for selected patient'}
+              {patientId && " for selected patient"}
             </p>
           </div>
           <button className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700">

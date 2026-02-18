@@ -1,10 +1,10 @@
-import { useState, useEffect, type ReactNode } from 'react';
-import { useNavigate } from 'react-router';
-import type { User, LoginCredentials } from '../types';
-import { authService } from '../services/auth.service';
-import { apiClient } from '../../../lib/api-client';
-import { jwtDecode } from 'jwt-decode';
-import { AuthContext } from './AuthContext';
+import { useState, useEffect, type ReactNode } from "react";
+import { useNavigate } from "react-router";
+import type { User, LoginCredentials } from "../types";
+import { authService } from "../services/auth.service";
+import { apiClient } from "../../../lib/api-client";
+import { jwtDecode } from "jwt-decode";
+import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -17,8 +17,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (tokens?.accessToken) {
         try {
           const decoded = jwtDecode(tokens.accessToken);
-          const isExpired = decoded.exp ? decoded.exp * 1000 < Date.now() : true;
-          
+          const isExpired = decoded.exp
+            ? decoded.exp * 1000 < Date.now()
+            : true;
+
           if (!isExpired) {
             const currentUser = await authService.getCurrentUser();
             setUser(currentUser as User);
@@ -38,13 +40,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (credentials: LoginCredentials) => {
     const response = await authService.login(credentials);
     setUser(response.user);
-    navigate('/patients');
+    navigate("/patients");
   };
 
   const logout = async () => {
     await authService.logout();
     setUser(null);
-    navigate('/login');
+    navigate("/login");
   };
 
   return (

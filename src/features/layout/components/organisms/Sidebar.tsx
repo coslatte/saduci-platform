@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router';
-import { useAuth } from '../../../auth/hooks/useAuthHook';
+import { useState } from "react";
+import { Link, useLocation } from "react-router";
+import { useAuth } from "../../../auth/hooks/useAuthHook";
 
 interface NavItem {
   name: string;
@@ -9,9 +9,9 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: 'Patients', path: '/patients', icon: '👥' },
-  { name: 'Predictions', path: '/predictions', icon: '📊' },
-  { name: 'Simulations', path: '/simulations', icon: '🧪' },
+  { name: "Patients", path: "/patients", icon: "👥" },
+  { name: "Predictions", path: "/predictions", icon: "📊" },
+  { name: "Simulations", path: "/simulations", icon: "🧪" },
 ];
 
 export const Sidebar = () => {
@@ -26,13 +26,13 @@ export const Sidebar = () => {
         className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-primary-600 text-white"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ? '✕' : '☰'}
+        {isOpen ? "✕" : "☰"}
       </button>
 
       {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-screen bg-gray-900 text-white transition-transform duration-300 z-40 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+          isOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 w-64`}
       >
         <div className="flex flex-col h-full">
@@ -50,7 +50,9 @@ export const Sidebar = () => {
                   {user.username.charAt(0).toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{user.username}</p>
+                  <p className="text-sm font-medium truncate">
+                    {user.username}
+                  </p>
                   <p className="text-xs text-gray-400 truncate">{user.role}</p>
                 </div>
               </div>
@@ -67,8 +69,8 @@ export const Sidebar = () => {
                   to={item.path}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                     isActive
-                      ? 'bg-primary-600 text-white'
-                      : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                      ? "bg-primary-600 text-white"
+                      : "text-gray-300 hover:bg-gray-800 hover:text-white"
                   }`}
                 >
                   <span className="text-xl">{item.icon}</span>
