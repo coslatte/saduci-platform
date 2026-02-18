@@ -1,6 +1,6 @@
-import type { Simulation } from '../types';
-import { Card } from '../../../shared/components';
-import { formatDateTime } from '../../../shared/utils/helpers';
+import type { Simulation } from '../../types';
+import { Card } from '../../../../shared/components';
+import { formatDateTime } from '../../../../shared/utils/helpers';
 
 interface SimulationCardProps {
   simulation: Simulation;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router';
-import { useAuth } from '../../auth/hooks/useAuthHook';
+import { useAuth } from '../../../auth/hooks/useAuthHook';
 
 interface NavItem {
   name: string;

@@ -1,6 +1,6 @@
-import type { VitalSign } from '../types';
-import { formatTime } from '../../../shared/utils/helpers';
-import { Card } from '../../../shared/components';
+import type { VitalSign } from '../../types';
+import { formatTime } from '../../../../shared/utils/helpers';
+import { Card } from '../../../../shared/components';
 
 interface VitalsChartProps {
   vitals: VitalSign[];
@@ -26,8 +26,8 @@ export const VitalsChart = ({ vitals }: VitalsChartProps) => {
   ];
 
   return (
-    <Card 
-      title="Vital Signs" 
+    <Card
+      title="Vital Signs"
       subtitle={`Last updated: ${formatTime(latest.timestamp)}`}
     >
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">

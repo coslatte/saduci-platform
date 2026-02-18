@@ -1,6 +1,6 @@
-import type { PredictionResult } from '../types';
-import { Card } from '../../../shared/components';
-import { formatDateTime } from '../../../shared/utils/helpers';
+import type { PredictionResult } from '../../types';
+import { Card } from '../../../../shared/components';
+import { formatDateTime } from '../../../../shared/utils/helpers';
 
 interface PredictionCardProps {
   prediction: PredictionResult;

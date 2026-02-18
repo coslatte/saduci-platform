@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
-import { useAuth } from '../hooks/useAuthHook';
-import { Button, Input } from '../../../shared/components';
+import { useAuth } from '../../hooks/useAuthHook';
+import { Button, Input } from '../../../../shared/components';
 
 export const LoginPage = () => {
   const [username, setUsername] = useState('');

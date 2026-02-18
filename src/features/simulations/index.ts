@@ -1,2 +1,3 @@
-export { SimulationsPage } from './components/SimulationsPage';
+export { SimulationsPage } from './components';
 export * from './types';
+

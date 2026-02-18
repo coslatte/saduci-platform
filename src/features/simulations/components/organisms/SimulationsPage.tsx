@@ -1,8 +1,8 @@
 import { useSearchParams } from 'react-router';
-import { useSimulations, useRunSimulation } from '../hooks/useSimulations';
-import { SimulationCard } from './SimulationCard';
-import { LoadingSpinner } from '../../../shared/components';
-import { Layout } from '../../layout';
+import { useSimulations, useRunSimulation } from '../../hooks/useSimulations';
+import { SimulationCard } from '../molecules';
+import { LoadingSpinner } from '../../../../shared/components';
+import { Layout } from '../../../layout';
 
 export const SimulationsPage = () => {
   const [searchParams] = useSearchParams();

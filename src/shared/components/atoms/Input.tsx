@@ -1,5 +1,5 @@
 import type { InputHTMLAttributes } from 'react';
-import { cn } from '../utils/helpers';
+import { cn } from '../../utils/helpers';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;

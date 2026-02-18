@@ -1,8 +1,8 @@
 import { useSearchParams } from 'react-router';
-import { usePredictions } from '../hooks/usePredictions';
-import { PredictionCard } from './PredictionCard';
-import { LoadingSpinner } from '../../../shared/components';
-import { Layout } from '../../layout';
+import { usePredictions } from '../../hooks/usePredictions';
+import { PredictionCard } from '../molecules';
+import { LoadingSpinner } from '../../../../shared/components';
+import { Layout } from '../../../layout';
 
 export const PredictionsPage = () => {
   const [searchParams] = useSearchParams();

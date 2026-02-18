@@ -1,7 +1,7 @@
-import { usePatients } from '../hooks/usePatients';
-import { PatientCard } from './PatientCard';
-import { LoadingSpinner } from '../../../shared/components';
-import { Layout } from '../../layout';
+import { usePatients } from '../../hooks/usePatients';
+import { PatientCard } from '../molecules';
+import { LoadingSpinner } from '../../../../shared/components';
+import { Layout } from '../../../layout';
 
 export const PatientListPage = () => {
   const { data: patients, isLoading, error } = usePatients();

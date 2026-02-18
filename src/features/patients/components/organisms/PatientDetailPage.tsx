@@ -1,16 +1,22 @@
-import { useParams, Link } from 'react-router';
-import { usePatient, usePatientVitals, usePatientTimeline } from '../hooks/usePatients';
-import { VitalsChart } from './VitalsChart';
-import { PatientTimeline } from './PatientTimeline';
-import { LoadingSpinner, Card } from '../../../shared/components';
-import { Layout } from '../../layout';
-import { formatDate, calculateAge } from '../../../shared/utils/helpers';
+import { useParams, Link } from "react-router";
+import {
+  usePatient,
+  usePatientVitals,
+  usePatientTimeline,
+} from "../../hooks/usePatients";
+import { VitalsChart } from "./VitalsChart";
+import { PatientTimeline } from "./PatientTimeline";
+import { LoadingSpinner, Card } from "../../../../shared/components";
+import { Layout } from "../../../layout";
+import { formatDate, calculateAge } from "../../../../shared/utils/helpers";
 
 export const PatientDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const { data: patient, isLoading: patientLoading } = usePatient(id!);
   const { data: vitals, isLoading: vitalsLoading } = usePatientVitals(id!);
-  const { data: timeline, isLoading: timelineLoading } = usePatientTimeline(id!);
+  const { data: timeline, isLoading: timelineLoading } = usePatientTimeline(
+    id!
+  );
 
   if (patientLoading) {
     return (
@@ -25,9 +31,12 @@ export const PatientDetailPage = () => {
   if (!patient) {
     return (
       <Layout>
-        <div className="text-center py-12">
+        <div className="py-12 text-center">
           <p className="text-gray-600">Patient not found</p>
-          <Link to="/patients" className="text-primary-600 hover:underline mt-4 inline-block">
+          <Link
+            to="/patients"
+            className="inline-block mt-4 text-primary-600 hover:underline"
+          >
             Back to patient list
           </Link>
         </div>
@@ -45,27 +54,28 @@ export const PatientDetailPage = () => {
           <div>
             <Link
               to="/patients"
-              className="text-primary-600 hover:underline text-sm mb-2 inline-block"
+              className="inline-block mb-2 text-sm text-primary-600 hover:underline"
             >
               ← Back to patients
             </Link>
             <h1 className="text-3xl font-bold text-gray-900">
               {patient.firstName} {patient.lastName}
             </h1>
-            <p className="text-gray-600 mt-1">
-              {age} years • {patient.gender} • Room {patient.roomNumber}, Bed {patient.bedNumber}
+            <p className="mt-1 text-gray-600">
+              {age} years • {patient.gender} • Room {patient.roomNumber}, Bed{" "}
+              {patient.bedNumber}
             </p>
           </div>
           <div className="text-right">
             <Link
               to={`/predictions?patientId=${patient.id}`}
-              className="inline-block px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 mr-2"
+              className="inline-block px-4 py-2 mr-2 text-white rounded-md bg-primary-600 hover:bg-primary-700"
             >
               View Predictions
             </Link>
             <Link
               to={`/simulations?patientId=${patient.id}`}
-              className="inline-block px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
+              className="inline-block px-4 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700"
             >
               Run Simulation
             </Link>
@@ -74,18 +84,24 @@ export const PatientDetailPage = () => {
 
         {/* Patient Info */}
         <Card title="Patient Information">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
             <div>
               <p className="text-sm text-gray-500">Status</p>
-              <p className="font-semibold text-gray-900 capitalize">{patient.status}</p>
+              <p className="font-semibold text-gray-900 capitalize">
+                {patient.status}
+              </p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Admission Date</p>
-              <p className="font-semibold text-gray-900">{formatDate(patient.admissionDate)}</p>
+              <p className="font-semibold text-gray-900">
+                {formatDate(patient.admissionDate)}
+              </p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Date of Birth</p>
-              <p className="font-semibold text-gray-900">{formatDate(patient.dateOfBirth)}</p>
+              <p className="font-semibold text-gray-900">
+                {formatDate(patient.dateOfBirth)}
+              </p>
             </div>
             <div>
               <p className="text-sm text-gray-500">ID</p>

@@ -1,6 +1,6 @@
-import type { TimelineEvent } from '../types';
-import { formatDateTime } from '../../../shared/utils/helpers';
-import { Card } from '../../../shared/components';
+import type { TimelineEvent } from '../../types';
+import { formatDateTime } from '../../../../shared/utils/helpers';
+import { Card } from '../../../../shared/components';
 
 interface PatientTimelineProps {
   events: TimelineEvent[];

@@ -1,2 +1,2 @@
-export { Layout } from './components/Layout';
-export { Sidebar } from './components/Sidebar';
+export { Layout, Sidebar } from './components';
+
