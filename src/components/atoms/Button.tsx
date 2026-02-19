@@ -3,8 +3,6 @@ import type { Size, Variant } from "@/lib/types";
 import { Spinner } from "./Spinner";
 import type { ReactElement } from "react";
 
-// ─── Shared constants ─────────────────────────────────────────────────────────
-
 export type IconButtonVariant = Exclude<Variant, "circle">;
 
 export const variantClasses: Record<IconButtonVariant, string> = {
@@ -139,12 +137,7 @@ export function IconButton({
   return (
     <button
       disabled={disabled || loading}
-      className={cn(
-        iconButtonBase,
-        variantClasses[variant],
-        buttonSize,
-        className,
-      )}
+      className={cn(iconButtonBase, variantClasses[variant], buttonSize, className)}
       {...props}
     >
       {/* Icon — fades out when loading */}
