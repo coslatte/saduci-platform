@@ -1,17 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/atoms/Button";
+import { Button } from "@/components/atoms/Buttons";
 import { Badge } from "@/components/atoms/Badge";
 import { Avatar } from "@/components/atoms/Avatar";
-import { Spinner } from "@/components/atoms/Spinner";
 import { Card } from "@/components/molecules/Card";
 import { FormField } from "@/components/molecules/FormField";
-import { IconButton } from "@/components/atoms/Button";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Sidebar } from "@/components/organisms/Sidebar";
 import { Footer } from "@/components/organisms/Footer";
-import { FiSend, FiRefreshCw, FiPlus, FiTrash2 } from "react-icons/fi";
 
 const sidebarSections = [
   {
@@ -114,12 +111,6 @@ const sidebarSections = [
 
 export default function Home() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [loadingDemo, setLoadingDemo] = useState(false);
-
-  function triggerLoadingDemo() {
-    setLoadingDemo(true);
-    setTimeout(() => setLoadingDemo(false), 2000);
-  }
 
   return (
     <div className="flex min-h-screen flex-col bg-zinc-50">
@@ -127,7 +118,7 @@ export default function Home() {
         userName="Ana García"
         userRole="Administrador"
         collapsed={sidebarCollapsed}
-        onToggleCollapse={() => setSidebarCollapsed((s) => !s)}
+        onToggleCollapse={() => setSidebarCollapsed((s: boolean) => !s)}
       />
 
       <div className="flex flex-1">
@@ -272,120 +263,6 @@ export default function Home() {
               </div>
             </Card>
           </div>
-
-          {/* Button showcase */}
-          <Card
-            className="mt-6"
-            header={
-              <h2 className="text-base font-semibold text-zinc-900">
-                Componentes — Atoms
-              </h2>
-            }
-          >
-            <div className="flex flex-wrap gap-3">
-              <Button variant="primary">Primary</Button>
-              <Button variant="secondary">Secondary</Button>
-              <Button variant="outline">Outline</Button>
-              <Button variant="ghost">Ghost</Button>
-              <Button variant="danger">Danger</Button>
-              <Button
-                variant="primary"
-                loading={loadingDemo}
-                onClick={triggerLoadingDemo}
-              >
-                Enviar
-              </Button>
-              <Button variant="primary" disabled>
-                Desactivado
-              </Button>
-            </div>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <Badge status="default">Default</Badge>
-              <Badge status="info">Info</Badge>
-              <Badge status="success">Success</Badge>
-              <Badge status="warning">Warning</Badge>
-              <Badge status="danger">Danger</Badge>
-            </div>
-            <div className="mt-4 flex items-center gap-4">
-              <Spinner size="xs" />
-              <Spinner size="sm" />
-              <Spinner size="md" />
-              <Spinner size="lg" />
-              <Avatar name="Juan Pérez" size="xs" />
-              <Avatar name="Ana García" size="sm" />
-              <Avatar name="Carlos López" size="md" />
-              <Avatar name="María Torres" size="lg" />
-            </div>
-
-            {/* IconButton showcase */}
-            <p className="mt-5 mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400">
-              IconButton — variants &amp; sizes
-            </p>
-            <div className="flex flex-wrap items-center gap-3">
-              <IconButton
-                variant="primary"
-                size="md"
-                icon={<FiPlus />}
-                aria-label="Agregar"
-              />
-              <IconButton
-                variant="secondary"
-                size="md"
-                icon={<FiRefreshCw />}
-                aria-label="Actualizar"
-              />
-              <IconButton
-                variant="outline"
-                size="md"
-                icon={<FiSend />}
-                aria-label="Enviar"
-              />
-              <IconButton
-                variant="ghost"
-                size="md"
-                icon={<FiSend />}
-                aria-label="Enviar (ghost)"
-              />
-              <IconButton
-                variant="danger"
-                size="md"
-                icon={<FiTrash2 />}
-                aria-label="Eliminar"
-              />
-            </div>
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              <IconButton
-                variant="primary"
-                size="xs"
-                icon={<FiPlus />}
-                aria-label="xs"
-              />
-              <IconButton
-                variant="primary"
-                size="sm"
-                icon={<FiPlus />}
-                aria-label="sm"
-              />
-              <IconButton
-                variant="primary"
-                size="md"
-                icon={<FiPlus />}
-                aria-label="md"
-              />
-              <IconButton
-                variant="primary"
-                size="lg"
-                icon={<FiPlus />}
-                aria-label="lg"
-              />
-              <IconButton
-                variant="primary"
-                size="xl"
-                icon={<FiPlus />}
-                aria-label="xl"
-              />
-            </div>
-          </Card>
         </main>
       </div>
 
