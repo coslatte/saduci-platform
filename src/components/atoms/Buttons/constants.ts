@@ -13,6 +13,8 @@ export const variantClasses: Record<IconButtonVariant, string> = {
     "bg-transparent text-zinc-700 hover:bg-zinc-100 active:bg-zinc-200 focus-visible:ring-zinc-400",
   danger:
     "bg-red-600 text-white hover:bg-red-700 active:bg-red-800 focus-visible:ring-red-500",
+  success:
+    "bg-green-600 text-white hover:bg-green-700 active:bg-green-800 focus-visible:ring-green-500",
 };
 
 export const spinnerSizeMap: Record<Size, "xs" | "sm" | "md" | "lg"> = {

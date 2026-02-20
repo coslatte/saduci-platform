@@ -33,6 +33,21 @@ describe("IconButton", () => {
     expect(button.className.includes("size-12")).toBe(true);
   });
 
+  it("applies success (green) variant for add buttons", () => {
+    const { container } = render(
+      <IconButton
+        aria-label="Agregar"
+        icon={<svg data-testid="icon-plus" />}
+        variant="success"
+      />,
+    );
+
+    const button = container.querySelector("button");
+    expect(button).toBeTruthy();
+    if (!button) return;
+    expect(button.className.includes("bg-green-600")).toBe(true);
+  });
+
   it("disables when loading", () => {
     const { container, getByLabelText } = render(
       <IconButton aria-label="Cargando" icon={<svg />} loading />,

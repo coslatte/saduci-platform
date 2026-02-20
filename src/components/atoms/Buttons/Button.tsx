@@ -14,6 +14,8 @@ export interface ButtonProps extends Omit<BaseButtonProps, "className"> {
 
 const buttonVariantClasses: Record<Variant, string> = {
   ...variantClasses,
+  success:
+    "bg-green-600 text-white hover:bg-green-700 active:bg-green-800 focus-visible:ring-green-500",
   circle:
     "rounded-full bg-zinc-100 text-zinc-700 hover:bg-zinc-200 active:bg-zinc-300 focus-visible:ring-zinc-400",
 };

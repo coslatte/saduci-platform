@@ -6,6 +6,7 @@ export type Variant =
   | "outline"
   | "ghost"
   | "danger"
+  | "success" // green "add" style
   | "circle";
 
 export type Status = "info" | "success" | "warning" | "danger" | "default";

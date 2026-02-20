@@ -41,6 +41,11 @@ export default function ButtonsSandboxPage() {
           <div className="flex flex-wrap items-center gap-3">
             <IconButton aria-label="Agregar" icon={<FiPlus />} />
             <IconButton
+              aria-label="Agregar exitoso"
+              variant="success"
+              icon={<FiPlus />}
+            />
+            <IconButton
               aria-label="Recargar"
               variant="outline"
               icon={<FiRefreshCw />}
