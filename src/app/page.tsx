@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FiHome, FiBarChart2, FiUsers, FiSettings } from "react-icons/fi";
+import { FiHome, FiBarChart2, FiUsers, FiSettings, FiActivity } from "react-icons/fi";
 import { Button } from "@/components/atoms/Buttons";
 import { Badge } from "@/components/atoms/Badge";
 import { Avatar } from "@/components/atoms/Avatar";
@@ -20,6 +20,11 @@ const sidebarSections = [
         href: "/",
         active: true,
         icon: <FiHome className="size-5" />,
+      },
+      {
+        label: "Simulación",
+        href: "/simulacion",
+        icon: <FiActivity className="size-5" />,
       },
       {
         label: "Reportes",
