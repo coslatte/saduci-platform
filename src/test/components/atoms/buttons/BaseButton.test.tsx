@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
-import { BaseButton } from "../../Buttons/BaseButton";
+import { BaseButton } from "@/components/atoms/Buttons";
 
 describe("BaseButton", () => {
   it("renders children and stays enabled by default", () => {

@@ -7,6 +7,15 @@
   - tipos en `src/lib/types.ts`
 - Mantén imports con alias `@/` cuando sea posible.
 
+## Política de uso de componentes
+
+Deben usarse componentes ya existentes siempre que cumplan el propósito, incluso si no son 100% perfectos para el caso. Evita crear nuevos componentes a menos que sea estrictamente necesario para evitar proliferación de componentes similares. Si un componente existente no es adecuado, considera extenderlo o modificarlo antes de crear uno nuevo desde cero.
+
+## Política de estilos (TailwindCSS / CSS)
+
+- Usa Tailwind para estilos, evitando CSS personalizado salvo que sea necesario para casos muy específicos.
+- Usa de referencia la última versión de Tailwind (v4) y sus nuevas utilidades (en caso de ser necesario buscar en la web para utilidades en particular, realizarlo).
+
 ## Arquitectura y patrones del repo
 
 - Páginas en `src/app/**` (App Router). Usa `"use client"` solo cuando haya estado/efectos/APIs de navegador.
@@ -48,3 +57,7 @@ Sumamente importante para mantener consistencia y escalabilidad a largo plazo. L
 ## Otros contextos
 
 Aplicación con propósito de hosteo en servidor con propósito de soporte para personal de la salud. Se piensa aplicación sea de uso para personal de la salud, científicos de la misma área y no pacientes naturales.
+
+## Evitar modificar
+
+- `yarn.lock` o `package.json` salvo que sea estrictamente necesario para agregar dependencias o scripts. Siempre se revisará qué dependencias se estarán agregando, y si estas son actualizadas o están en su última versión.

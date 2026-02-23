@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
-import { Spinner } from "../Spinner";
+import { Spinner } from "@/components/atoms/Spinner";
 
 describe("Spinner component", () => {
   it("renders with default props", () => {
@@ -29,7 +29,6 @@ describe("Spinner component", () => {
     sizes.forEach((size) => {
       const { getByRole, unmount } = render(<Spinner size={size} />);
       const svg = getByRole("status");
-      // checking className manually
       expect(svg.className.includes(`size-${map[size]}`)).toBe(true);
       unmount();
     });
