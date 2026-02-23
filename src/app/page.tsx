@@ -2,14 +2,10 @@
 
 import { useState } from "react";
 import { FiHome, FiBarChart2, FiUsers, FiSettings } from "react-icons/fi";
-import { Button } from "@/components/atoms/Buttons";
-import { Badge } from "@/components/atoms/Badge";
-import { Avatar } from "@/components/atoms/Avatar";
-import { Card } from "@/components/molecules/Card";
-import { FormField } from "@/components/molecules/FormField";
-import { Navbar } from "@/components/organisms/Navbar";
-import { Sidebar } from "@/components/organisms/Sidebar";
-import { Footer } from "@/components/organisms/Footer";
+import { Button, Badge, Avatar } from "@/components/atoms";
+import { Card, FormField } from "@/components/molecules";
+import { Navbar, Sidebar, Footer } from "@/components/organisms";
+import { routes } from "@/lib/routes";
 
 const sidebarSections = [
   {
@@ -17,13 +13,13 @@ const sidebarSections = [
     items: [
       {
         label: "Dashboard",
-        href: "/",
+        href: routes.home,
         active: true,
         icon: <FiHome className="size-5" />,
       },
       {
         label: "Reportes",
-        href: "/reportes",
+        href: routes.reportes,
         icon: <FiBarChart2 className="size-5" />,
       },
     ],
@@ -33,12 +29,12 @@ const sidebarSections = [
     items: [
       {
         label: "Usuarios",
-        href: "/usuarios",
+        href: routes.usuarios,
         icon: <FiUsers className="size-5" />,
       },
       {
         label: "Ajustes",
-        href: "/ajustes",
+        href: routes.ajustes,
         icon: <FiSettings className="size-5" />,
       },
     ],

@@ -1,18 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Button, IconButton } from "@/components/atoms/Buttons";
-import { Badge } from "@/components/atoms/Badge";
-import { Spinner } from "@/components/atoms/Spinner";
+import { Button, IconButton, Badge, Spinner, Divider, Skeleton } from "@/components/atoms";
+import { Alert } from "@/components/molecules";
+import { Container, Flex, Grid, Stack } from "@/components/layout";
 import { FiPlus } from "react-icons/fi";
 import { TestingBoard } from "@/test/components/TestingBoard";
-import { Container } from "@/components/layout/Container";
-import { Flex } from "@/components/layout/Flex";
-import { Grid } from "@/components/layout/Grid";
-import { Stack } from "@/components/layout/Stack";
-import { Divider } from "@/components/atoms/Divider";
-import { Skeleton } from "@/components/atoms/Skeleton";
-import { Alert } from "@/components/molecules/Alert";
 
 export default function TestIndexPage() {
   const [loadingDemo, setLoadingDemo] = useState(false);

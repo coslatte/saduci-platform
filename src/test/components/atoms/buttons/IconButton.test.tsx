@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
-import { IconButton } from "../../Buttons/IconButton";
+import { IconButton } from "@/components/atoms/Buttons";
 
 describe("IconButton", () => {
   it("renders icon button with aria-label", () => {
