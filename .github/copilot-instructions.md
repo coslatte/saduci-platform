@@ -31,10 +31,20 @@ Ejecuta siempre, en este orden:
 
 No des por finalizado un trabajo si esos comandos no pasan.
 
-## Archivos de referencia útiles
+## Arquitectura del repo
 
-- `src/components/atoms/Buttons/*`
-- `src/components/molecules/FormField.tsx`
-- `src/components/organisms/Navbar.tsx`
-- `src/app/test/page.tsx`
-- `src/test/setup.ts`
+Sumamente importante para mantener consistencia y escalabilidad a largo plazo. La estructura actual es:
+
+- `src` root.
+- `app` para páginas y rutas (App Router).
+- `components` para UI, organizado por atomic design.
+- `lib` para utilidades y tipos compartidos.
+- `test` para tests, organizado por dominio (atoms, molecules, layout).
+- `public` para assets estáticos.
+- `styles` para estilos globales (Tailwind config, resets, etc).
+- `hooks` para custom hooks reutilizables.
+- `context` para providers y contextos globales.
+
+## Otros contextos
+
+Aplicación con propósito de hosteo en servidor con propósito de soporte para personal de la salud. Se piensa aplicación sea de uso para personal de la salud, científicos de la misma área y no pacientes naturales.
