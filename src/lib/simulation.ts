@@ -113,12 +113,10 @@ export interface SimulationResponse {
 
 // ─── API client ────────────────────────────────────────────────────────────────
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
-
 export async function runSimulation(
   data: SimulationRequest,
 ): Promise<SimulationResponse> {
-  const response = await fetch(`${API_BASE_URL}/simulation`, {
+  const response = await fetch("/api/simulation", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
