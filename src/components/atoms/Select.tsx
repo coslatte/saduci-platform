@@ -16,7 +16,7 @@ export function Select({
   return (
     <select
       className={cn(
-        "h-9 rounded-lg border bg-white px-3 text-sm text-zinc-900 shadow-xs",
+        "h-9 rounded-lg border bg-white px-3 text-[length:var(--font-size-sm)] text-zinc-900 shadow-xs",
         "transition-colors duration-150",
         "focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500",
         "disabled:cursor-not-allowed disabled:opacity-0",

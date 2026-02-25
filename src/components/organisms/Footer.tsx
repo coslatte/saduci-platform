@@ -1,50 +1,70 @@
-import Link from "next/link";
-import { cn, dataDisabledProps } from "@/lib/utils";
+"use client";
 
-interface FooterLink {
-  label: string;
-  href: string;
-}
+import { cn } from "@/lib/utils";
+import { Spinner } from "@/components/atoms/Spinner";
 
-interface FooterProps {
-  links?: FooterLink[];
+type StatusBarStatus = "idle" | "loading" | "simulating" | "success" | "error";
+
+interface StatusBarProps {
+  status?: StatusBarStatus;
+  message?: string;
   className?: string;
-  disabled?: boolean;
 }
 
-const defaultLinks: FooterLink[] = [
-  { label: "GitHub", href: "https://github.com/coslatte/sadeci-platform" },
-];
+const STATUS_LABELS: Record<StatusBarStatus, string> = {
+  idle: "Listo",
+  loading: "Cargando…",
+  simulating: "Simulando…",
+  success: "Completado",
+  error: "Error",
+};
+
+const STATUS_COLORS: Record<StatusBarStatus, string> = {
+  idle: "text-slate-400",
+  loading: "text-secondary-600",
+  simulating: "text-primary-600",
+  success: "text-emerald-600",
+  error: "text-red-500",
+};
 
 export function Footer({
-  links = defaultLinks,
+  status = "idle",
+  message,
   className,
-  disabled,
-}: FooterProps) {
-  const year = new Date().getFullYear();
+}: StatusBarProps) {
+  const showSpinner = status === "loading" || status === "simulating";
 
   return (
     <footer
-      {...dataDisabledProps(disabled)}
       className={cn(
-        "shrink-0 border-t border-slate-200 bg-white px-6 py-3",
+        "flex h-8 shrink-0 items-center justify-between border-t border-slate-200 bg-white px-4",
         className,
       )}
     >
-      <div className="flex flex-col items-center justify-between gap-2 sm:flex-row">
-        <p className="text-xs text-zinc-500">© {year} Sadeci Platform.</p>
-        <nav className="flex items-center gap-4" aria-label="Footer">
-          {links.map((link) => (
-            <Link
-              key={link.href + link.label}
-              href={link.href}
-              className="text-xs text-zinc-500 transition-colors hover:text-zinc-900"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+      {/* Left — status indicator */}
+      <div className="flex items-center gap-2">
+        {showSpinner && <Spinner size="xs" />}
+        <span
+          className={cn(
+            "text-[length:var(--font-size-xs)] font-medium",
+            STATUS_COLORS[status],
+          )}
+        >
+          {STATUS_LABELS[status]}
+        </span>
       </div>
+
+      {/* Center — optional message */}
+      {message && (
+        <span className="hidden text-[length:var(--font-size-xs)] text-slate-500 sm:inline">
+          {message}
+        </span>
+      )}
+
+      {/* Right — version tag */}
+      <span className="text-[length:var(--font-size-xs)] font-mono text-slate-300">
+        v0.1.0
+      </span>
     </footer>
   );
 }

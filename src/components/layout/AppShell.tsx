@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   FiHome,
   FiBarChart2,
   FiUsers,
   FiSettings,
   FiActivity,
+  FiLogOut,
 } from "react-icons/fi";
-import { DEMO_USER, SIDEBAR_SECTIONS } from "@/lib/mockData";
+import { useAuth } from "@/lib/auth";
+import { SIDEBAR_SECTIONS } from "@/lib/mockData";
 import type { NavItemType } from "@/lib/types";
 import { Navbar, Sidebar, Footer } from "@/components/organisms";
 
@@ -54,7 +56,26 @@ function mapSidebarWithIcons(
 export function AppShell({ children }: AppShellProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, isAuthenticated, logout } = useAuth();
+
+  // If on the login page, render children alone (no shell)
+  if (pathname === "/login") {
+    return <>{children}</>;
+  }
+
+  // Redirect to login if not authenticated
+  if (!isAuthenticated) {
+    // Use a small wrapper to trigger the redirect on mount
+    return <RedirectToLogin />;
+  }
+
   const sidebarSections = mapSidebarWithIcons(pathname);
+
+  function handleLogout() {
+    logout();
+    router.push("/login");
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -65,9 +86,10 @@ export function AppShell({ children }: AppShellProps) {
       />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Navbar
-          userName={DEMO_USER.name}
-          userRole={DEMO_USER.role}
+          userName={user?.name ?? "Usuario"}
+          userRole={user?.role ?? ""}
           pathname={pathname}
+          onLogout={handleLogout}
         />
         <main className="flex-1 overflow-y-auto bg-slate-50 p-1 sm:p-2 lg:p-4">
           <div className="w-full h-full">{children}</div>
@@ -76,4 +98,14 @@ export function AppShell({ children }: AppShellProps) {
       </div>
     </div>
   );
+}
+
+/** Tiny client component that redirects to /login */
+function RedirectToLogin() {
+  const router = useRouter();
+  // Use useEffect-free approach: trigger redirect immediately
+  if (typeof window !== "undefined") {
+    router.replace("/login");
+  }
+  return null;
 }

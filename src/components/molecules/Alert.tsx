@@ -47,11 +47,13 @@ export function Alert({
       )}
       <div className="flex-1">
         {title && (
-          <h5 className="mb-1 font-medium leading-none tracking-tight">
+          <h5 className="mb-1 font-medium leading-none tracking-tight text-[length:var(--font-size-base)]">
             {title}
           </h5>
         )}
-        <div className="text-sm opacity-90">{children}</div>
+        <div className="text-[length:var(--font-size-sm)] opacity-90">
+          {children}
+        </div>
       </div>
     </div>
   );

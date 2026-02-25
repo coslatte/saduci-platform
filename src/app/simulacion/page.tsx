@@ -183,10 +183,10 @@ export default function SimulacionPage() {
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+        <h1 className="text-[length:var(--font-size-2xl)] font-bold tracking-tight text-slate-900 md:text-[length:var(--font-size-3xl)]">
           Simulación de Paciente UCI
         </h1>
-        <p className="mt-2 text-slate-500">
+        <p className="mt-2 text-[length:var(--font-size-sm)] text-slate-500">
           Ingrese los datos clínicos del paciente para simular su evolución en
           la Unidad de Cuidados Intensivos.
         </p>
@@ -197,10 +197,10 @@ export default function SimulacionPage() {
         <Card
           header={
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-slate-800">
+              <h2 className="text-[length:var(--font-size-lg)] font-semibold text-slate-800">
                 Datos del Paciente
               </h2>
-              <span className="font-mono text-xs uppercase text-slate-400">
+              <span className="font-mono text-[length:var(--font-size-xs)] uppercase text-slate-400">
                 ID: {patientId}
               </span>
             </div>
@@ -233,7 +233,7 @@ export default function SimulacionPage() {
           {/* Numeric inputs grouped by clinical section */}
           <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="flex flex-col gap-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <p className="text-[length:var(--font-size-xs)] font-semibold uppercase tracking-wide text-slate-500">
                 Demográficos &amp; Tiempos
               </p>
               <div className="flex flex-col gap-1.5">
@@ -263,7 +263,7 @@ export default function SimulacionPage() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <p className="text-[length:var(--font-size-xs)] font-semibold uppercase tracking-wide text-slate-500">
                 Puntajes Clínicos
               </p>
               <div className="flex flex-col gap-1.5">
@@ -293,7 +293,7 @@ export default function SimulacionPage() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <p className="text-[length:var(--font-size-xs)] font-semibold uppercase tracking-wide text-slate-500">
                 Ventilación Mecánica
               </p>
               <div className="flex flex-col gap-1.5">
@@ -327,12 +327,15 @@ export default function SimulacionPage() {
 
           {/* Diagnoses */}
           <div>
-            <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <p className="mb-4 text-[length:var(--font-size-xs)] font-semibold uppercase tracking-wide text-slate-500">
               Diagnósticos de Ingreso y Egreso
             </p>
             <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="diag-ing-1" className="text-xs text-slate-500">
+                <Label
+                  htmlFor="diag-ing-1"
+                  className="text-[length:var(--font-size-xs)] text-slate-500"
+                >
                   Diag. Ingreso 1
                 </Label>
                 <Select
@@ -345,7 +348,10 @@ export default function SimulacionPage() {
                 </Select>
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="diag-ing-2" className="text-xs text-slate-500">
+                <Label
+                  htmlFor="diag-ing-2"
+                  className="text-[length:var(--font-size-xs)] text-slate-500"
+                >
                   Diag. Ingreso 2
                 </Label>
                 <Select
@@ -358,7 +364,10 @@ export default function SimulacionPage() {
                 </Select>
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="diag-ing-3" className="text-xs text-slate-500">
+                <Label
+                  htmlFor="diag-ing-3"
+                  className="text-[length:var(--font-size-xs)] text-slate-500"
+                >
                   Diag. Ingreso 3
                 </Label>
                 <Select
@@ -371,7 +380,10 @@ export default function SimulacionPage() {
                 </Select>
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="diag-ing-4" className="text-xs text-slate-500">
+                <Label
+                  htmlFor="diag-ing-4"
+                  className="text-[length:var(--font-size-xs)] text-slate-500"
+                >
                   Diag. Ingreso 4
                 </Label>
                 <Select
@@ -386,7 +398,10 @@ export default function SimulacionPage() {
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="resp-insuf" className="text-xs text-slate-500">
+                <Label
+                  htmlFor="resp-insuf"
+                  className="text-[length:var(--font-size-xs)] text-slate-500"
+                >
                   Insuf. Respiratoria
                 </Label>
                 <Select
@@ -399,7 +414,10 @@ export default function SimulacionPage() {
                 </Select>
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="vent-type" className="text-xs text-slate-500">
+                <Label
+                  htmlFor="vent-type"
+                  className="text-[length:var(--font-size-xs)] text-slate-500"
+                >
                   Ventilación Artificial
                 </Label>
                 <Select
@@ -414,7 +432,7 @@ export default function SimulacionPage() {
               <div className="flex flex-col gap-1.5">
                 <Label
                   htmlFor="diag-egreso-2"
-                  className="text-xs text-slate-500"
+                  className="text-[length:var(--font-size-xs)] text-slate-500"
                 >
                   Diagnóstico Egreso 2
                 </Label>
@@ -435,7 +453,7 @@ export default function SimulacionPage() {
         <Card
           className="border-l-4 border-l-primary-600"
           header={
-            <h2 className="text-lg font-semibold text-slate-800">
+            <h2 className="text-[length:var(--font-size-lg)] font-semibold text-slate-800">
               Configuración de Simulación
             </h2>
           }
@@ -453,7 +471,7 @@ export default function SimulacionPage() {
                 onChange={(e) => setSimRuns(Number(e.target.value))}
                 fullWidth
               />
-              <p className="text-xs text-slate-500">
+              <p className="text-[length:var(--font-size-xs)] text-slate-500">
                 Mínimo {SIMULATION_LIMITS.simRuns.min} — máximo{" "}
                 {SIMULATION_LIMITS.simRuns.max.toLocaleString()} iteraciones
               </p>
@@ -480,7 +498,7 @@ export default function SimulacionPage() {
           <Card
             header={
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-slate-800">
+                <h2 className="text-[length:var(--font-size-lg)] font-semibold text-slate-800">
                   Resultados de la Simulación
                 </h2>
                 <Button
@@ -497,14 +515,14 @@ export default function SimulacionPage() {
           >
             <SimulationResultTable result={result.simulation} />
             <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
-              <p className="mb-2 text-xs font-medium uppercase tracking-wide text-slate-500">
+              <p className="mb-2 text-[length:var(--font-size-xs)] font-medium uppercase tracking-wide text-slate-500">
                 Predicción del modelo
               </p>
               <div className="flex items-center gap-3">
                 <Badge status={patientSurvives ? "success" : "danger"}>
                   {patientSurvives ? "Paciente no fallece" : "Paciente fallece"}
                 </Badge>
-                <span className="text-sm text-slate-600">
+                <span className="text-[length:var(--font-size-sm)] text-slate-600">
                   Probabilidad de fallecer:{" "}
                   <strong>
                     {(result.prediction.probability * 100).toFixed(0)}%

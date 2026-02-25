@@ -16,7 +16,10 @@ export function Label({
   return (
     <label
       {...dataDisabledProps(disabled)}
-      className={cn("text-sm font-medium text-zinc-700", className)}
+      className={cn(
+        "text-[length:var(--font-size-sm)] font-medium text-zinc-700",
+        className,
+      )}
       {...props}
     >
       {children}

@@ -21,11 +21,11 @@ const buttonVariantClasses: Record<Variant, string> = {
 };
 
 const buttonSizeClasses: Record<Size, string> = {
-  xs: "h-7 px-2.5 text-xs gap-1",
-  sm: "h-8 px-3 text-sm gap-1.5",
-  md: "h-9 px-4 text-sm gap-2",
-  lg: "h-10 px-5 text-base gap-2",
-  xl: "h-12 px-6 text-base gap-2.5",
+  xs: "h-7 px-2.5 text-[length:var(--font-size-xs)] gap-1",
+  sm: "h-8 px-3 text-[length:var(--font-size-sm)] gap-1.5",
+  md: "h-9 px-4 text-[length:var(--font-size-sm)] gap-2",
+  lg: "h-10 px-5 text-[length:var(--font-size-base)] gap-2",
+  xl: "h-12 px-6 text-[length:var(--font-size-base)] gap-2.5",
 };
 
 export function Button({

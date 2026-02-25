@@ -37,13 +37,6 @@ export interface FormFieldDefinition {
   type?: string;
 }
 
-// ─── Demo user ────────────────────────────────────────────────────────────
-
-export const DEMO_USER = {
-  name: "Ana García",
-  role: "Administrador",
-};
-
 // ─── Sidebar navigation ────────────────────────────────────────────────────
 
 export const SIDEBAR_SECTIONS: SidebarSection[] = [

@@ -12,11 +12,11 @@ interface AvatarProps {
 }
 
 const sizeClasses: Record<string, string> = {
-  xs: "size-6 text-xs",
-  sm: "size-8 text-sm",
-  md: "size-9 text-sm",
-  lg: "size-11 text-base",
-  xl: "size-14 text-lg",
+  xs: "size-6 text-[length:var(--font-size-xs)]",
+  sm: "size-8 text-[length:var(--font-size-sm)]",
+  md: "size-9 text-[length:var(--font-size-sm)]",
+  lg: "size-11 text-[length:var(--font-size-base)]",
+  xl: "size-14 text-[length:var(--font-size-lg)]",
 };
 
 function getInitials(name: string): string {

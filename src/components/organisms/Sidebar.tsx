@@ -30,12 +30,35 @@ export function Sidebar({
     <aside
       {...dataDisabledProps(disabled)}
       className={cn(
-        "flex shrink-0 flex-col border-r border-slate-200 bg-white",
+        "relative flex shrink-0 flex-col border-r border-slate-200 bg-white",
         collapsed ? "w-16" : "w-64",
         "transition-[width] duration-200",
         className,
       )}
     >
+      {/* ── Collapse tab — sits at the right edge of the sidebar ── */}
+      <button
+        type="button"
+        onClick={onToggleCollapse}
+        disabled={disabled}
+        className={cn(
+          "absolute -right-3.5 top-1/2 z-20 hidden md:flex",
+          "-translate-y-1/2",
+          "h-8 w-3.5 items-center justify-center",
+          "rounded-r-md border border-l-0 border-slate-200 bg-white",
+          "text-slate-400 shadow-sm",
+          "transition-colors hover:bg-slate-50 hover:text-slate-700",
+        )}
+        aria-label={collapsed ? "Expandir sidebar" : "Colapsar sidebar"}
+      >
+        {collapsed ? (
+          <FiChevronRight className="size-3" />
+        ) : (
+          <FiChevronLeft className="size-3" />
+        )}
+      </button>
+
+      {/* ── Logo header ── */}
       <div
         className={cn(
           "flex h-16 shrink-0 items-center gap-2 border-b border-slate-200",
@@ -52,35 +75,15 @@ export function Sidebar({
             </span>
           )}
         </Link>
-        {!collapsed && (
-          <button
-            type="button"
-            onClick={onToggleCollapse}
-            className="ml-auto hidden md:inline-flex items-center justify-center rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900"
-            aria-label="Colapsar sidebar"
-            disabled={disabled}
-          >
-            <FiChevronLeft className="size-4" />
-          </button>
-        )}
-        {collapsed && (
-          <button
-            type="button"
-            onClick={onToggleCollapse}
-            className="hidden md:inline-flex items-center justify-center rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900"
-            aria-label="Expandir sidebar"
-            disabled={disabled}
-          >
-            <FiChevronRight className="size-4" />
-          </button>
-        )}
       </div>
+
+      {/* ── Navigation ── */}
       <nav className="flex-1 overflow-y-auto px-3 py-6">
         <div className="flex flex-col gap-8">
           {sections.map((section, idx) => (
             <div key={idx}>
               {section.title && !collapsed && (
-                <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                <p className="mb-2 px-3 text-[length:var(--font-size-xs)] font-semibold uppercase tracking-wider text-slate-400">
                   {section.title}
                 </p>
               )}

@@ -1,5 +1,6 @@
 "use client";
 
+import { FiLogOut } from "react-icons/fi";
 import { cn, dataDisabledProps } from "@/lib/utils";
 import { Avatar } from "@/components/atoms/Avatar";
 import { SearchBar } from "@/components/molecules/SearchBar";
@@ -19,6 +20,7 @@ interface NavbarProps {
   userAvatar?: string;
   disabled?: boolean;
   pathname?: string;
+  onLogout?: () => void;
 }
 
 export function Navbar({
@@ -28,6 +30,7 @@ export function Navbar({
   userAvatar,
   disabled,
   pathname = "/",
+  onLogout,
 }: NavbarProps) {
   const currentPage = ROUTE_NAMES[pathname] ?? "Sadeci";
 
@@ -39,7 +42,7 @@ export function Navbar({
         className,
       )}
     >
-      <div className="flex items-center gap-2 text-sm text-slate-500">
+      <div className="flex items-center gap-2 text-[length:var(--font-size-sm)] text-slate-500">
         <span className="cursor-pointer hover:text-slate-800">Sadeci</span>
         <span className="text-slate-300">/</span>
         <span className="font-semibold text-primary-700">{currentPage}</span>
@@ -53,11 +56,24 @@ export function Navbar({
         <div className="flex items-center gap-3 border-l border-slate-200 pl-4">
           <Avatar src={userAvatar} name={userName} size="xs" />
           <div className="hidden lg:flex flex-col leading-none">
-            <span className="text-sm font-medium text-slate-900">
+            <span className="text-[length:var(--font-size-sm)] font-medium text-slate-900">
               {userName}
             </span>
-            <span className="text-xs text-slate-500">{userRole}</span>
+            <span className="text-[length:var(--font-size-xs)] text-slate-500">
+              {userRole}
+            </span>
           </div>
+          {onLogout && (
+            <button
+              type="button"
+              onClick={onLogout}
+              className="ml-1 rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+              aria-label="Cerrar sesión"
+              title="Cerrar sesión"
+            >
+              <FiLogOut className="size-4" />
+            </button>
+          )}
         </div>
       </div>
     </header>

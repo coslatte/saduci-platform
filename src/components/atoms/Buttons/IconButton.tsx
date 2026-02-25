@@ -13,11 +13,11 @@ export interface IconButtonProps extends Omit<BaseButtonProps, "className"> {
 }
 
 const iconButtonSizeClasses: Record<Size, { button: string; icon: string }> = {
-  xs: { button: "size-7", icon: "text-xs" },
-  sm: { button: "size-8", icon: "text-sm" },
-  md: { button: "size-9", icon: "text-base" },
-  lg: { button: "size-10", icon: "text-lg" },
-  xl: { button: "size-12", icon: "text-xl" },
+  xs: { button: "size-7", icon: "text-[length:var(--font-size-xs)]" },
+  sm: { button: "size-8", icon: "text-[length:var(--font-size-sm)]" },
+  md: { button: "size-9", icon: "text-[length:var(--font-size-base)]" },
+  lg: { button: "size-10", icon: "text-[length:var(--font-size-lg)]" },
+  xl: { button: "size-12", icon: "text-[length:var(--font-size-xl)]" },
 };
 
 export function IconButton({

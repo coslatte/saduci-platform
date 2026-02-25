@@ -24,9 +24,16 @@
   --color-secondary-800: var(--color-sky-800);
   --color-secondary-900: var(--color-sky-900);
   --color-secondary-950: var(--color-sky-950);
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
 }
 
-/* Global disabled styling for components that receive data-disabled="true" */
 [data-disabled="true"] {
   opacity: 0 !important;
   pointer-events: none !important;
