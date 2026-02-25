@@ -1,3 +1,4 @@
+import "../../setup";
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
 import { Spinner } from "@/components/atoms/Spinner";

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "bun:test";
+import "../../setup";
 import { render } from "@testing-library/react";
 import { TestingBoard } from "@/test/components/TestingBoard";
 

@@ -1,3 +1,4 @@
+import "../../setup";
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
 import { Alert } from "@/components/molecules/Alert";

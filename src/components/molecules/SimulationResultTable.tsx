@@ -25,10 +25,7 @@ export function SimulationResultTable({
 
   return (
     <div className="overflow-x-auto" {...dataDisabledProps(disabled)}>
-      <table
-        className="w-full text-[length:var(--font-size-sm)]"
-        aria-label="Resultados de simulación"
-      >
+      <table className="w-full text-sm" aria-label="Resultados de simulación">
         <thead>
           <tr className="border-b border-zinc-200">
             <th className="py-2 pr-4 text-left font-medium text-zinc-500">

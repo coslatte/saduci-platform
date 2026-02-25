@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const CORE_API_URL =
-  process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+  process.env.API_URL ??
+  process.env.NEXT_PUBLIC_API_URL ??
+  "http://localhost:8000";
 
 export async function POST(req: NextRequest) {
   let body: unknown;
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: "Cuerpo de la solicitud inválido." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Cuerpo de la solicitud inválido." },
+      { status: 400 },
+    );
   }
 
   try {

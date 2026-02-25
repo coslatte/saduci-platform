@@ -1,6 +1,7 @@
 import { render, fireEvent } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
 import { Select } from "@/components/atoms/Select";
+import "../../setup";
 
 describe("Select", () => {
   it("renders with base styles", () => {

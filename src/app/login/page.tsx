@@ -1,6 +1,7 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import type * as React from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/atoms/Buttons";
@@ -17,7 +18,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
 
@@ -36,17 +37,17 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+    <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-primary-50 via-white to-secondary-50">
       <div className="w-full max-w-md space-y-8 rounded-2xl border border-slate-200 bg-white p-8 shadow-xl">
         {/* Logo */}
         <div className="text-center">
           <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-xl bg-primary-700 text-2xl font-bold text-white shadow-md">
             S
           </div>
-          <h1 className="text-[length:var(--font-size-2xl)] font-bold tracking-tight text-slate-900">
+          <h1 className="text-(length:--font-size-2xl) font-bold tracking-tight text-slate-900">
             Sadeci Platform
           </h1>
-          <p className="mt-1 text-[length:var(--font-size-sm)] text-slate-500">
+          <p className="mt-1 text-(length:--font-size-sm) text-slate-500">
             Inicie sesión para continuar
           </p>
         </div>

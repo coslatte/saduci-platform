@@ -43,7 +43,10 @@
 button,
 input,
 select,
-textarea {
+textarea,
+option,
+optgroup {
+  /* Ensure form controls and select options inherit the app font variables */
   font-family: inherit;
   font-feature-settings: inherit;
   font-variation-settings: inherit;

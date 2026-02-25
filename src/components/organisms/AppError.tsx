@@ -2,12 +2,12 @@
 
 import { useEffect } from "react";
 
-interface ErrorProps {
+interface AppErrorProps {
   error: Error & { digest?: string };
   reset: () => void;
 }
 
-export default function Error({ error, reset }: ErrorProps) {
+export function AppError({ error, reset }: AppErrorProps) {
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -32,3 +32,5 @@ export default function Error({ error, reset }: ErrorProps) {
     </div>
   );
 }
+
+export default AppError;

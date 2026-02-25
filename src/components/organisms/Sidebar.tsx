@@ -55,6 +55,7 @@ export function Sidebar({
                   <li key={itemIdx}>
                     <Link
                       href={item.href}
+                      aria-current={item.active ? "page" : undefined}
                       className={cn(
                         "group flex items-center gap-3 rounded-lg px-2.5 py-2 transition-all duration-200",
                         item.active
