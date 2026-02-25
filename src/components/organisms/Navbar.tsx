@@ -3,7 +3,6 @@
 import { cn, dataDisabledProps } from "@/lib/utils";
 import { Avatar } from "@/components/atoms/Avatar";
 import { SearchBar } from "@/components/molecules/SearchBar";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const ROUTE_NAMES: Record<string, string> = {
   "/": "Dashboard",
@@ -18,8 +17,6 @@ interface NavbarProps {
   userName?: string;
   userRole?: string;
   userAvatar?: string;
-  collapsed?: boolean;
-  onToggleCollapse?: () => void;
   disabled?: boolean;
   pathname?: string;
 }
@@ -29,8 +26,6 @@ export function Navbar({
   userName = "Usuario",
   userRole = "Admin",
   userAvatar,
-  collapsed = false,
-  onToggleCollapse,
   disabled,
   pathname = "/",
 }: NavbarProps) {
@@ -48,19 +43,6 @@ export function Navbar({
         <span className="cursor-pointer hover:text-slate-800">Sadeci</span>
         <span className="text-slate-300">/</span>
         <span className="font-semibold text-primary-700">{currentPage}</span>
-        <button
-          type="button"
-          onClick={onToggleCollapse}
-          className="hidden md:inline-flex items-center justify-center rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900"
-          aria-label={collapsed ? "Expandir sidebar" : "Colapsar sidebar"}
-          disabled={disabled}
-        >
-          {collapsed ? (
-            <FiChevronRight className="size-4" />
-          ) : (
-            <FiChevronLeft className="size-4" />
-          )}
-        </button>
       </div>
 
       <div className="flex items-center gap-4">

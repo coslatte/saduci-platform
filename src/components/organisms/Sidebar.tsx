@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { cn, dataDisabledProps } from "@/lib/utils";
 import { NavItem } from "@/components/molecules/NavItem";
 import type { NavItemType } from "@/lib/types";
@@ -13,6 +14,7 @@ interface SidebarSection {
 interface SidebarProps {
   sections: SidebarSection[];
   collapsed?: boolean;
+  onToggleCollapse?: () => void;
   className?: string;
   disabled?: boolean;
 }
@@ -20,6 +22,7 @@ interface SidebarProps {
 export function Sidebar({
   sections,
   collapsed = false,
+  onToggleCollapse,
   className,
   disabled,
 }: SidebarProps) {
@@ -35,7 +38,7 @@ export function Sidebar({
     >
       <div
         className={cn(
-          "flex h-16 shrink-0 items-center border-b border-slate-200",
+          "flex h-16 shrink-0 items-center gap-2 border-b border-slate-200",
           collapsed ? "justify-center px-4" : "px-6",
         )}
       >
@@ -49,6 +52,28 @@ export function Sidebar({
             </span>
           )}
         </Link>
+        {!collapsed && (
+          <button
+            type="button"
+            onClick={onToggleCollapse}
+            className="ml-auto hidden md:inline-flex items-center justify-center rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+            aria-label="Colapsar sidebar"
+            disabled={disabled}
+          >
+            <FiChevronLeft className="size-4" />
+          </button>
+        )}
+        {collapsed && (
+          <button
+            type="button"
+            onClick={onToggleCollapse}
+            className="hidden md:inline-flex items-center justify-center rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+            aria-label="Expandir sidebar"
+            disabled={disabled}
+          >
+            <FiChevronRight className="size-4" />
+          </button>
+        )}
       </div>
       <nav className="flex-1 overflow-y-auto px-3 py-6">
         <div className="flex flex-col gap-8">

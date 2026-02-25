@@ -58,16 +58,18 @@ export function AppShell({ children }: AppShellProps) {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar sections={sidebarSections} collapsed={sidebarCollapsed} />
+      <Sidebar
+        sections={sidebarSections}
+        collapsed={sidebarCollapsed}
+        onToggleCollapse={() => setSidebarCollapsed((s) => !s)}
+      />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Navbar
           userName={DEMO_USER.name}
           userRole={DEMO_USER.role}
-          collapsed={sidebarCollapsed}
-          onToggleCollapse={() => setSidebarCollapsed((s) => !s)}
           pathname={pathname}
         />
-        <main className="flex-1 overflow-y-auto bg-slate-50 p-2 sm:p-6 *:lg:p-8">
+        <main className="flex-1 overflow-y-auto bg-slate-50 p-1 sm:p-2 lg:p-4">
           <div className="w-full h-full">{children}</div>
         </main>
         <Footer />
