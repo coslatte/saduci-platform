@@ -96,3 +96,34 @@ No des por finalizado un trabajo si esos comandos no pasan.
 ## Comentarios en código
 
 Evitar comentarios que sobreexpliquen el código. Siempre que se pueda, evitarlos. Evitar código que utilice emojis u caracteres especiales.
+
+## Pautas específicas aplicadas en estos cambios (y para el futuro)
+
+- Extraer componentes repetidos de páginas: cuando una `page.tsx` contiene bloques UI muy repetidos (formularios con muchos inputs, tarjetas, grids), extrae esos bloques a un componente dentro de la ruta: `src/app/<ruta>/components/ComponentName.tsx`. Esto mantiene las páginas ligeras y facilita pruebas unitarias.
+
+- Centralizar literales visibles y mensajes: todas las cadenas UI (títulos, subtítulos, etiquetas, placeholders, mensajes de error, labels de botones, textos de navegación) deben colocarse en `src/constants/constants.ts` (o submódulos dentro de `src/constants/`) en vez de estar hardcodeadas en los componentes. Esto facilita cambios futuros y prepara la base para i18n.
+
+- Organización de `constants`: agrupa por dominio (login, navigation, simulation, validation, etc.). Para valores dinámicos o formateos de texto, provee funciones helper en el mismo archivo (p. ej. `runsRangeText(min, max)`).
+
+- SVGs e íconos: reemplaza SVGs inline por iconos desde `react-icons` (o la librería acordada) salvo casos muy específicos donde el SVG personalizado sea necesario. Importa sólo los iconos usados para mantener el bundle pequeño.
+
+- Limpieza de comentarios: elimina comentarios que solo expliquen "qué se movió" o que dupliquen lo obvio. Mantén comentarios que expliquen decisiones no triviales, trade-offs o `TODO` con contexto claro.
+
+- Tipado y handlers: cuando uses `onChange` en inputs/selects, añade tipos explícitos (ej. `React.ChangeEvent<HTMLInputElement>` / `HTMLSelectElement`) para evitar `any` implícitos y ayudar a la revisión.
+
+- Tests y verificación: tras cualquier cambio importante ejecutar:
+
+```bash
+bun run lint ; bun run test ; bun run build
+```
+
+Corrige errores detectados antes de abrir PR. Todo componente nuevo o modificado debe incluir/actualizar tests en `src/test/components/**`.
+
+- Import paths y alias: mantén los imports con el alias `@/` cuando sea posible (evita rutas relativas profundas).
+
+- Mensajes y commits: al crear PRs, en la descripción indica:
+  - Los archivos movidos/creados.
+  - Las constantes nuevas añadidas a `src/constants`.
+  - Que se ejecutaron los checks (`lint/test/build`) y el resultado.
+
+Seguir estas pautas ayuda a mantener el código legible, consistente y listo para internacionalización y mantenimiento a largo plazo.

@@ -4,6 +4,11 @@ import Link from "next/link";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 import type { NavItemType } from "@/lib/types";
+import {
+  SIDEBAR_BRAND_FULL,
+  SIDEBAR_COLLAPSE_COLLAPSE,
+  SIDEBAR_COLLAPSE_EXPAND,
+} from "@/constants/constants";
 
 interface SidebarProps {
   sections: Array<{ title: string; items: NavItemType[] }>;
@@ -34,7 +39,7 @@ export function Sidebar({
           </div>
           {!collapsed && (
             <span className="truncate font-semibold tracking-tight text-slate-900">
-              Sadeci Platform
+              {SIDEBAR_BRAND_FULL}
             </span>
           )}
         </div>
@@ -98,7 +103,7 @@ export function Sidebar({
           collapsed && "ring-2 ring-primary-50",
         )}
         aria-label={
-          collapsed ? "Expandir barra lateral" : "Contraer barra lateral"
+          collapsed ? SIDEBAR_COLLAPSE_EXPAND : SIDEBAR_COLLAPSE_COLLAPSE
         }
       >
         {collapsed ? (

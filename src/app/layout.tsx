@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AppShell } from "@/components/layout";
+import ClientOnly from "@/components/ClientOnly/ClientOnly";
 import { AuthProvider } from "@/lib/auth";
 import { Inter } from "next/font/google";
 
@@ -22,7 +23,9 @@ export default function RootLayout({
         className={`${inter.className} antialiased bg-zinc-50 text-zinc-900`}
       >
         <AuthProvider>
-          <AppShell>{children}</AppShell>
+          <ClientOnly fallback={<div className="min-h-screen" />}>
+            <AppShell>{children}</AppShell>
+          </ClientOnly>
         </AuthProvider>
       </body>
     </html>

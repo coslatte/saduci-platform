@@ -2,16 +2,13 @@
 
 import { FiLogOut } from "react-icons/fi";
 import { cn, dataDisabledProps } from "@/lib/utils";
+import {
+  NAV_BRAND_SHORT,
+  SEARCH_PLACEHOLDER,
+  ROUTE_NAMES_MAP,
+} from "@/constants/constants";
 import { Avatar } from "@/components/atoms/Avatar";
 import { SearchBar } from "@/components/molecules/SearchBar";
-
-const ROUTE_NAMES: Record<string, string> = {
-  "/": "Dashboard",
-  "/simulacion": "Simulación",
-  "/reportes": "Reportes",
-  "/usuarios": "Usuarios",
-  "/ajustes": "Ajustes",
-};
 
 interface NavbarProps {
   className?: string;
@@ -32,7 +29,7 @@ export function Navbar({
   pathname = "/",
   onLogout,
 }: NavbarProps) {
-  const currentPage = ROUTE_NAMES[pathname] ?? "Sadeci";
+  const currentPage = ROUTE_NAMES_MAP[pathname] ?? NAV_BRAND_SHORT;
 
   return (
     <header
@@ -43,14 +40,16 @@ export function Navbar({
       )}
     >
       <div className="flex items-center gap-2 text-[length:var(--font-size-sm)] text-slate-500">
-        <span className="cursor-pointer hover:text-slate-800">Sadeci</span>
+        <span className="cursor-pointer hover:text-slate-800">
+          {NAV_BRAND_SHORT}
+        </span>
         <span className="text-slate-300">/</span>
         <span className="font-semibold text-primary-700">{currentPage}</span>
       </div>
 
       <div className="flex items-center gap-4">
         <div className="hidden md:block w-64">
-          <SearchBar placeholder="Buscar..." disabled={disabled} />
+          <SearchBar placeholder={SEARCH_PLACEHOLDER} disabled={disabled} />
         </div>
 
         <div className="flex items-center gap-3 border-l border-slate-200 pl-4">

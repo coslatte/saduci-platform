@@ -2,6 +2,7 @@
 
 import { cn, dataDisabledProps } from "@/lib/utils";
 import { Input } from "@/components/atoms/Input";
+import { FiSearch } from "react-icons/fi";
 
 interface SearchBarProps {
   value?: string;
@@ -33,22 +34,9 @@ export function SearchBar({
     >
       <span
         className="pointer-events-none absolute left-3 text-zinc-400"
-        aria-hidden="true"
+        aria-hidden
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="size-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"
-          />
-        </svg>
+        <FiSearch className="size-4" />
       </span>
       <Input
         type="search"
