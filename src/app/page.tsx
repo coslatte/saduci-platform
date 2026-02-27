@@ -5,25 +5,21 @@ import LinkCard from "@/components/molecules/LinkCard";
 import { Card } from "@/components/molecules/Card";
 import { useAuth } from "@/lib/auth";
 import { Container } from "@/components/layout/Container";
-
-const PROJECT_LINKS = [
-  {
-    label: "Repositorio GitHub",
-    href: "https://github.com/coslatte/sadeci-platform",
-    icon: <FiGithub className="size-5" />,
-    description: "Código fuente y contribuciones",
-  },
-  {
-    label: "Documentación",
-    href: "https://github.com/coslatte/sadeci-platform#readme",
-    icon: <FiBookOpen className="size-5" />,
-    description: "Guía de uso y referencia técnica",
-  },
-];
+import {
+  HOME_DEFAULT_GREETING,
+  HOME_WELCOME_SUBTITLE,
+  ABOUT_TITLE,
+  ABOUT_DESC,
+  ABOUT_TAG_MC,
+  ABOUT_VERSION,
+  PROJECT_LINKS,
+} from "@/constants/constants";
 
 export default function Home() {
   const { user } = useAuth();
-  const greeting = user ? `Hola, ${user.name.split(" ")[0]}` : "Bienvenido";
+  const greeting = user
+    ? `Hola, ${user.name.split(" ")[0]}`
+    : HOME_DEFAULT_GREETING;
 
   return (
     <Container size="full" className="space-y-8 py-6">
@@ -33,8 +29,7 @@ export default function Home() {
           {greeting}
         </h1>
         <p className="mt-2 text-(length:--font-size-sm) text-slate-500">
-          Panel principal de Sadeci Platform — sistema de simulación y análisis
-          clínico para Unidades de Cuidados Intensivos.
+          {HOME_WELCOME_SUBTITLE}
         </p>
       </div>
 
@@ -44,25 +39,21 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <FiBox className="size-5 text-primary-600" />
             <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800">
-              Acerca de la Plataforma
+              {ABOUT_TITLE}
             </h2>
           </div>
         }
       >
         <div className="space-y-4">
           <p className="text-(length:--font-size-sm) leading-relaxed text-slate-600">
-            <strong>Sadeci Platform</strong> es una herramienta de simulación
-            clínica diseñada para modelar la evolución de pacientes en la Unidad
-            de Cuidados Intensivos (UCI). Permite ejecutar simulaciones Monte
-            Carlo con parámetros clínicos reales y obtener predicciones de
-            mortalidad.
+            {ABOUT_DESC}
           </p>
           <div className="flex flex-wrap gap-3">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-3 py-1 text-(length:--font-size-xs) font-medium text-primary-700">
-              <FiActivity className="size-3.5" /> Simulación Monte Carlo
+              <FiActivity className="size-3.5" /> {ABOUT_TAG_MC}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary-50 px-3 py-1 text-(length:--font-size-xs) font-medium text-secondary-700">
-              v0.1.0
+              {ABOUT_VERSION}
             </span>
           </div>
         </div>
@@ -74,7 +65,13 @@ export default function Home() {
           <LinkCard
             key={link.href}
             href={link.href}
-            icon={link.icon}
+            icon={
+              link.href.includes("github") ? (
+                <FiGithub className="size-5" />
+              ) : (
+                <FiBookOpen className="size-5" />
+              )
+            }
             label={link.label}
             description={link.description}
           />

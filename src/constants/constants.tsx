@@ -1,3 +1,5 @@
+import React from "react";
+
 // Centralized UI strings, labels and defaults
 export const APP_NAME = "Sadeci Platform";
 
@@ -46,7 +48,7 @@ export const ROUTE_NAMES_MAP: Record<string, string> = {
   "/": "Dashboard",
   "/simulation": "Simulación",
   "/usuarios": "Usuarios",
-  "/ajustes": "Ajustes",
+  "/settings": "Ajustes",
 };
 
 export const SIDEBAR_BRAND_FULL = APP_NAME;
@@ -58,3 +60,36 @@ export const VALIDATION_MISSING_DIAG =
   "Todos los diagnósticos de ingreso están vacíos. Incluya al menos uno para la simulación.";
 export const VALIDATION_SELECT_RESP =
   "Seleccione un tipo de Insuficiencia Respiratoria.";
+
+// Home / Dashboard
+export const HOME_DEFAULT_GREETING = "Bienvenido";
+export const HOME_WELCOME_SUBTITLE =
+  "Panel principal de Sadeci Platform — sistema de simulación y análisis clínico para Unidades de Cuidados Intensivos.";
+
+export const ABOUT_TITLE = "Acerca de la Plataforma";
+// Export as JSX to allow inline formatting (strong/italic) while keeping centralized text
+export const ABOUT_DESC: React.ReactNode = (
+  <>
+    <strong>Sadeci Platform</strong> es una herramienta de simulación clínica
+    diseñada para modelar la evolución de pacientes en la Unidad de Cuidados
+    Intensivos (UCI). Permite ejecutar simulaciones
+    <em> Monte Carlo</em> con parámetros clínicos reales y obtener predicciones
+    de mortalidad.
+  </>
+);
+
+export const ABOUT_TAG_MC = "Simulación Monte Carlo";
+export const ABOUT_VERSION = "v0.1.0";
+
+export const PROJECT_LINKS = [
+  {
+    label: "Repositorio GitHub",
+    href: "https://github.com/coslatte/sadeci-platform",
+    description: "Código fuente y contribuciones",
+  },
+  {
+    label: "Documentación",
+    href: "https://github.com/coslatte/sadeci-platform#readme",
+    description: "Guía de uso y referencia técnica",
+  },
+];
