@@ -42,7 +42,7 @@ export function Navbar({
         className,
       )}
     >
-      <div className="flex items-center gap-2 text-[length:var(--font-size-sm)] text-slate-500">
+      <div className="flex items-center gap-2 text-(length:--font-size-sm) text-slate-500">
         <span className="cursor-pointer hover:text-slate-800">
           {NAV_BRAND_SHORT}
         </span>
@@ -63,10 +63,10 @@ export function Navbar({
           >
             <Avatar src={userAvatar} name={userName} size="xs" />
             <div className="hidden lg:flex flex-col leading-none">
-              <span className="text-[length:var(--font-size-sm)] font-medium text-slate-900">
+              <span className="text-(length:--font-size-sm) font-medium text-slate-900">
                 {userName}
               </span>
-              <span className="text-[length:var(--font-size-xs)] text-slate-500">
+              <span className="text-(length:--font-size-xs) text-slate-500">
                 {userRole}
               </span>
             </div>
