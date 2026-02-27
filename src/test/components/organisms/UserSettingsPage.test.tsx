@@ -15,13 +15,14 @@ describe("UserSettingsPage", () => {
 
     // mock fetch and track calls
     let called = false;
-    globalThis.fetch = async () => {
+    // cast to typeof fetch to satisfy bun's global fetch typing (includes extra helpers)
+    globalThis.fetch = (async () => {
       called = true;
       return {
         ok: true,
         json: async () => ({ message: "Contraseña actualizada (mock)." }),
       };
-    };
+    }) as unknown as typeof fetch;
 
     const { default: Page } = await import("@/app/settings/page");
 
