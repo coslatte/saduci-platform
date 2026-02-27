@@ -240,8 +240,6 @@ export default function SimulationInputs({
           </div>
         </div>
 
-        <hr className="mb-6 border-slate-100" />
-
         <div>
           <p className="mb-4 text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
             {DIAGNOSES_TITLE}

@@ -58,10 +58,7 @@ export function Input({
     "absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800";
 
   // Support both React's onChange and native input events that tests may dispatch.
-  const { onChange, id, ...restProps } = props as unknown as {
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    id?: string;
-  };
+  const { onChange, id, ...restProps } = props;
 
   return (
     <div className={cn(wrapperClass, fullWidth && "w-full")}>
@@ -91,7 +88,7 @@ export function Input({
           if (onChange)
             onChange(e as unknown as React.ChangeEvent<HTMLInputElement>);
         }}
-        {...(restProps as any)}
+        {...restProps}
       />
 
       {hasNumberControls && (

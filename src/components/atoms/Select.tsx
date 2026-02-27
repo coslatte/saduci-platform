@@ -26,6 +26,7 @@ export function Select({
         fullWidth && "w-full",
         className,
       )}
+      disabled={disabled}
       {...dataDisabledProps(disabled)}
       {...props}
     >
