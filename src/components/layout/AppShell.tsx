@@ -6,16 +6,29 @@ import type { ReactNode } from "react";
 import { Navbar, Sidebar, Footer } from "@/components/organisms";
 import { NotificationsProvider } from "@/context/notifications";
 
+/**
+ * Props for `AppShell`.
+ */
 interface AppShellProps {
   children: ReactNode;
-  // lightweight user info passed from the controller to keep this component
-  // rendering stable across route changes
+  /**
+   * Lightweight user info passed from the controller to keep this component
+   * rendering stable across route changes.
+   */
   userName?: string;
   userRole?: string;
   userAvatar?: string;
   onLogout?: () => void;
 }
 
+/**
+ * AppShell
+ *
+ * Top-level layout wrapper for authenticated pages. It composes the
+ * `Sidebar`, `Navbar`, and `Footer` and provides a `NotificationsProvider`.
+ * Keep this component presentation-focused: route content should be rendered
+ * as children.
+ */
 export function AppShell({
   children,
   userName = "Usuario",
@@ -28,24 +41,26 @@ export function AppShell({
   return (
     <NotificationsProvider>
       <div className="flex h-screen overflow-hidden">
-      <Sidebar
+        <Sidebar
           collapsed={sidebarCollapsed}
-          onToggleCollapse={() => setSidebarCollapsed((s) => !s)} sections={[]}      />
-      {/* Global Toaster for notifications */}
-      <Toaster position="bottom-right" />
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <Navbar
-          userName={userName}
-          userRole={userRole}
-          userAvatar={userAvatar}
-          onLogout={onLogout}
+          onToggleCollapse={() => setSidebarCollapsed((s) => !s)}
+          sections={[]}
         />
-        <main className="flex-1 overflow-y-auto bg-slate-50 px-12 py-6">
-          {children}
-        </main>
-        <Footer />
+        {/* Global Toaster for notifications */}
+        <Toaster position="bottom-right" />
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <Navbar
+            userName={userName}
+            userRole={userRole}
+            userAvatar={userAvatar}
+            onLogout={onLogout}
+          />
+          <main className="flex-1 overflow-y-auto bg-slate-50 px-12 py-6">
+            {children}
+          </main>
+          <Footer />
+        </div>
       </div>
-    </div>
-  </NotificationsProvider>
+    </NotificationsProvider>
   );
 }

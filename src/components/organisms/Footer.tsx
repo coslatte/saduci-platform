@@ -11,6 +11,17 @@ interface FooterProps {
   disabled?: boolean;
 }
 
+/**
+ * Footer
+ *
+ * Site footer rendered in the app shell. Shows copyright and a small status
+ * area. For convenience the component also contains a small notifications
+ * demo (used by tests) — in the app this will normally be provided by the
+ * global `Notifications` context and a dedicated panel.
+ *
+ * @param props.className - optional className to merge into the root
+ * @param props.disabled - when true applies a muted/disabled visual state
+ */
 export function Footer({ className, disabled }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
@@ -59,11 +70,11 @@ export function Footer({ className, disabled }: FooterProps) {
             trigger={
               <button
                 type="button"
-                className="relative rounded-md p-2 text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200"
+                className="relative p-2 rounded-md text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200"
                 title="Notificaciones"
                 aria-label="Notificaciones"
               >
-                <FiBell className="h-5 w-5" />
+                <FiBell className="w-5 h-5" />
                 {unreadCount > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center rounded-full bg-rose-600 text-white text-[10px] px-1.5 py-0.5">
                     {unreadCount}
@@ -75,11 +86,11 @@ export function Footer({ className, disabled }: FooterProps) {
             <NotificationsPanel
               notifications={notifications}
               onMarkAsRead={(id) => {
-                // simple in-component handler not used; we rely on context in real usage
-                // placeholder: do nothing here
                 console.log("mark as read footer", id);
               }}
-              onMarkAllAsRead={() => console.log("mark all as read from footer")}
+              onMarkAllAsRead={() =>
+                console.log("mark all as read from footer")
+              }
             />
           </Popover>
         </div>

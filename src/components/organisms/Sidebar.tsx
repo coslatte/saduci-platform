@@ -26,6 +26,35 @@ interface SidebarProps {
   className?: string;
 }
 
+/**
+ * Sidebar
+ *
+ * Primary application sidebar that renders brand, navigation sections and a
+ * collapse control. Styling constants are defined here to make later
+ * extraction into a design token module easier.
+ */
+const SIDEBAR_BASE =
+  "relative flex h-full flex-col border-r border-slate-200 bg-white transition-all duration-300 ease-in-out";
+const SIDEBAR_WIDTH_COLLAPSED = "w-20";
+const SIDEBAR_WIDTH_EXPANDED = "w-64";
+const BRAND_AREA =
+  "flex h-16 shrink-0 items-center border-b border-slate-100 px-6";
+const BRAND_WRAPPER = "flex items-center gap-3 overflow-hidden";
+const BRAND_ICON =
+  "flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary-600 text-white shadow-sm";
+const NAV_WRAPPER = "flex-1 overflow-y-auto overflow-x-hidden p-4";
+const SECTION_TITLE =
+  "px-2 text-(length:--font-size-xs) font-bold uppercase tracking-widest text-slate-400";
+const LINK_BASE =
+  "group flex items-center gap-3 rounded-lg px-2.5 py-2 transition-all duration-200";
+const LINK_ACTIVE =
+  "bg-primary-50 text-primary-700 shadow-sm ring-1 ring-primary-100";
+const LINK_INACTIVE = "text-slate-600 hover:bg-slate-50 hover:text-slate-900";
+const ICON_CLASS =
+  "flex size-5 shrink-0 items-center justify-center transition-colors";
+const COLLAPSE_BTN =
+  "absolute -right-4 top-1/2 z-50 flex h-8 w-4 -translate-y-1/2 items-center justify-center rounded-r-md border border-l-0 border-slate-200 bg-white text-slate-400 shadow-sm transition-all hover:border-primary-300 hover:text-primary-600 focus:outline-none";
+
 export function Sidebar({
   collapsed = false,
   onToggleCollapse,
@@ -67,15 +96,15 @@ export function Sidebar({
   return (
     <aside
       className={cn(
-        "relative flex h-full flex-col border-r border-slate-200 bg-white transition-all duration-300 ease-in-out",
-        collapsed ? "w-20" : "w-64",
+        SIDEBAR_BASE,
+        collapsed ? SIDEBAR_WIDTH_COLLAPSED : SIDEBAR_WIDTH_EXPANDED,
         className,
       )}
     >
       {/* Brand area */}
-      <div className="flex h-16 shrink-0 items-center border-b border-slate-100 px-6">
-        <div className="flex items-center gap-3 overflow-hidden">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary-600 text-white shadow-sm">
+      <div className={BRAND_AREA}>
+        <div className={BRAND_WRAPPER}>
+          <div className={BRAND_ICON}>
             <span className="font-bold">S</span>
           </div>
           {!collapsed && (
@@ -87,15 +116,11 @@ export function Sidebar({
       </div>
 
       {/* Nav sections */}
-      <nav className="flex-1 overflow-y-auto overflow-x-hidden p-4">
+      <nav className={NAV_WRAPPER}>
         <div className="flex flex-col gap-8">
           {sections.map((section, idx) => (
             <div key={idx} className="flex flex-col gap-2">
-              {!collapsed && (
-                <p className="px-2 text-(length:--font-size-xs) font-bold uppercase tracking-widest text-slate-400">
-                  {section.title}
-                </p>
-              )}
+              {!collapsed && <p className={SECTION_TITLE}>{section.title}</p>}
               <ul className="flex flex-col gap-1">
                 {section.items.map((item, itemIdx) => (
                   <li key={itemIdx}>
@@ -103,17 +128,15 @@ export function Sidebar({
                       href={item.href}
                       aria-current={item.active ? "page" : undefined}
                       className={cn(
-                        "group flex items-center gap-3 rounded-lg px-2.5 py-2 transition-all duration-200",
-                        item.active
-                          ? "bg-primary-50 text-primary-700 shadow-sm ring-1 ring-primary-100"
-                          : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
+                        LINK_BASE,
+                        item.active ? LINK_ACTIVE : LINK_INACTIVE,
                         collapsed && "justify-center px-0",
                       )}
                       title={collapsed ? item.label : undefined}
                     >
                       <div
                         className={cn(
-                          "flex size-5 shrink-0 items-center justify-center transition-colors",
+                          ICON_CLASS,
                           item.active
                             ? "text-primary-600"
                             : "text-slate-400 group-hover:text-slate-600",
@@ -139,10 +162,7 @@ export function Sidebar({
       <button
         type="button"
         onClick={onToggleCollapse}
-        className={cn(
-          "absolute -right-4 top-1/2 z-50 flex h-8 w-4 -translate-y-1/2 items-center justify-center rounded-r-md border border-l-0 border-slate-200 bg-white text-slate-400 shadow-sm transition-all hover:border-primary-300 hover:text-primary-600 focus:outline-none",
-          collapsed && "ring-2 ring-primary-50",
-        )}
+        className={cn(COLLAPSE_BTN, collapsed && "ring-2 ring-primary-50")}
         aria-label={
           collapsed ? SIDEBAR_COLLAPSE_EXPAND : SIDEBAR_COLLAPSE_COLLAPSE
         }
