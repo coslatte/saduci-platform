@@ -37,7 +37,13 @@ describe("BaseButton", () => {
   it("fires onClick when clicked", () => {
     let clicked = false;
     const { getByRole } = render(
-      <BaseButton onClick={() => { clicked = true; }}>Guardar</BaseButton>,
+      <BaseButton
+        onClick={() => {
+          clicked = true;
+        }}
+      >
+        Guardar
+      </BaseButton>,
     );
     getByRole("button").click();
     expect(clicked).toBe(true);
@@ -46,7 +52,14 @@ describe("BaseButton", () => {
   it("does not fire onClick when disabled", () => {
     let clicked = false;
     const { getByRole } = render(
-      <BaseButton disabled onClick={() => { clicked = true; }}>Guardar</BaseButton>,
+      <BaseButton
+        disabled
+        onClick={() => {
+          clicked = true;
+        }}
+      >
+        Guardar
+      </BaseButton>,
     );
     getByRole("button").click();
     expect(clicked).toBe(false);

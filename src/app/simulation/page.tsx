@@ -211,7 +211,7 @@ export default function SimulacionPage() {
             }
           >
             <SimulationResultTable result={result.simulation} />
-            <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <div className="p-4 mt-4 border rounded-lg border-slate-200 bg-slate-50">
               <p className="mb-2 text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400">
                 Predicción del modelo
               </p>

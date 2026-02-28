@@ -67,7 +67,9 @@ describe("IconButton", () => {
       <IconButton
         aria-label="Acción"
         icon={<svg />}
-        onClick={() => { clicked = true; }}
+        onClick={() => {
+          clicked = true;
+        }}
       />,
     );
     const button = container.querySelector("button");

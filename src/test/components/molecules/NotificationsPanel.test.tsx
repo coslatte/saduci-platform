@@ -44,9 +44,7 @@ describe("NotificationsPanel", () => {
   });
 
   it("shows empty state message when there are no notifications", () => {
-    const { getByText } = render(
-      <NotificationsPanel notifications={[]} />,
-    );
+    const { getByText } = render(<NotificationsPanel notifications={[]} />);
     expect(getByText("No hay notificaciones")).toBeTruthy();
   });
 

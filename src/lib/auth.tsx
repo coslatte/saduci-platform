@@ -8,8 +8,6 @@ import {
   type ReactNode,
 } from "react";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 export interface User {
   id: string;
   name: string;
@@ -25,11 +23,7 @@ interface AuthState {
   logout: () => void;
 }
 
-// ─── Context ──────────────────────────────────────────────────────────────────
-
 const AuthContext = createContext<AuthState | undefined>(undefined);
-
-// ─── Provider ─────────────────────────────────────────────────────────────────
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
@@ -39,9 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
   const login = useCallback(async (email: string, _password: string) => {
-    // Mock authentication — accepts any credentials.
-    // In the future this will hit a real auth endpoint.
-    await new Promise((r) => setTimeout(r, 400)); // simulate network delay
+    await new Promise((r) => setTimeout(r, 400));
 
     const mockUser: User = {
       id: crypto.randomUUID(),
@@ -70,8 +62,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     </AuthContext.Provider>
   );
 }
-
-// ─── Hook ─────────────────────────────────────────────────────────────────────
 
 export function useAuth(): AuthState {
   const ctx = useContext(AuthContext);

@@ -57,7 +57,13 @@ describe("Button", () => {
   it("fires onClick when clicked", () => {
     let clicked = false;
     const { getByRole } = render(
-      <Button onClick={() => { clicked = true; }}>Aceptar</Button>,
+      <Button
+        onClick={() => {
+          clicked = true;
+        }}
+      >
+        Aceptar
+      </Button>,
     );
     getByRole("button").click();
     expect(clicked).toBe(true);
