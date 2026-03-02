@@ -1,13 +1,12 @@
 "use client";
 
-import React from "react";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn, dataDisabledProps } from "@/lib/utils";
 import { NAV_BRAND_SHORT, ROUTE_NAMES_MAP } from "@/constants/constants";
 import { Avatar } from "@/components/atoms/Avatar";
-// Notifications are shown in the footer only; removed navbar notification icon
+import { NavBreadcrumb } from "@/components/molecules/NavBreadcrumb";
+import { Popover } from "@/components/molecules/Popover";
 
 /**
  * Props for the `Navbar` component.
@@ -47,83 +46,62 @@ export function Navbar({
   const detectedPath = pathname ?? usePathname?.() ?? "/";
   const currentPage = ROUTE_NAMES_MAP[detectedPath] ?? NAV_BRAND_SHORT;
 
-  // Navbar no longer handles notifications; footer handles them instead
-
-  const [userMenuOpen, setUserMenuOpen] = React.useState(false);
-
-  function toggleUserMenu() {
-    setUserMenuOpen((s) => !s);
-  }
+  const styles = {
+    header: "flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-8 z-10",
+    triggerButton:
+      "flex items-center gap-3 px-3 py-2 no-underline transition-all duration-150 bg-white border border-transparent rounded-lg group hover:border-slate-200 hover:shadow-sm focus:outline-none focus:shadow-sm",
+    userInfo: "flex-col hidden leading-none lg:flex",
+    userName: "text-(length:--font-size-sm) font-medium text-slate-900",
+    userRole: "text-(length:--font-size-xs) text-slate-500",
+    menu: "flex flex-col w-40 p-1 rounded-xl bg-white border border-slate-200 shadow-lg",
+    menuItem: "block px-3 py-2 text-sm border border-transparent rounded text-slate-700 hover:border-slate-200 hover:bg-slate-50",
+    menuItemButton: "w-full px-3 py-2 text-sm text-left border border-transparent rounded text-slate-700 hover:border-slate-200 hover:bg-slate-50",
+  };
 
   return (
-    <header
-      {...dataDisabledProps(disabled)}
-      className={cn(
-        "flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-8 z-10",
-        className,
-      )}
-    >
-      <div className="flex items-center gap-2 text-(length:--font-size-sm) text-slate-500">
-        <span className="cursor-pointer hover:text-slate-800">
-          {NAV_BRAND_SHORT}
-        </span>
-        <span className="text-slate-300">/</span>
-        <span className="font-semibold text-primary-700">{currentPage}</span>
-      </div>
+    <header {...dataDisabledProps(disabled)} className={cn(styles.header, className)}>
+      <NavBreadcrumb brandName={NAV_BRAND_SHORT} currentPage={currentPage} />
 
       <div className="flex items-center gap-4">
-        <div className="relative flex items-center gap-3">
-          <button
-            type="button"
-            onClick={toggleUserMenu}
-            className="group flex items-center gap-3 px-3 py-2 no-underline bg-white rounded-lg border-2 border-transparent transition-all duration-150 hover:border-primary-600 hover:ring-2 hover:ring-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-100"
-            aria-haspopup="true"
-            aria-expanded={userMenuOpen}
-            aria-label={`Usuario ${userName}`}
-            title={userName}
-          >
-            <Avatar src={userAvatar} name={userName} size="xs" />
-            <div className="flex-col hidden leading-none lg:flex">
-              <span className="text-(length:--font-size-sm) font-medium text-slate-900">
-                {userName}
-              </span>
-              <span className="text-(length:--font-size-xs) text-slate-500">
-                {userRole}
-              </span>
-            </div>
-          </button>
-
-          {/* Simple user panel dropdown */}
-          {userMenuOpen && (
-            <div className="absolute right-0 w-48 mt-2 bg-white border rounded-md shadow-lg top-full">
-              <ul className="flex flex-col p-2">
-                <li>
-                  <Link
-                    href="/settings"
-                    className="block px-3 py-2 text-sm border border-transparent rounded text-slate-700 hover:border-slate-200 hover:bg-slate-50"
-                    onClick={() => setUserMenuOpen(false)}
-                  >
-                    Ajustes
-                  </Link>
-                </li>
-                {onLogout && (
-                  <li>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setUserMenuOpen(false);
-                        onLogout();
-                      }}
-                      className="w-full px-3 py-2 text-sm text-left border border-transparent rounded text-slate-700 hover:border-slate-200 hover:bg-slate-50"
-                    >
-                      Cerrar sesión
-                    </button>
-                  </li>
-                )}
-              </ul>
-            </div>
-          )}
-        </div>
+        <Popover
+          align="right"
+          trigger={
+            <button
+              type="button"
+              className={styles.triggerButton}
+              aria-label={`Usuario ${userName}`}
+              title={userName}
+            >
+              <Avatar src={userAvatar} name={userName} size="xs" />
+              <div className={styles.userInfo}>
+                <span className={styles.userName}>{userName}</span>
+                <span className={styles.userRole}>{userRole}</span>
+              </div>
+            </button>
+          }
+        >
+          <ul className={styles.menu}>
+            <li>
+              <Link
+                href="/settings"
+                className={styles.menuItem}
+              >
+                Ajustes
+              </Link>
+            </li>
+            {onLogout && (
+              <li>
+                <button
+                  type="button"
+                  onClick={onLogout}
+                  className={styles.menuItemButton}
+                >
+                  Cerrar sesión
+                </button>
+              </li>
+            )}
+          </ul>
+        </Popover>
       </div>
     </header>
   );

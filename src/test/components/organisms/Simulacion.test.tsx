@@ -1,5 +1,5 @@
 import "../../setup";
-import { render } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 import { describe, expect, it, mock, afterEach } from "bun:test";
 import {
   generatePatientId,
@@ -74,9 +74,6 @@ describe("simulation lib — generatePatientId", () => {
   });
 });
 
-// ── Lightweight render smoke-tests ───────────────────────────────────────────
-
-// We import only the sub-components to avoid SSR issues with the full page
 import { Select } from "@/components/atoms/Select";
 import { Badge } from "@/components/atoms/Badge";
 import { Alert } from "@/components/molecules/Alert";
@@ -115,8 +112,6 @@ describe("simulacion page — smoke tests", () => {
     expect(alert.className.includes("bg-red-50")).toBe(true);
   });
 });
-
-// ── runSimulation API client ──────────────────────────────────────────────────
 
 import { runSimulation, type SimulationRequest } from "@/lib/simulation";
 
@@ -222,7 +217,8 @@ describe("runSimulation — API client", () => {
   });
 
   it("shows a toast when the simulation request times out", async () => {
-    const { fireEvent } = await import("@testing-library/react");
+    const originalConsoleError = console.error;
+    console.error = mock(() => {});
 
     let toastCalled = false;
 
@@ -265,23 +261,30 @@ describe("runSimulation — API client", () => {
       },
     }));
 
-    const { default: SimulacionPage } = await import("@/app/simulation/page");
+    try {
+      const { default: SimulacionPage } = await import("@/app/simulation/page");
 
-    const { getByLabelText, getByRole } = render(<SimulacionPage />);
+      const { getByLabelText, getByRole } = render(<SimulacionPage />);
 
-    // Fill required fields so validation passes
-    fireEvent.change(getByLabelText(/Diag. Ingreso 1/), {
-      target: { value: "1" },
-    });
-    fireEvent.change(getByLabelText(/Insuf. Respiratoria/), {
-      target: { value: "1" },
-    });
+      // Fill required fields so validation passes
+      fireEvent.change(getByLabelText(/Diag. Ingreso 1/), {
+        target: { value: "1" },
+      });
+      fireEvent.change(getByLabelText(/Insuf. Respiratoria/), {
+        target: { value: "1" },
+      });
 
-    fireEvent.click(getByRole("button", { name: /Realizar simulaci[oó]n/i }));
+      await act(async () => {
+        fireEvent.click(
+          getByRole("button", { name: /Realizar simulaci[oó]n/i }),
+        );
+        // Allow promise microtasks to run
+        await new Promise((r) => setTimeout(r, 0));
+      });
 
-    // Allow promise microtasks to run
-    await new Promise((r) => setTimeout(r, 0));
-
-    expect(toastCalled).toBe(true);
+      expect(toastCalled).toBe(true);
+    } finally {
+      console.error = originalConsoleError;
+    }
   });
 });

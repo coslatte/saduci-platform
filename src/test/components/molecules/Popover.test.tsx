@@ -99,4 +99,24 @@ describe("Popover", () => {
     fireEvent.click(btn);
     expect(btn.getAttribute("aria-expanded")).toBe("true");
   });
+
+  it("does not close when mousedown happens inside portal content", () => {
+    const { queryByText, container } = render(
+      <Popover trigger={<span>Open</span>}>
+        <div>
+          <button type="button">PanelAction</button>
+        </div>
+      </Popover>,
+    );
+
+    const trigger = container.querySelector("[aria-haspopup]") as HTMLElement;
+    fireEvent.click(trigger);
+
+    const panelBtn = queryByText("PanelAction");
+    expect(panelBtn).toBeTruthy();
+
+    fireEvent.mouseDown(panelBtn!);
+
+    expect(queryByText("PanelAction")).toBeTruthy();
+  });
 });

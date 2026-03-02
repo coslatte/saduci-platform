@@ -3,8 +3,6 @@
  * Used across page examples and demo UI sections
  */
 
-// ─── Types ────────────────────────────────────────────────────────────────
-
 export interface SidebarItemConfig {
   label: string;
   href: string;
@@ -37,8 +35,6 @@ export interface FormFieldDefinition {
   type?: string;
 }
 
-// ─── Sidebar navigation ────────────────────────────────────────────────────
-
 export const SIDEBAR_SECTIONS: SidebarSection[] = [
   {
     title: "Principal",
@@ -54,8 +50,6 @@ export const SIDEBAR_SECTIONS: SidebarSection[] = [
     ],
   },
 ];
-
-// ─── Dashboard stats ──────────────────────────────────────────────────────
 
 export const DASHBOARD_STATS: DashboardStat[] = [
   {
@@ -80,8 +74,6 @@ export const DASHBOARD_STATS: DashboardStat[] = [
   },
 ];
 
-// ─── Demo team members ────────────────────────────────────────────────────
-
 export const DEMO_TEAM_MEMBERS: DemoTeamMember[] = [
   {
     name: "Ana García",
@@ -99,8 +91,6 @@ export const DEMO_TEAM_MEMBERS: DemoTeamMember[] = [
     status: "warning",
   },
 ];
-
-// ─── New request form fields ──────────────────────────────────────────────
 
 export const NEW_REQUEST_FORM_FIELDS: FormFieldDefinition[] = [
   {

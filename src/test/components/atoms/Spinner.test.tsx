@@ -5,8 +5,8 @@ import { Spinner } from "@/components/atoms/Spinner";
 
 describe("Spinner component", () => {
   it("renders with default props", () => {
-    const { getByRole } = render(<Spinner />);
-    const svg = getByRole("status");
+    const { container } = render(<Spinner />);
+    const svg = container.querySelector("svg[role='status']");
     expect(svg).toBeTruthy();
   });
 
@@ -28,31 +28,39 @@ describe("Spinner component", () => {
     };
 
     sizes.forEach((size) => {
-      const { getByRole, unmount } = render(<Spinner size={size} />);
-      const svg = getByRole("status");
+      const { container, unmount } = render(<Spinner size={size} />);
+      const svg = container.querySelector("svg[role='status']");
+      expect(svg).toBeTruthy();
+      if (!svg) return;
       expect(svg.className.includes(`size-${map[size]}`)).toBe(true);
       unmount();
     });
   });
 
   it("allows overriding className and label", () => {
-    const { getByRole } = render(
+    const { container } = render(
       <Spinner className="text-red-500" label="Cargando" />,
     );
-    const svg = getByRole("status");
+    const svg = container.querySelector("svg[role='status']");
+    expect(svg).toBeTruthy();
+    if (!svg) return;
     expect(svg.className.includes("text-red-500")).toBe(true);
     expect(svg.getAttribute("aria-label")).toBe("Cargando");
   });
 
   it("uses Loading... as default aria-label", () => {
-    const { getByRole } = render(<Spinner />);
-    const svg = getByRole("status");
+    const { container } = render(<Spinner />);
+    const svg = container.querySelector("svg[role='status']");
+    expect(svg).toBeTruthy();
+    if (!svg) return;
     expect(svg.getAttribute("aria-label")).toBe("Loading...");
   });
 
   it("applies animate-spin class", () => {
-    const { getByRole } = render(<Spinner />);
-    const svg = getByRole("status");
+    const { container } = render(<Spinner />);
+    const svg = container.querySelector("svg[role='status']");
+    expect(svg).toBeTruthy();
+    if (!svg) return;
     expect(svg.className.includes("animate-spin")).toBe(true);
   });
 });

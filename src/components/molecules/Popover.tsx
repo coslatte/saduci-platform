@@ -8,7 +8,6 @@ import React, {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { FiX } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 
 interface PopoverProps {
@@ -49,10 +48,12 @@ export function Popover({
   const id = useId();
   const [open, setOpen] = useState(false);
   const [exiting, setExiting] = useState(false);
+  const [entering, setEntering] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [position, setPosition] = useState<{
-    top: number;
+    top?: number;
+    bottom?: number;
     left: number;
   } | null>(null);
 
@@ -61,6 +62,7 @@ export function Popover({
       const target = e.target as Node | null;
       if (!wrapperRef.current) return;
       if (wrapperRef.current.contains(target)) return;
+      if (contentRef.current && contentRef.current.contains(target)) return;
       // trigger closing animation
       setExiting(true);
     }
@@ -94,17 +96,66 @@ export function Popover({
     return () => el.removeEventListener("click", handler);
   }, [closeOnSelect]);
 
-  // compute position of popover when open
-  useLayoutEffect(() => {
-    if (!open || !wrapperRef.current) return;
+  function resolvePosition() {
+    if (!wrapperRef.current) return;
     const rect = wrapperRef.current.getBoundingClientRect();
-    const scrollY = window.scrollY || window.pageYOffset;
-    const width = 320; // w-80
-    let left = rect.right - width;
+    const PANEL_WIDTH = 320;
+    let left = rect.right - PANEL_WIDTH;
     if (align === "left") left = rect.left;
-    if (align === "center") left = rect.left + rect.width / 2 - width / 2;
-    setPosition({ top: rect.bottom + scrollY + 8, left });
+    if (align === "center") left = rect.left + rect.width / 2 - PANEL_WIDTH / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - PANEL_WIDTH - 8));
+
+    const PANEL_MAX_HEIGHT = 360;
+    const spaceBelow = window.innerHeight - rect.bottom;
+    if (spaceBelow < PANEL_MAX_HEIGHT) {
+      setPosition({ bottom: window.innerHeight - rect.top + 8, left });
+    } else {
+      setPosition({ top: rect.bottom + 8, left });
+    }
+  }
+
+  // Re-compute position when open/align changes and on resize/scroll.
+  useLayoutEffect(() => {
+    if (!open) return;
+
+    function compute() {
+      if (!wrapperRef.current) return;
+      const rect = wrapperRef.current.getBoundingClientRect();
+      const PANEL_WIDTH = 320;
+      let left = rect.right - PANEL_WIDTH;
+      if (align === "left") left = rect.left;
+      if (align === "center") left = rect.left + rect.width / 2 - PANEL_WIDTH / 2;
+      left = Math.max(8, Math.min(left, window.innerWidth - PANEL_WIDTH - 8));
+
+      const PANEL_MAX_HEIGHT = 360;
+      const contentHeight = contentRef.current?.offsetHeight ?? PANEL_MAX_HEIGHT;
+      const spaceBelow = window.innerHeight - rect.bottom;
+
+      // prefer showing below when there's enough space, otherwise show above
+      if (spaceBelow < contentHeight + 16) {
+        // place above the trigger, keeping 8px margin
+        const top = Math.max(8, rect.top - contentHeight - 8);
+        setPosition({ top, left });
+      } else {
+        setPosition({ top: rect.bottom + 8, left });
+      }
+    }
+
+    compute();
+    window.addEventListener("resize", compute);
+    window.addEventListener("scroll", compute, { passive: true });
+    return () => {
+      window.removeEventListener("resize", compute);
+      window.removeEventListener("scroll", compute as EventListener);
+    };
   }, [open, align]);
+
+  // clear entering state after one frame to trigger CSS transition
+  useEffect(() => {
+    if (!entering) return;
+    const frame = requestAnimationFrame(() => setEntering(false));
+    return () => cancelAnimationFrame(frame);
+  }, [entering]);
 
   // handle exiting animation timing
   useEffect(() => {
@@ -113,6 +164,7 @@ export function Popover({
     const t = setTimeout(() => {
       setExiting(false);
       setOpen(false);
+      setPosition(null);
     }, 180);
     return () => clearTimeout(t);
   }, [exiting]);
@@ -124,30 +176,18 @@ export function Popover({
       role="dialog"
       aria-modal={false}
       className={cn(
-        // use footer-like glassmorphism + softer border and enter/exit animation
-        "rounded-xl bg-white/60 backdrop-blur-sm border border-slate-200/30 shadow-lg p-3 transform-gpu transition-all duration-150",
-        exiting
+        "transform-gpu transition-all duration-150 z-50",
+        exiting || entering
           ? "opacity-0 -translate-y-1 scale-95 pointer-events-none"
           : "opacity-100 translate-y-0 scale-100",
-        "w-80",
       )}
       style={
         position
-          ? { position: "absolute", top: position.top, left: position.left }
-          : undefined
+          ? { position: "fixed", top: position.top, bottom: position.bottom, left: position.left }
+          : { visibility: "hidden" }
       }
     >
-      <div className="flex justify-end mb-2">
-        <button
-          aria-label="Cerrar"
-          className="text-gray-500 hover:text-gray-700 p-1 rounded"
-          onClick={() => setExiting(true)}
-        >
-          <FiX className="w-4 h-4" />
-        </button>
-      </div>
-
-      <div className="text-sm text-zinc-900">{children}</div>
+      {children}
     </div>
   );
 
@@ -169,7 +209,13 @@ export function Popover({
       }
 
       if (open) setExiting(true);
-      else setOpen(true);
+      else {
+        // open first so the content can be rendered and measured
+        // position will be resolved in the useLayoutEffect below once
+        // the portal/content DOM node exists.
+        setEntering(true);
+        setOpen(true);
+      }
     };
 
     if (

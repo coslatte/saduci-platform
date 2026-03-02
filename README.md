@@ -1,6 +1,10 @@
-# SADECI
+# SADUCI
 
-Web client for SADECI — clinical decision support in the ICU, Hospital Arnaldo Milián Castro.
+Web client for SADUCI — clinical decision support in the ICU, Hospital Arnaldo Milián Castro.
+
+Name: Saduci (Sistema de Apoyo en la Decisión en la Unidad de Cuidado Intensivo)
+
+This repository contains the frontend application (Saduci Platform). The backend service remains named `sadeci-core` where applicable.
 
 ## Getting Started
 

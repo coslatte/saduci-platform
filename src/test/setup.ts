@@ -6,4 +6,5 @@ GlobalRegistrator.register();
 
 afterEach(() => {
   cleanup();
+  document.body.innerHTML = "";
 });

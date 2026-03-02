@@ -5,23 +5,26 @@ import { BaseButton } from "@/components/atoms/Buttons";
 
 describe("BaseButton", () => {
   it("renders children and stays enabled by default", () => {
-    const { getByRole, getByText } = render(<BaseButton>Guardar</BaseButton>);
+    const { container } = render(<BaseButton>Guardar</BaseButton>);
 
-    const button = getByRole("button");
-    const label = getByText("Guardar");
+    const button = container.querySelector("button");
     expect(button).toBeTruthy();
-    expect(label).toBeTruthy();
+    if (!button) return;
+    expect(button.textContent?.includes("Guardar")).toBe(true);
     expect(button.hasAttribute("disabled")).toBe(false);
   });
 
   it("disables button and shows loading spinner when loading=true", () => {
-    const { getByRole, getByLabelText } = render(
+    const { container } = render(
       <BaseButton loading>Guardar</BaseButton>,
     );
 
-    const button = getByRole("button");
+    const button = container.querySelector("button");
+    expect(button).toBeTruthy();
+    if (!button) return;
     expect(button.hasAttribute("disabled")).toBe(true);
-    expect(getByLabelText("Cargando...")).toBeTruthy();
+    const spinner = container.querySelector("svg[aria-label='Cargando...']");
+    expect(spinner).toBeTruthy();
   });
 
   it("allows custom spinner override", () => {
@@ -36,7 +39,7 @@ describe("BaseButton", () => {
 
   it("fires onClick when clicked", () => {
     let clicked = false;
-    const { getByRole } = render(
+    const { container } = render(
       <BaseButton
         onClick={() => {
           clicked = true;
@@ -45,13 +48,16 @@ describe("BaseButton", () => {
         Guardar
       </BaseButton>,
     );
-    getByRole("button").click();
+    const button = container.querySelector("button");
+    expect(button).toBeTruthy();
+    if (!button) return;
+    button.click();
     expect(clicked).toBe(true);
   });
 
   it("does not fire onClick when disabled", () => {
     let clicked = false;
-    const { getByRole } = render(
+    const { container } = render(
       <BaseButton
         disabled
         onClick={() => {
@@ -61,12 +67,18 @@ describe("BaseButton", () => {
         Guardar
       </BaseButton>,
     );
-    getByRole("button").click();
+    const button = container.querySelector("button");
+    expect(button).toBeTruthy();
+    if (!button) return;
+    button.click();
     expect(clicked).toBe(false);
   });
 
   it("disables button when disabled prop is true", () => {
-    const { getByRole } = render(<BaseButton disabled>Guardar</BaseButton>);
-    expect(getByRole("button").hasAttribute("disabled")).toBe(true);
+    const { container } = render(<BaseButton disabled>Guardar</BaseButton>);
+    const button = container.querySelector("button");
+    expect(button).toBeTruthy();
+    if (!button) return;
+    expect(button.hasAttribute("disabled")).toBe(true);
   });
 });

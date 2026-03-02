@@ -1,5 +1,5 @@
 import "../../setup";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, within } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
 import { NotificationsPanel } from "@/components/molecules/NotificationsPanel";
 import type { NotificationItem } from "@/components/molecules/NotificationsPanel";
@@ -11,7 +11,7 @@ describe("NotificationsPanel", () => {
       { id: 1, title: "T1", body: "b", read: false },
     ];
 
-    const { getByText } = render(
+    const { container } = render(
       <NotificationsPanel
         notifications={notifications}
         onMarkAsRead={(id) => {
@@ -20,7 +20,7 @@ describe("NotificationsPanel", () => {
       />,
     );
 
-    const btn = getByText("Marcar leída");
+    const btn = within(container).getByText("Marcar leída");
     fireEvent.click(btn);
     expect(marked).toBe(1);
   });
@@ -29,7 +29,7 @@ describe("NotificationsPanel", () => {
     let called = false;
     const notifications: NotificationItem[] = [];
 
-    const { getByText } = render(
+    const { container } = render(
       <NotificationsPanel
         notifications={notifications}
         onMarkAllAsRead={() => {
@@ -38,46 +38,78 @@ describe("NotificationsPanel", () => {
       />,
     );
 
-    const btn = getByText("Marcar todo");
+    const btn = within(container).getByText("Marcar todo");
     fireEvent.click(btn);
     expect(called).toBe(true);
   });
 
   it("shows empty state message when there are no notifications", () => {
-    const { getByText } = render(<NotificationsPanel notifications={[]} />);
-    expect(getByText("No hay notificaciones")).toBeTruthy();
+    const { container } = render(<NotificationsPanel notifications={[]} />);
+    const matches = within(container).getAllByText("No hay notificaciones");
+    expect(matches.length).toBeGreaterThanOrEqual(1);
   });
 
   it("does not show 'Marcar leída' button for already-read notifications", () => {
     const notifications: NotificationItem[] = [
       { id: 1, title: "Leída", read: true },
     ];
-    const { queryByText } = render(
+    const { container } = render(
       <NotificationsPanel
         notifications={notifications}
         onMarkAsRead={() => {}}
       />,
     );
-    expect(queryByText("Marcar leída")).toBeNull();
+    const button = within(container).queryByText("Marcar leída");
+    expect(button).toBeNull();
   });
 
   it("renders notification body text when provided", () => {
     const notifications: NotificationItem[] = [
       { id: 1, title: "Título", body: "Cuerpo del mensaje", read: false },
     ];
-    const { getByText } = render(
+    const { container } = render(
       <NotificationsPanel notifications={notifications} />,
     );
-    expect(getByText("Cuerpo del mensaje")).toBeTruthy();
+    expect(within(container).getByText("Cuerpo del mensaje")).toBeTruthy();
   });
 
   it("renders the panel with role dialog", () => {
-    const { getByRole } = render(<NotificationsPanel notifications={[]} />);
-    expect(getByRole("dialog")).toBeTruthy();
+    const { container } = render(<NotificationsPanel notifications={[]} />);
+    expect(container.querySelector("[role='dialog']")).toBeTruthy();
   });
 
   it("renders the panel heading 'Notificaciones'", () => {
-    const { getByText } = render(<NotificationsPanel notifications={[]} />);
-    expect(getByText("Notificaciones")).toBeTruthy();
+    const { container } = render(<NotificationsPanel notifications={[]} />);
+    expect(within(container).getByText("Notificaciones")).toBeTruthy();
+  });
+
+  it("shows success icon class for type success notification", () => {
+    const notifications: NotificationItem[] = [
+      { id: 1, title: "OK", read: false, type: "success" },
+    ];
+    const { container } = render(
+      <NotificationsPanel notifications={notifications} />,
+    );
+    expect(container.querySelector(".text-emerald-700")).toBeTruthy();
+  });
+
+  it("shows failure icon class for type failure notification", () => {
+    const notifications: NotificationItem[] = [
+      { id: 1, title: "Error crítico", read: false, type: "failure" },
+    ];
+    const { container } = render(
+      <NotificationsPanel notifications={notifications} />,
+    );
+    expect(container.querySelector(".text-rose-700")).toBeTruthy();
+  });
+
+  it("falls back to info style when type is not provided", () => {
+    const notifications: NotificationItem[] = [
+      { id: 1, title: "Sin tipo", read: false },
+    ];
+    const { container } = render(
+      <NotificationsPanel notifications={notifications} />,
+    );
+    expect(container.querySelector(".text-slate-900")).toBeTruthy();
   });
 });

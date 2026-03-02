@@ -1,10 +1,10 @@
 import React from "react";
 
 // Centralized UI strings, labels and defaults
-export const APP_NAME = "Sadeci Platform";
+export const APP_NAME = "Saduci Platform";
 
 // Login
-export const LOGIN_DEFAULT_EMAIL = "ana@sadeci.com";
+export const LOGIN_DEFAULT_EMAIL = "ana@saduci.com";
 // WARNING: Do not set any real default password here. This constant must not be
 // used for authentication in production; prefer environment variables or config.
 export const LOGIN_DEFAULT_PASSWORD = "";
@@ -41,7 +41,7 @@ export function runsRangeText(min: number, max: number) {
 }
 
 // Navigation & UI
-export const NAV_BRAND_SHORT = "Sadeci";
+export const NAV_BRAND_SHORT = "Saduci";
 export const SEARCH_PLACEHOLDER = "Buscar...";
 
 export const ROUTE_NAMES_MAP: Record<string, string> = {
@@ -64,17 +64,18 @@ export const VALIDATION_SELECT_RESP =
 // Home / Dashboard
 export const HOME_DEFAULT_GREETING = "Bienvenido";
 export const HOME_WELCOME_SUBTITLE =
-  "Panel principal de Sadeci Platform — sistema de simulación y análisis clínico para Unidades de Cuidados Intensivos.";
+  "Panel principal de Saduci Platform — sistema de simulación y análisis clínico para Unidades de Cuidados Intensivos.";
 
 export const ABOUT_TITLE = "Acerca de la Plataforma";
 // Export as JSX to allow inline formatting (strong/italic) while keeping centralized text
 export const ABOUT_DESC: React.ReactNode = (
   <>
-    <strong>Sadeci Platform</strong> es una herramienta de simulación clínica
+    <strong>Saduci Platform</strong> es una herramienta de simulación clínica
     diseñada para modelar la evolución de pacientes en la Unidad de Cuidados
     Intensivos (UCI). Permite ejecutar simulaciones
     <em> Monte Carlo</em> con parámetros clínicos reales y obtener predicciones
-    de mortalidad.
+    de mortalidad. "Saduci" significa "Sistema de Apoyo en la Decisión en la
+    Unidad de Cuidado Intensivo".
   </>
 );
 
@@ -93,3 +94,32 @@ export const PROJECT_LINKS = [
     description: "Guía de uso y referencia técnica",
   },
 ];
+
+// User Settings
+export const SETTINGS_PAGE_TITLE = "Ajustes de usuario";
+export const SETTINGS_PAGE_SUBTITLE =
+  "Gestiona tu perfil y configuración de seguridad.";
+export const SETTINGS_PROFILE_SECTION = "Perfil";
+export const SETTINGS_SECURITY_SECTION = "Seguridad de la cuenta";
+export const SETTINGS_CURRENT_PWD_LABEL = "Contraseña actual";
+export const SETTINGS_NEW_PWD_LABEL = "Nueva contraseña";
+export const SETTINGS_CONFIRM_PWD_LABEL = "Confirmar nueva contraseña";
+export const SETTINGS_SAVE_BTN = "Guardar cambios";
+export const SETTINGS_SAVING_BTN = "Guardando...";
+export const SETTINGS_MOCK_LABEL = "Usar datos mock";
+export const SETTINGS_PWD_MIN_HINT = "Mínimo 8 caracteres";
+export const SETTINGS_PWD_EMPTY = "Este campo es requerido.";
+export const SETTINGS_PWD_TOO_SHORT =
+  "La contraseña debe tener al menos 8 caracteres.";
+export const SETTINGS_PWD_MISMATCH = "Las contraseñas no coinciden.";
+export const SETTINGS_PWD_SUCCESS = "Contraseña actualizada correctamente.";
+export const SETTINGS_PWD_ERROR = "Error al actualizar la contraseña.";
+export const SETTINGS_NET_ERROR = "Error de red al cambiar la contraseña.";
+
+// Notifications
+export const NOTIFICATIONS_TITLE = "Notificaciones";
+export const NOTIFICATIONS_MARK_ALL = "Marcar todo";
+export const NOTIFICATIONS_MARK_READ = "Marcar leída";
+export const NOTIFICATIONS_EMPTY = "No hay notificaciones";
+export const NOTIFICATIONS_EMPTY_SUBTITLE =
+  "No hay notificaciones recientes. Te avisaremos cuando haya novedades.";

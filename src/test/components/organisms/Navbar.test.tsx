@@ -1,88 +1,81 @@
 import "../../setup";
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
+import { NAV_BRAND_SHORT } from "@/constants/constants";
+
+// Hoisted before static imports — Bun applies this mock before the Navbar
+// module (and its NavBreadcrumb dep) are evaluated, so useRouter never throws.
+mock.module("next/navigation", () => ({
+  usePathname: () => "/",
+  useRouter: () => ({ back: () => {}, push: () => {}, replace: () => {} }),
+  useSearchParams: () => new URLSearchParams(),
+}));
+
+import { Navbar } from "@/components/organisms/Navbar";
 
 describe("Navbar", () => {
-  it("has a link to /ajustes on the user container", async () => {
-    mock.module("@/lib/auth", () => ({
-      useAuth: () => ({
-        user: { id: "1", name: "Test", email: "t@test", role: "Admin" },
-        isAuthenticated: true,
-        login: async () => {},
-        logout: () => {},
-      }),
-    }));
-
-    const { Navbar } = await import("@/components/organisms/Navbar");
-
-    const { getByRole } = render(<Navbar />);
-
-    const button = getByRole("button", { name: /Usuario|Test/i });
-    expect(button).toBeTruthy();
+  it("renders brand short name", () => {
+    const { container } = render(<Navbar pathname="/" />);
+    expect(container.textContent?.includes(NAV_BRAND_SHORT)).toBe(true);
   });
 
-  it("renders brand short name", async () => {
-    mock.module("@/lib/auth", () => ({
-      useAuth: () => ({
-        user: { id: "1", name: "Test", email: "t@test", role: "Admin" },
-        isAuthenticated: true,
-        login: async () => {},
-        logout: () => {},
-      }),
-    }));
-
-    mock.module("next/navigation", () => ({
-      usePathname: () => "/",
-    }));
-
-    const { Navbar } = await import("@/components/organisms/Navbar");
-    const { getByText } = render(<Navbar />);
-    expect(getByText("Sadeci")).toBeTruthy();
+  it("renders current route breadcrumb", () => {
+    const { container } = render(<Navbar pathname="/simulation" />);
+    expect(container.textContent?.includes("Simulación")).toBe(true);
   });
 
-  it("renders current route breadcrumb", async () => {
-    mock.module("next/navigation", () => ({
-      usePathname: () => "/simulation",
-    }));
-
-    const { Navbar } = await import("@/components/organisms/Navbar");
-    const { getByText } = render(<Navbar />);
-    expect(getByText("Simulación")).toBeTruthy();
-  });
-
-  it("renders notification bell button", async () => {
-    const { Navbar } = await import("@/components/organisms/Navbar");
-    const { getByRole } = render(<Navbar />);
-    const bellBtn = getByRole("button", { name: /Notificaciones/i });
-    expect(bellBtn).toBeTruthy();
-  });
-
-  it("renders custom userName and userRole props", async () => {
-    mock.module("next/navigation", () => ({
-      usePathname: () => "/",
-    }));
-
-    const { Navbar } = await import("@/components/organisms/Navbar");
-    const { getByText } = render(
-      <Navbar userName="Dr. House" userRole="Médico" />,
+  it("renders custom userName and userRole props", () => {
+    const { container } = render(
+      <Navbar pathname="/" userName="Dr. House" userRole="Médico" />,
     );
-    expect(getByText("Dr. House")).toBeTruthy();
+    expect(container.textContent?.includes("Dr. House")).toBe(true);
   });
 
-  it("shows unread count badge when notifications exist", async () => {
-    mock.module("@/context/notifications", () => ({
-      useNotifications: () => ({
-        notifications: [{ id: 1, title: "A", read: false }],
-        unreadCount: 1,
-        markAsRead: () => {},
-        markAllAsRead: () => {},
-      }),
-    }));
+  it("opens user popover and shows ajustes link when user button is clicked", () => {
+    const { container, getByText } = render(<Navbar pathname="/" />);
 
-    const { Navbar } = await import("@/components/organisms/Navbar");
-    const { container } = render(<Navbar />);
-    const badge = container.querySelector("span.rounded-full.bg-rose-600");
-    expect(badge).toBeTruthy();
-    expect(badge?.textContent).toBe("1");
+    const userBtn = container.querySelector(
+      "button[aria-haspopup='dialog']",
+    ) as HTMLElement;
+    expect(userBtn).toBeTruthy();
+
+    fireEvent.click(userBtn);
+
+    expect(getByText("Ajustes")).toBeTruthy();
+  });
+
+  it("user popover trigger has correct aria attributes", () => {
+    const { container } = render(<Navbar pathname="/" />);
+
+    const userBtn = container.querySelector(
+      "button[aria-haspopup='dialog']",
+    ) as HTMLElement;
+    expect(userBtn).toBeTruthy();
+    expect(userBtn.getAttribute("aria-expanded")).toBe("false");
+
+    fireEvent.click(userBtn);
+
+    expect(userBtn.getAttribute("aria-expanded")).toBe("true");
+  });
+
+  it("does not render a notification bell button in the navbar", () => {
+    const { queryByTitle } = render(<Navbar pathname="/" />);
+    expect(queryByTitle("Notificaciones")).toBeNull();
+  });
+
+  it("calls onLogout when logout button is clicked inside popover", () => {
+    let logoutCalled = false;
+    const { container, getByText } = render(
+      <Navbar pathname="/" onLogout={() => { logoutCalled = true; }} />,
+    );
+
+    const userBtn = container.querySelector(
+      "button[aria-haspopup='dialog']",
+    ) as HTMLElement;
+    fireEvent.click(userBtn);
+
+    fireEvent.click(getByText("Cerrar sesión"));
+
+    expect(logoutCalled).toBe(true);
   });
 });

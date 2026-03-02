@@ -5,36 +5,36 @@ import { TestingBoard } from "@/test/components/TestingBoard";
 
 describe("TestingBoard", () => {
   it("defaults to horizontal layout", () => {
-    const { getByTestId } = render(
+    const { container } = render(
       <TestingBoard>
         <span data-testid="child">child</span>
       </TestingBoard>,
     );
 
-    const child = getByTestId("child");
+    const child = container.querySelector("[data-testid='child']");
     expect(child).toBeTruthy();
-    const container = child.parentElement;
-    expect(container).toBeTruthy();
-    if (!container) return;
-    expect(container.className.includes("flex")).toBe(true);
-    expect(container.className.includes("flex-wrap")).toBe(true);
-    expect(container.className.includes("flex-row")).toBe(true);
+    const wrapper = child?.parentElement;
+    expect(wrapper).toBeTruthy();
+    if (!wrapper) return;
+    expect(wrapper.className.includes("flex")).toBe(true);
+    expect(wrapper.className.includes("flex-wrap")).toBe(true);
+    expect(wrapper.className.includes("flex-row")).toBe(true);
   });
 
   it('accepts direction="vertical"', () => {
-    const { getByTestId } = render(
+    const { container } = render(
       <TestingBoard direction="vertical">
         <span data-testid="child-2">child</span>
       </TestingBoard>,
     );
 
-    const child = getByTestId("child-2");
+    const child = container.querySelector("[data-testid='child-2']");
     expect(child).toBeTruthy();
-    const container = child.parentElement;
-    expect(container).toBeTruthy();
-    if (!container) return;
-    expect(container.className.includes("flex")).toBe(true);
-    expect(container.className.includes("flex-wrap")).toBe(true);
-    expect(container.className.includes("flex-col")).toBe(true);
+    const wrapper = child?.parentElement;
+    expect(wrapper).toBeTruthy();
+    if (!wrapper) return;
+    expect(wrapper.className.includes("flex")).toBe(true);
+    expect(wrapper.className.includes("flex-wrap")).toBe(true);
+    expect(wrapper.className.includes("flex-col")).toBe(true);
   });
 });

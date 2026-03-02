@@ -1,6 +1,7 @@
 import "../../setup";
 import { render } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
+import { NAV_BRAND_SHORT, SIDEBAR_BRAND_FULL } from "@/constants/constants";
 
 describe("AppShell", () => {
   it("renders global chrome and marks active route", async () => {
@@ -34,27 +35,25 @@ describe("AppShell", () => {
 
     const { AppShell } = await import("@/components/layout/AppShell");
 
-    const { getAllByText, getByText, getByRole } = render(
+    const { container } = render(
       <AppShell>
         <h1>Contenido de prueba</h1>
       </AppShell>,
     );
 
     // Navbar shows brand short and sidebar shows full brand
-    expect(getByText("Sadeci")).toBeTruthy();
-    expect(getByText("Sadeci Platform")).toBeTruthy();
+    expect(container.textContent?.includes(NAV_BRAND_SHORT)).toBe(true);
+    expect(container.textContent?.includes(SIDEBAR_BRAND_FULL)).toBe(true);
     // Sidebar contains Dashboard link
-    expect(getByText("Dashboard")).toBeTruthy();
+    expect(container.textContent?.includes("Dashboard")).toBe(true);
     // "Simulación" appears in both sidebar nav and navbar breadcrumb
-    expect(getAllByText("Simulación").length).toBeGreaterThanOrEqual(1);
-    expect(getByText("Contenido de prueba")).toBeTruthy();
+    expect((container.textContent?.match(/Simulación/g) ?? []).length).toBeGreaterThanOrEqual(1);
+    expect(container.textContent?.includes("Contenido de prueba")).toBe(true);
     // Footer is rendered as a <footer> element (role=contentinfo)
-    expect(getByRole("contentinfo")).toBeTruthy();
+    expect(container.querySelector("footer")).toBeTruthy();
 
     // The sidebar nav link should have aria-current="page"
-    const activeLink = getAllByText("Simulación").find(
-      (el) => el.closest("a")?.getAttribute("aria-current") === "page",
-    );
+    const activeLink = container.querySelector("a[aria-current='page']");
     expect(activeLink).toBeTruthy();
   });
 });

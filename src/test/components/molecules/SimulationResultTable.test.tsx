@@ -1,8 +1,9 @@
 import "../../setup";
-import { render } from "@testing-library/react";
+import { render, within } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
 import { SimulationResultTable } from "@/components/molecules/SimulationResultTable";
 import type { SimulationResponse } from "@/lib/simulation";
+import { TIME_VARIABLE_LABELS } from "@/lib/simulation";
 
 describe("SimulationResultTable", () => {
   const mockResult: SimulationResponse["simulation"] = {
@@ -39,60 +40,58 @@ describe("SimulationResultTable", () => {
   };
 
   it("renders table with correct aria-label", () => {
-    const { getByRole } = render(<SimulationResultTable result={mockResult} />);
-    const table = getByRole("table");
+    const { container } = render(<SimulationResultTable result={mockResult} />);
+    const table = within(container).getByRole("table");
     expect(table.getAttribute("aria-label")).toBe("Resultados de simulación");
   });
 
   it("renders table headers with correct statistic labels", () => {
-    const { getByText } = render(<SimulationResultTable result={mockResult} />);
-    expect(getByText("Estadístico")).toBeTruthy();
-    expect(getByText("Promedio")).toBeTruthy();
-    expect(getByText("Desviación Estándar")).toBeTruthy();
-    expect(getByText("Límite Inf.")).toBeTruthy();
-    expect(getByText("Límite Sup.")).toBeTruthy();
+    const { container } = render(<SimulationResultTable result={mockResult} />);
+    expect(within(container).getByText("Estadístico")).toBeTruthy();
+    expect(within(container).getByText("Promedio")).toBeTruthy();
+    expect(within(container).getByText("Desviación Estándar")).toBeTruthy();
+    expect(within(container).getByText("Límite Inf.")).toBeTruthy();
+    expect(within(container).getByText("Límite Sup.")).toBeTruthy();
   });
 
   it("renders all time variable columns with correct headers", () => {
-    const { getByText } = render(<SimulationResultTable result={mockResult} />);
+    const { container } = render(<SimulationResultTable result={mockResult} />);
     // The headers should be rendered from TIME_VARIABLE_LABELS
-    expect(getByText("Tiempo Pre VAM")).toBeTruthy();
-    expect(getByText("Tiempo VAM")).toBeTruthy();
-    expect(getByText("Tiempo Post VAM")).toBeTruthy();
-    expect(getByText("Estadía UCI")).toBeTruthy();
-    expect(getByText("Estadía Post UCI")).toBeTruthy();
+    Object.values(TIME_VARIABLE_LABELS).forEach((label) => {
+      expect(within(container).getByText(label)).toBeTruthy();
+    });
   });
 
   it("renders stats rows with correct data values formatted to 2 decimals", () => {
-    const { getByText } = render(<SimulationResultTable result={mockResult} />);
+    const { container } = render(<SimulationResultTable result={mockResult} />);
 
     // Check mean values
-    expect(getByText("12.50")).toBeTruthy(); // pre_vam mean
-    expect(getByText("48.20")).toBeTruthy(); // vam mean
-    expect(getByText("72.10")).toBeTruthy(); // post_vam mean
-    expect(getByText("95.30")).toBeTruthy(); // uci mean
-    expect(getByText("120.80")).toBeTruthy(); // post_uci mean
+    expect(within(container).getByText("12.50")).toBeTruthy(); // pre_vam mean
+    expect(within(container).getByText("48.20")).toBeTruthy(); // vam mean
+    expect(within(container).getByText("72.10")).toBeTruthy(); // post_vam mean
+    expect(within(container).getByText("95.30")).toBeTruthy(); // uci mean
+    expect(within(container).getByText("120.80")).toBeTruthy(); // post_uci mean
 
     // Check std values
-    expect(getByText("4.20")).toBeTruthy(); // pre_vam std
-    expect(getByText("15.80")).toBeTruthy(); // vam std
-    expect(getByText("22.50")).toBeTruthy(); // post_vam std
-    expect(getByText("18.60")).toBeTruthy(); // uci std
-    expect(getByText("30.40")).toBeTruthy(); // post_uci std
+    expect(within(container).getByText("4.20")).toBeTruthy(); // pre_vam std
+    expect(within(container).getByText("15.80")).toBeTruthy(); // vam std
+    expect(within(container).getByText("22.50")).toBeTruthy(); // post_vam std
+    expect(within(container).getByText("18.60")).toBeTruthy(); // uci std
+    expect(within(container).getByText("30.40")).toBeTruthy(); // post_uci std
 
     // Check CI lower bounds
-    expect(getByText("10.30")).toBeTruthy(); // pre_vam ci_lower
-    expect(getByText("42.10")).toBeTruthy(); // vam ci_lower
-    expect(getByText("65.50")).toBeTruthy(); // post_vam ci_lower
-    expect(getByText("88.20")).toBeTruthy(); // uci ci_lower
-    expect(getByText("110.50")).toBeTruthy(); // post_uci ci_lower
+    expect(within(container).getByText("10.30")).toBeTruthy(); // pre_vam ci_lower
+    expect(within(container).getByText("42.10")).toBeTruthy(); // vam ci_lower
+    expect(within(container).getByText("65.50")).toBeTruthy(); // post_vam ci_lower
+    expect(within(container).getByText("88.20")).toBeTruthy(); // uci ci_lower
+    expect(within(container).getByText("110.50")).toBeTruthy(); // post_uci ci_lower
 
     // Check CI upper bounds
-    expect(getByText("14.70")).toBeTruthy(); // pre_vam ci_upper
-    expect(getByText("54.30")).toBeTruthy(); // vam ci_upper
-    expect(getByText("78.70")).toBeTruthy(); // post_vam ci_upper
-    expect(getByText("102.40")).toBeTruthy(); // uci ci_upper
-    expect(getByText("131.10")).toBeTruthy(); // post_uci ci_upper
+    expect(within(container).getByText("14.70")).toBeTruthy(); // pre_vam ci_upper
+    expect(within(container).getByText("54.30")).toBeTruthy(); // vam ci_upper
+    expect(within(container).getByText("78.70")).toBeTruthy(); // post_vam ci_upper
+    expect(within(container).getByText("102.40")).toBeTruthy(); // uci ci_upper
+    expect(within(container).getByText("131.10")).toBeTruthy(); // post_uci ci_upper
   });
 
   it("renders correct number of rows for statistics", () => {

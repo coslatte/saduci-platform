@@ -50,7 +50,7 @@ describe("IconButton", () => {
   });
 
   it("disables when loading", () => {
-    const { container, getByLabelText } = render(
+    const { container } = render(
       <IconButton aria-label="Cargando" icon={<svg />} loading />,
     );
 
@@ -58,7 +58,8 @@ describe("IconButton", () => {
     expect(button).toBeTruthy();
     if (!button) return;
     expect(button.hasAttribute("disabled")).toBe(true);
-    expect(getByLabelText("Cargando...")).toBeTruthy();
+    const spinner = container.querySelector("svg[aria-label='Cargando...']");
+    expect(spinner).toBeTruthy();
   });
 
   it("fires onClick when clicked", () => {

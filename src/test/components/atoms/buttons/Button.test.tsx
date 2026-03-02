@@ -56,7 +56,7 @@ describe("Button", () => {
 
   it("fires onClick when clicked", () => {
     let clicked = false;
-    const { getByRole } = render(
+    const { container } = render(
       <Button
         onClick={() => {
           clicked = true;
@@ -65,7 +65,10 @@ describe("Button", () => {
         Aceptar
       </Button>,
     );
-    getByRole("button").click();
+    const button = container.querySelector("button");
+    expect(button).toBeTruthy();
+    if (!button) return;
+    button.click();
     expect(clicked).toBe(true);
   });
 

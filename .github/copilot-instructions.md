@@ -54,6 +54,8 @@ Salvo que sea realmente necesario, evitar modificar:
 - Usa Tailwind para estilos, evitando CSS personalizado salvo que sea necesario para casos muy específicos.
 - Usa de referencia la última versión de Tailwind (v4) y sus nuevas utilidades (en caso de ser necesario buscar en la web para utilidades en particular, realizarlo).
 
+- Extraer variables/tokens de Tailwind: Cuando un componente se cree o se modifique y se le añadan estilos, extrae las clases de Tailwind a constantes/variables reutilizables en un archivo de estilos central o en un archivo asociado al componente (ej. `src/constants/styles.ts` o `src/components/<Componente>/styles.ts`). Lo más deseado es que las variables de estilos estén dentro del componente, para que sea más fácil encontrarlas. Usa nombres descriptivos, agrupa variantes en objetos y compón clases usando la utilidad `cn()` en `src/lib/utils.ts`. Evita incluir largas cadenas de clases inline en el TSX; el objetivo es mantener los estilos separados, legibles y reutilizables para futuros componentes y facilitar cambios globales.
+
 ## Política de instrucciones de usuario
 
 Cuando el usuario solicite instrucciones básicas genéricas como:
@@ -73,6 +75,18 @@ Si no le anteceden tareas a realizar o un plan anterior, se quiere que se corran
 - No modifiques tests existentes salvo que sea intrínsecamente necesario por inconsistencia real con el contrato actual del componente.
 - Si debes editar un test existente, documenta brevemente el motivo en la PR/commit.
 - Prioriza tests deterministas de comportamiento/DOM/clases (evita snapshots frágiles como única cobertura).
+
+### Niveles de responsabilidad en tests
+
+- **Atómico (componentes UI):** Cada componente es una "caja pura". Prueba que props produzcan los cambios visuales esperados y que callbacks se disparen exactamente una vez. A partir de ~40 componentes base se esperan 150+ tests en este nivel.
+- **Lógica (hooks y business logic):** Prueba hooks aislados de la vista. Cubre: cálculos, manejo de `null`/`undefined`, y formateo. Cada hook complejo debe tener casos de éxito, carga, error, datos vacíos y datos extremos.
+- **Integración (flujos de usuario):** Verifica que los componentes interactúen correctamente entre sí. Prueba flujos críticos completos (ej: validación de entrada -> actualización de resultados).
+
+### Criterios adicionales para contexto médico
+
+- **Contract mocks:** Los mocks deben respetar los schemas del backend. Si cambia el contrato del backend, el test del frontend debe fallar al actualizar el mock.
+- **Edge cases con semántica clínica:** Prueba valores extremos con lógica de dominio: ¿un valor `0` en un signo vital es error de sensor o evento crítico? Esa lógica de decisión debe estar testeada explícitamente.
+- Los tests son documentación técnica ejecutable: cada test es un contrato que describe cómo funciona el sistema y no puede romperse.
 
 ## Política de uso de componentes
 
@@ -129,7 +143,7 @@ bun run lint ; bun run test ; bun run build
 - Corrige errores detectados antes de abrir PR. Todo componente nuevo o modificado debe incluir/actualizar tests en `src/test/components/**`.
 - Siempre que se corra un test y este de error, no quedarse atascado y buscar la fuente del componente que tiene el error. Buscar soluciones inteligentes.
 
-## Escritura de tipado
+## Escritura del typeado
 
 - Evitar `any` a toda costa. Si es necesario, usar `unknown` y luego refinarlo.
 - Para handlers de eventos, usar tipos explícitos: `React.ChangeEvent<HTMLInputElement>`, `HTMLSelectElement`, etc.

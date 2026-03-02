@@ -78,5 +78,10 @@ describe("UserSettingsPage", () => {
     await waitFor(() => {
       expect(called).toBe(true);
     });
+
+    // Wait for the full async response to be processed (state settled, no pending renders)
+    await waitFor(() => {
+      expect(getByText("Contraseña actualizada (mock).")).toBeTruthy();
+    });
   });
 });

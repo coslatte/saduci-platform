@@ -2,11 +2,14 @@
 
 import React, { createContext, useContext, useMemo, useState } from "react";
 
+export type NotificationType = "success" | "failure" | "info";
+
 export interface NotificationItem {
   id: number | string;
   title: string;
   body?: string;
   read?: boolean;
+  type?: NotificationType;
 }
 
 interface NotificationsContextValue {
@@ -15,6 +18,7 @@ interface NotificationsContextValue {
   markAsRead: (id: NotificationItem["id"]) => void;
   markAllAsRead: () => void;
   addNotification: (n: Omit<NotificationItem, "id">) => void;
+  removeNotification: (id: NotificationItem["id"]) => void;
 }
 
 const NotificationsContext = createContext<NotificationsContextValue | null>(
@@ -32,12 +36,14 @@ export function NotificationsProvider({
       title: "Nueva tarea asignada",
       body: "Tienes una nueva tarea.",
       read: false,
+      type: "info",
     },
     {
       id: 2,
       title: "Informe listo",
       body: "El informe semanal está disponible.",
       read: true,
+      type: "success",
     },
   ]);
 
@@ -63,6 +69,10 @@ export function NotificationsProvider({
     ]);
   }
 
+  function removeNotification(id: NotificationItem["id"]) {
+    setNotifications((prev) => prev.filter((p) => p.id !== id));
+  }
+
   const value = useMemo(
     () => ({
       notifications,
@@ -70,6 +80,7 @@ export function NotificationsProvider({
       markAsRead,
       markAllAsRead,
       addNotification,
+      removeNotification,
     }),
     [notifications, unreadCount],
   );
@@ -90,6 +101,7 @@ export function useNotifications() {
       markAsRead: () => {},
       markAllAsRead: () => {},
       addNotification: () => {},
+      removeNotification: () => {},
     };
   }
   return ctx;

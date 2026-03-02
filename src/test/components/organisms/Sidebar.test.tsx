@@ -2,6 +2,7 @@ import "../../setup";
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
 import { Sidebar } from "@/components/organisms/Sidebar";
+import { SIDEBAR_BRAND_FULL } from "@/constants/constants";
 
 const sections = [
   {
@@ -12,32 +13,32 @@ const sections = [
 
 describe("Sidebar", () => {
   it("renders section items", () => {
-    const { getByText } = render(<Sidebar sections={sections} />);
-    expect(getByText("Dashboard")).toBeTruthy();
+    const { container } = render(<Sidebar sections={sections} />);
+    expect(container.textContent?.includes("Dashboard")).toBe(true);
   });
 
   it("hides labels when collapsed", () => {
-    const { queryByText } = render(
+    const { container } = render(
       <Sidebar sections={sections} collapsed={true} />,
     );
-    expect(queryByText("Dashboard")).toBeNull();
+    expect(container.textContent?.includes("Dashboard")).toBe(false);
   });
 
   it("renders section title when not collapsed", () => {
-    const { getByText } = render(<Sidebar sections={sections} />);
-    expect(getByText("Principal")).toBeTruthy();
+    const { container } = render(<Sidebar sections={sections} />);
+    expect(container.textContent?.includes("Principal")).toBe(true);
   });
 
   it("hides section title when collapsed", () => {
-    const { queryByText } = render(
+    const { container } = render(
       <Sidebar sections={sections} collapsed={true} />,
     );
-    expect(queryByText("Principal")).toBeNull();
+    expect(container.textContent?.includes("Principal")).toBe(false);
   });
 
   it("renders brand full name when not collapsed", () => {
-    const { getByText } = render(<Sidebar sections={sections} />);
-    expect(getByText("Sadeci Platform")).toBeTruthy();
+    const { container } = render(<Sidebar sections={sections} />);
+    expect(container.textContent?.includes(SIDEBAR_BRAND_FULL)).toBe(true);
   });
 
   it("marks the active route link with aria-current", () => {
