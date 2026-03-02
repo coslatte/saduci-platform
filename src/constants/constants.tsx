@@ -116,6 +116,26 @@ export const SETTINGS_PWD_SUCCESS = "Contraseña actualizada correctamente.";
 export const SETTINGS_PWD_ERROR = "Error al actualizar la contraseña.";
 export const SETTINGS_NET_ERROR = "Error de red al cambiar la contraseña.";
 
+// Statistics
+export const STATISTICS_PAGE_TITLE = "Pruebas Estadísticas";
+export const STATISTICS_PAGE_SUBTITLE =
+  "Ejecute pruebas estadísticas no paramétricas sobre los datos de experimentos de pacientes UCI.";
+export const WILCOXON_SECTION_TITLE = "Test de Wilcoxon";
+export const FRIEDMAN_SECTION_TITLE = "Test de Friedman";
+export const STATS_STATISTIC_LABEL = "Estadístico";
+export const STATS_P_VALUE_LABEL = "Valor de P";
+export const STATS_RUN_WILCOXON = "Realizar prueba de Wilcoxon";
+export const STATS_RUN_FRIEDMAN = "Realizar prueba de Friedman";
+export const STATS_INFO_STATISTIC =
+  "**Statistic**: Indica cuánto difieren los datos entre sí basándose en el orden de las diferencias; un valor más pequeño sugiere mayores diferencias entre los grupos comparados.";
+export const STATS_INFO_P_VALUE =
+  "**Valor de P**: Indica qué tan probable es que las diferencias observadas se deban al azar; si es menor a 0.05, es probable que las diferencias sean estadísticamente significativas.";
+export const STATS_ERROR_MIN_SAMPLES_FRIEDMAN =
+  "Debe proporcionar al menos 3 muestras para realizar el test de Friedman.";
+export const STATS_ERROR_WILCOXON_EMPTY =
+  "Debe proporcionar dos muestras con datos para realizar el test de Wilcoxon.";
+export const STATS_SELECT_COLUMN = "Seleccione una columna para comparar";
+
 // Notifications
 export const NOTIFICATIONS_TITLE = "Notificaciones";
 export const NOTIFICATIONS_MARK_ALL = "Marcar todo";
