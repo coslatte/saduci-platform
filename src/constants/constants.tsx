@@ -47,6 +47,7 @@ export const SEARCH_PLACEHOLDER = "Buscar...";
 export const ROUTE_NAMES_MAP: Record<string, string> = {
   "/": "Dashboard",
   "/simulation": "Simulación",
+  "/statistics": "Pruebas Estadísticas",
   "/usuarios": "Usuarios",
   "/settings": "Ajustes",
 };
@@ -135,6 +136,25 @@ export const STATS_ERROR_MIN_SAMPLES_FRIEDMAN =
 export const STATS_ERROR_WILCOXON_EMPTY =
   "Debe proporcionar dos muestras con datos para realizar el test de Wilcoxon.";
 export const STATS_SELECT_COLUMN = "Seleccione una columna para comparar";
+
+export const STATS_UPLOAD_EXPERIMENT_1 = "Experimento 1 (CSV)";
+export const STATS_UPLOAD_EXPERIMENT_2 = "Experimento 2 (CSV)";
+export const STATS_UPLOAD_EXPERIMENTS = "Experimentos (CSV)";
+export const STATS_PREVIEW_LABEL = "Vista previa";
+export const STATS_NO_FILES = "No se han cargado archivos.";
+export const STATS_RESULTS_TITLE = "Resultados";
+export const STATS_WARNING_SIZE_ADJUSTED =
+  "Para realizar correctamente la prueba se ajustaron los tamaños de muestra. Todas las columnas quedaron con el mismo número de filas.";
+export const STATS_ERROR_PARSE = "Error al procesar los archivos CSV.";
+export const STATS_EXPERIMENT_LABEL = (n: number) => `Experimento ${n}`;
+export const STATS_CLICK_TO_SELECT_FILE =
+  "Haz clic para seleccionar un archivo CSV";
+export const STATS_CLICK_TO_SELECT_FILES =
+  "Haz clic para seleccionar archivos CSV (mínimo 3)";
+export const STATS_TABLE_METRIC_HEADER = "Métrica";
+export const STATS_TABLE_VALUE_HEADER = "Valor";
+export const STATS_LOADING = "Ejecutando...";
+export const STATS_TABLIST_LABEL = "Pruebas estadísticas";
 
 // Notifications
 export const NOTIFICATIONS_TITLE = "Notificaciones";

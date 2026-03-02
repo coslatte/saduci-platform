@@ -47,6 +47,10 @@ export const SIDEBAR_SECTIONS: SidebarSection[] = [
         label: "Simulación",
         href: "/simulation",
       },
+      {
+        label: "Pruebas Estadísticas",
+        href: "/statistics",
+      },
     ],
   },
 ];

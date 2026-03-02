@@ -8,6 +8,7 @@ import {
   FiUsers,
   FiSettings,
   FiActivity,
+  FiBarChart2,
 } from "react-icons/fi";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -70,6 +71,7 @@ export function Sidebar({
   const iconMap: Record<string, string> = {
     "/": "home",
     "/simulation": "activity",
+    "/statistics": "barchart",
     "/usuarios": "users",
     "/ajustes": "settings",
   };
@@ -77,6 +79,7 @@ export function Sidebar({
   const icons = {
     home: <FiHome className="size-5" />,
     activity: <FiActivity className="size-5" />,
+    barchart: <FiBarChart2 className="size-5" />,
     users: <FiUsers className="size-5" />,
     settings: <FiSettings className="size-5" />,
   };
