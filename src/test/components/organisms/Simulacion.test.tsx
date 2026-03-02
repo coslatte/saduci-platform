@@ -32,6 +32,18 @@ describe("simulation lib — constants", () => {
     );
   });
 
+  it("simRuns limits match simuci module canonical values", () => {
+    expect(SIMULATION_LIMITS.simRuns.min).toBe(50);
+    expect(SIMULATION_LIMITS.simRuns.max).toBe(100_000);
+    expect(SIMULATION_LIMITS.simRuns.step).toBe(50);
+    expect(SIMULATION_LIMITS.simRuns.default).toBeGreaterThanOrEqual(
+      SIMULATION_LIMITS.simRuns.min,
+    );
+    expect(SIMULATION_LIMITS.simRuns.default).toBeLessThanOrEqual(
+      SIMULATION_LIMITS.simRuns.max,
+    );
+  });
+
   it("PREUCI_DIAG has key 0 as empty option", () => {
     expect(PREUCI_DIAG[0]).toBe("Vacío");
   });
@@ -240,7 +252,7 @@ describe("runSimulation — API client", () => {
         vamTime: { min: 24, max: 700, default: 24 },
         utiStay: { min: 0, max: 200, default: 24 },
         preutiStay: { min: 0, max: 34, default: 10 },
-        simRuns: { min: 100, max: 10000, default: 200, step: 100 },
+        simRuns: { min: 50, max: 100000, default: 200, step: 50 },
         simPercent: { min: 0, max: 10, default: 3 },
       },
       PREUCI_DIAG: { 0: "Vacío", 1: "X" },
