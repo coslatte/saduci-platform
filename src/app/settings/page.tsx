@@ -6,7 +6,6 @@ import { Badge } from "@/components/atoms/Badge";
 import { Divider } from "@/components/atoms/Divider";
 import { Spinner } from "@/components/atoms/Spinner";
 import { Button } from "@/components/atoms/Buttons";
-import { Card } from "@/components/molecules/Card";
 import { Alert } from "@/components/molecules/Alert";
 import { FormField } from "@/components/molecules/FormField";
 import { useAuth } from "@/lib/auth";
@@ -31,7 +30,7 @@ import {
   SETTINGS_NET_ERROR,
 } from "@/constants/constants";
 
-const PAGE_WRAPPER = "p-6 md:p-8 max-w-5xl mx-auto";
+const PAGE_WRAPPER = "p-0";
 const PAGE_HEADER = "mb-8 flex items-start justify-between gap-4";
 const PAGE_TITLE = "text-2xl font-semibold text-zinc-900";
 const PAGE_SUBTITLE = "text-sm text-zinc-500 mt-1";
@@ -138,15 +137,11 @@ export default function UserSettingsPage() {
       </div>
 
       <div className={GRID}>
-        <Card
-          className="md:col-span-1"
-          header={
-            <div className={SECTION_HEADER}>
-              <FiUser size={14} />
-              <span>{SETTINGS_PROFILE_SECTION}</span>
-            </div>
-          }
-        >
+        <div className="md:col-span-1 flex flex-col gap-4 border-b border-slate-100 pb-6 md:border-b-0 md:border-r md:pr-6">
+          <div className={SECTION_HEADER}>
+            <FiUser size={14} />
+            <span>{SETTINGS_PROFILE_SECTION}</span>
+          </div>
           <div className={PROFILE_CONTENT}>
             <Avatar name={effectiveUser.name} size="xl" />
             <div>
@@ -155,17 +150,13 @@ export default function UserSettingsPage() {
             </div>
             <Badge status="info">{effectiveUser.role}</Badge>
           </div>
-        </Card>
+        </div>
 
-        <Card
-          className="md:col-span-2"
-          header={
-            <div className={SECTION_HEADER}>
-              <FiShield size={14} />
-              <span>{SETTINGS_SECURITY_SECTION}</span>
-            </div>
-          }
-        >
+        <div className="md:col-span-2 flex flex-col gap-4">
+          <div className={SECTION_HEADER}>
+            <FiShield size={14} />
+            <span>{SETTINGS_SECURITY_SECTION}</span>
+          </div>
           <form onSubmit={handleSubmit} className={FORM_WRAPPER}>
             <FormField
               id="current-password"
@@ -227,7 +218,7 @@ export default function UserSettingsPage() {
               </Button>
             </div>
           </form>
-        </Card>
+        </div>
       </div>
     </main>
   );

@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { FiDownload } from "react-icons/fi";
 import { Button } from "@/components/atoms/Buttons";
-import { Card } from "@/components/molecules/Card";
 import { Alert } from "@/components/molecules/Alert";
 import { SimulationResultTable } from "@/components/molecules/SimulationResultTable";
 import { Badge } from "@/components/atoms/Badge";
@@ -192,12 +191,11 @@ export default function SimulacionPage() {
         )}
 
         {result && (
-          <Card
-            header={
-              <div className="flex items-center justify-between">
-                <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800">
-                  Resultados de la Simulación
-                </h2>
+          <section className="flex flex-col gap-4 border-t border-slate-100 pt-8">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800">
+                Resultados de la Simulación
+              </h2>
                 <Button
                   variant="outline"
                   size="sm"
@@ -207,9 +205,7 @@ export default function SimulacionPage() {
                   <FiDownload className="size-4" />
                   {DOWNLOAD_CSV}
                 </Button>
-              </div>
-            }
-          >
+            </div>
             <SimulationResultTable result={result.simulation} />
             <div className="p-4 mt-4 border rounded-lg border-slate-200 bg-slate-50">
               <p className="mb-2 text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400">
@@ -227,7 +223,7 @@ export default function SimulacionPage() {
                 </span>
               </div>
             </div>
-          </Card>
+          </section>
         )}
       </div>
     </>

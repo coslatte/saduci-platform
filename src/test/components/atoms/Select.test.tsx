@@ -66,15 +66,19 @@ describe("Select", () => {
   });
 
   it("renders children options", () => {
-    const { getByText } = render(
+    const { container } = render(
       <Select>
         <option value="1">Sepsis grave</option>
         <option value="2">Coma</option>
       </Select>,
     );
 
-    expect(getByText("Sepsis grave")).toBeTruthy();
-    expect(getByText("Coma")).toBeTruthy();
+    const select = container.querySelector("select")!;
+    const texts = Array.from(select.querySelectorAll("option")).map(
+      (o) => o.textContent,
+    );
+    expect(texts).toContain("Sepsis grave");
+    expect(texts).toContain("Coma");
   });
 
   it("sets data-disabled and disabled attribute when disabled", () => {

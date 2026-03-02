@@ -5,14 +5,8 @@ import { NAV_BRAND_SHORT, SIDEBAR_BRAND_FULL } from "@/constants/constants";
 
 describe("AppShell", () => {
   it("renders global chrome and marks active route", async () => {
-    mock.module("next/navigation", () => ({
-      usePathname: () => "/simulation",
-      useRouter: () => ({
-        replace: () => {},
-        push: () => {},
-        prefetch: () => {},
-      }),
-    }));
+    // next/navigation is already mocked by Navbar.test.tsx module-level mock.
+    // Re-declaring it here triggers Bun to re-validate the real file → error.
 
     // Mock sileo toaster to avoid rendering issues during tests
     mock.module("sileo", () => ({

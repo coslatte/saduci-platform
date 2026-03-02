@@ -311,7 +311,7 @@ describe("adjustArraySizes", () => {
 // ─── Statistics page — smoke tests ────────────────────────────────────────────
 
 import StatisticsPage from "@/app/statistics/page";
-import { fireEvent } from "@testing-library/react";
+import { fireEvent, within } from "@testing-library/react";
 import {
   STATISTICS_PAGE_TITLE,
   WILCOXON_SECTION_TITLE,
@@ -327,20 +327,20 @@ describe("StatisticsPage — smoke tests", () => {
   });
 
   it("renders Wilcoxon tab button", () => {
-    const { getByRole } = render(<StatisticsPage />);
-    const tab = getByRole("tab", { name: WILCOXON_SECTION_TITLE });
+    const { container } = render(<StatisticsPage />);
+    const tab = within(container).getByRole("tab", { name: WILCOXON_SECTION_TITLE });
     expect(tab).toBeTruthy();
   });
 
   it("renders Friedman tab button", () => {
-    const { getByRole } = render(<StatisticsPage />);
-    const tab = getByRole("tab", { name: FRIEDMAN_SECTION_TITLE });
+    const { container } = render(<StatisticsPage />);
+    const tab = within(container).getByRole("tab", { name: FRIEDMAN_SECTION_TITLE });
     expect(tab).toBeTruthy();
   });
 
   it("wilcoxon panel is visible by default", () => {
-    const { getByRole } = render(<StatisticsPage />);
-    const panel = getByRole("tabpanel", { name: WILCOXON_SECTION_TITLE });
+    const { container } = render(<StatisticsPage />);
+    const panel = within(container).getByRole("tabpanel", { name: WILCOXON_SECTION_TITLE });
     expect(panel.hidden).toBe(false);
   });
 
@@ -352,29 +352,30 @@ describe("StatisticsPage — smoke tests", () => {
   });
 
   it("renders run Wilcoxon button", () => {
-    const { getByRole } = render(<StatisticsPage />);
-    const btn = getByRole("button", { name: STATS_RUN_WILCOXON });
+    const { container } = render(<StatisticsPage />);
+    const btn = within(container).getByRole("button", { name: STATS_RUN_WILCOXON });
     expect(btn).toBeTruthy();
   });
 
   it("switching to Friedman tab shows friedman panel", () => {
-    const { getByRole, container } = render(<StatisticsPage />);
-    const friedmanTab = getByRole("tab", { name: FRIEDMAN_SECTION_TITLE });
+    const { container } = render(<StatisticsPage />);
+    const friedmanTab = within(container).getByRole("tab", { name: FRIEDMAN_SECTION_TITLE });
     fireEvent.click(friedmanTab);
     const panel = container.querySelector("#panel-friedman");
     expect((panel as HTMLElement).hidden).toBe(false);
   });
 
   it("wilcoxon tab is marked as selected by default", () => {
-    const { getByRole } = render(<StatisticsPage />);
-    const tab = getByRole("tab", { name: WILCOXON_SECTION_TITLE });
+    const { container } = render(<StatisticsPage />);
+    const tab = within(container).getByRole("tab", { name: WILCOXON_SECTION_TITLE });
     expect(tab.getAttribute("aria-selected")).toBe("true");
   });
 
   it("renders run Friedman button in friedman panel", () => {
-    const { getByRole } = render(<StatisticsPage />);
-    fireEvent.click(getByRole("tab", { name: FRIEDMAN_SECTION_TITLE }));
-    const btn = getByRole("button", { name: STATS_RUN_FRIEDMAN });
+    const { container } = render(<StatisticsPage />);
+    within(container).getByRole("tab", { name: FRIEDMAN_SECTION_TITLE });
+    fireEvent.click(within(container).getByRole("tab", { name: FRIEDMAN_SECTION_TITLE }));
+    const btn = within(container).getByRole("button", { name: STATS_RUN_FRIEDMAN });
     expect(btn).toBeTruthy();
   });
 });

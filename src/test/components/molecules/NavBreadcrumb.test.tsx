@@ -6,7 +6,9 @@ import type { FC } from "react";
 const mockBack = mock(() => {});
 
 mock.module("next/navigation", () => ({
+  usePathname: () => "/",
   useRouter: () => ({ back: mockBack }),
+  useSearchParams: () => new URLSearchParams(),
 }));
 
 interface NavBreadcrumbProps {

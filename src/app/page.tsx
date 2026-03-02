@@ -2,9 +2,7 @@
 
 import { FiGithub, FiBox, FiActivity, FiBookOpen } from "react-icons/fi";
 import LinkCard from "@/components/molecules/LinkCard";
-import { Card } from "@/components/molecules/Card";
 import { useAuth } from "@/lib/auth";
-import { Container } from "@/components/layout/Container";
 import {
   HOME_DEFAULT_GREETING,
   HOME_WELCOME_SUBTITLE,
@@ -22,8 +20,7 @@ export default function Home() {
     : HOME_DEFAULT_GREETING;
 
   return (
-    <Container size="full" className="space-y-8 py-6">
-      {/* Welcome header */}
+    <div className="flex flex-col gap-8">
       <div>
         <h1 className="text-(length:--font-size-2xl) font-bold tracking-tight text-slate-900 md:text-(length:--font-size-3xl)">
           {greeting}
@@ -33,17 +30,13 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Platform info card */}
-      <Card
-        header={
-          <div className="flex items-center gap-3">
-            <FiBox className="size-5 text-primary-600" />
-            <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800">
-              {ABOUT_TITLE}
-            </h2>
-          </div>
-        }
-      >
+      <div className="flex flex-col gap-4 border-b border-slate-100 pb-8">
+        <div className="flex items-center gap-3 border-b border-slate-200 pb-3">
+          <FiBox className="size-5 text-primary-600" />
+          <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800">
+            {ABOUT_TITLE}
+          </h2>
+        </div>
         <div className="space-y-4">
           <p className="text-(length:--font-size-sm) leading-relaxed text-slate-600">
             {ABOUT_DESC}
@@ -57,9 +50,8 @@ export default function Home() {
             </span>
           </div>
         </div>
-      </Card>
+      </div>
 
-      {/* Project links as individual cards */}
       <div className="grid gap-4 sm:grid-cols-2">
         {PROJECT_LINKS.map((link) => (
           <LinkCard
@@ -77,6 +69,6 @@ export default function Home() {
           />
         ))}
       </div>
-    </Container>
+    </div>
   );
 }

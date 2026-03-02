@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/atoms/Buttons";
-import { Card } from "@/components/molecules/Card";
 import { Label } from "@/components/atoms/Label";
 import { Input } from "@/components/atoms/Input";
 import { Select } from "@/components/atoms/Select";
@@ -99,18 +98,15 @@ export default function SimulationInputs({
 }: Props) {
   return (
     <>
-      <Card
-        header={
-          <div className="flex items-center justify-between">
-            <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800">
-              Datos del Paciente
-            </h2>
-            <span className="font-mono text-(length:--font-size-xs) uppercase text-slate-400">
-              ID: {patientId}
-            </span>
-          </div>
-        }
-      >
+      <section className="flex flex-col gap-6 border-b border-slate-100 pb-8">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+          <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800">
+            Datos del Paciente
+          </h2>
+          <span className="font-mono text-(length:--font-size-xs) uppercase text-slate-400">
+            ID: {patientId}
+          </span>
+        </div>
         <div className="mb-8 flex flex-col items-end gap-4 md:flex-row">
           <div className="w-full md:w-1/3 flex flex-col gap-1.5">
             <Label htmlFor="patient-id">{ID_PATIENT_LABEL}</Label>
@@ -354,16 +350,12 @@ export default function SimulationInputs({
             </div>
           </div>
         </div>
-      </Card>
+      </section>
 
-      <Card
-        className="border-l-4 border-l-primary-600"
-        header={
-          <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800">
-            {SIMULATION_CONFIG_TITLE}
-          </h2>
-        }
-      >
+      <section className="flex flex-col gap-6 border-b border-slate-100 pb-8">
+        <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800 border-b border-slate-200 pb-3">
+          {SIMULATION_CONFIG_TITLE}
+        </h2>
         <div className="flex flex-col items-center justify-between gap-6">
           <div className="w-full md:w-1/2 lg:w-1/3 flex flex-col gap-1.5">
             <Label htmlFor="sim-runs" className="text-center md:text-left">
@@ -397,7 +389,7 @@ export default function SimulationInputs({
             {SIMULATE_BUTTON}
           </Button>
         </div>
-      </Card>
+      </section>
     </>
   );
 }

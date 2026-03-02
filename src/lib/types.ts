@@ -16,6 +16,7 @@ export type NavItemType = {
   href: string;
   icon?: React.ReactNode;
   active?: boolean;
+  children?: NavItemType[];
 };
 
 // Common props that many global components should accept

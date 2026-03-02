@@ -53,6 +53,10 @@ const LINK_ACTIVE =
 const LINK_INACTIVE = "text-slate-600 hover:bg-slate-50 hover:text-slate-900";
 const ICON_CLASS =
   "flex size-5 shrink-0 items-center justify-center transition-colors";
+const SUB_LINK_BASE =
+  "group flex items-center gap-2 rounded-md px-2.5 py-1.5 transition-all duration-200";
+const SUB_LINK_ACTIVE = "text-primary-700 font-medium";
+const SUB_LINK_INACTIVE = "text-slate-500 hover:text-slate-800";
 const COLLAPSE_BTN =
   "absolute -right-4 top-1/2 z-50 flex h-8 w-4 -translate-y-1/2 items-center justify-center rounded-r-md border border-l-0 border-slate-200 bg-white text-slate-400 shadow-sm transition-all hover:border-primary-300 hover:text-primary-600 focus:outline-none";
 
@@ -92,6 +96,11 @@ export function Sidebar({
           ...item,
           active: isRouteActive(item.href, pathname) ? true : undefined,
           icon: icons[iconMap[item.href] as keyof typeof icons],
+          children: item.children?.map((child) => ({
+            ...child,
+            active: isRouteActive(child.href, pathname) ? true : undefined,
+            icon: icons[iconMap[child.href] as keyof typeof icons],
+          })),
         }) as NavItemType,
     ),
   }));
@@ -153,6 +162,26 @@ export function Sidebar({
                         </span>
                       )}
                     </Link>
+                    {!collapsed && item.children && item.children.length > 0 && (
+                      <ul className="mt-0.5 flex flex-col gap-0.5 pl-9">
+                        {item.children.map((child, childIdx) => (
+                          <li key={childIdx}>
+                            <Link
+                              href={child.href}
+                              aria-current={child.active ? "page" : undefined}
+                              className={cn(
+                                SUB_LINK_BASE,
+                                child.active ? SUB_LINK_ACTIVE : SUB_LINK_INACTIVE,
+                              )}
+                            >
+                              <span className="truncate text-(length:--font-size-xs)">
+                                {child.label}
+                              </span>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </li>
                 ))}
               </ul>

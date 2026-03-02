@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn, dataDisabledProps } from "@/lib/utils";
-import { NAV_BRAND_SHORT, ROUTE_NAMES_MAP } from "@/constants/constants";
+import { NAV_BRAND_SHORT, ROUTE_NAMES_MAP, ROUTE_BREADCRUMB_SEGMENTS } from "@/constants/constants";
 import { Avatar } from "@/components/atoms/Avatar";
 import { NavBreadcrumb } from "@/components/molecules/NavBreadcrumb";
 import { Popover } from "@/components/molecules/Popover";
@@ -45,6 +45,7 @@ export function Navbar({
 }: NavbarProps) {
   const detectedPath = pathname ?? usePathname?.() ?? "/";
   const currentPage = ROUTE_NAMES_MAP[detectedPath] ?? NAV_BRAND_SHORT;
+  const breadcrumbSegments = ROUTE_BREADCRUMB_SEGMENTS[detectedPath];
 
   const styles = {
     header: "flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-8 z-10",
@@ -60,7 +61,7 @@ export function Navbar({
 
   return (
     <header {...dataDisabledProps(disabled)} className={cn(styles.header, className)}>
-      <NavBreadcrumb brandName={NAV_BRAND_SHORT} currentPage={currentPage} />
+      <NavBreadcrumb brandName={NAV_BRAND_SHORT} currentPage={currentPage} segments={breadcrumbSegments} />
 
       <div className="flex items-center gap-4">
         <Popover

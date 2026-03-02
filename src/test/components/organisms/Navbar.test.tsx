@@ -1,7 +1,16 @@
 import "../../setup";
 import { render, fireEvent } from "@testing-library/react";
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it, mock } from "bun:test";
 import { NAV_BRAND_SHORT } from "@/constants/constants";
+
+// Provide navigation stubs before the static Navbar import is resolved.
+// Without this, NavBreadcrumb's useRouter() would throw in the test env.
+mock.module("next/navigation", () => ({
+  usePathname: () => "/",
+  useRouter: () => ({ back: () => {}, push: () => {}, replace: () => {} }),
+  useSearchParams: () => new URLSearchParams(),
+}));
+
 import { Navbar } from "@/components/organisms/Navbar";
 
 describe("Navbar", () => {

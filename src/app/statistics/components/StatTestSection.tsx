@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { Button } from "@/components/atoms/Buttons";
 import { Select } from "@/components/atoms/Select";
 import { Alert } from "@/components/molecules/Alert";
-import { Card } from "@/components/molecules/Card";
 import { Label } from "@/components/atoms/Label";
 import { EXPERIMENT_VARIABLE_LABELS } from "@/lib/statistics";
 import type { StatisticalTestResult } from "@/lib/statistics";
@@ -220,7 +219,7 @@ export function WilcoxonSection({
 }: WilcoxonSectionProps) {
   return (
     <div className="flex flex-col gap-4">
-      <Card>
+      <div className="flex flex-col gap-4 border-b border-slate-100 pb-6">
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <FileUploader
@@ -267,7 +266,7 @@ export function WilcoxonSection({
             </details>
           )}
         </div>
-      </Card>
+      </div>
 
       <Button
         variant="primary"
@@ -283,13 +282,10 @@ export function WilcoxonSection({
       {error && <Alert variant="danger">{error}</Alert>}
 
       {result && (
-        <Card
-          header={
-            <h3 className="text-(length:--font-size-base) font-semibold text-slate-800">
-              {STATS_RESULTS_TITLE}
-            </h3>
-          }
-        >
+        <section className="flex flex-col gap-4 border-t border-slate-100 pt-6">
+          <h3 className="text-(length:--font-size-base) font-semibold text-slate-800 border-b border-slate-200 pb-3">
+            {STATS_RESULTS_TITLE}
+          </h3>
           <div className="flex flex-col gap-4">
             <StatResultTable result={result} />
             <div className="flex flex-col gap-1 rounded-lg border border-zinc-100 bg-zinc-50 p-3 text-(length:--font-size-sm) text-zinc-600">
@@ -297,7 +293,7 @@ export function WilcoxonSection({
               <p>{STATS_INFO_P_VALUE}</p>
             </div>
           </div>
-        </Card>
+        </section>
       )}
     </div>
   );
@@ -332,7 +328,7 @@ export function FriedmanSection({
 }: FriedmanSectionProps) {
   return (
     <div className="flex flex-col gap-4">
-      <Card>
+      <div className="flex flex-col gap-4 border-b border-slate-100 pb-6">
         <div className="flex flex-col gap-4">
           <MultiFileUploader
             label={uploadLabel}
@@ -374,7 +370,7 @@ export function FriedmanSection({
             </details>
           )}
         </div>
-      </Card>
+      </div>
 
       <Button
         variant="primary"
@@ -390,13 +386,10 @@ export function FriedmanSection({
       {error && <Alert variant="danger">{error}</Alert>}
 
       {result && (
-        <Card
-          header={
-            <h3 className="text-(length:--font-size-base) font-semibold text-slate-800">
-              {STATS_RESULTS_TITLE}
-            </h3>
-          }
-        >
+        <section className="flex flex-col gap-4 border-t border-slate-100 pt-6">
+          <h3 className="text-(length:--font-size-base) font-semibold text-slate-800 border-b border-slate-200 pb-3">
+            {STATS_RESULTS_TITLE}
+          </h3>
           <div className="flex flex-col gap-4">
             <StatResultTable result={result} />
             <div className="flex flex-col gap-1 rounded-lg border border-zinc-100 bg-zinc-50 p-3 text-(length:--font-size-sm) text-zinc-600">
@@ -404,7 +397,7 @@ export function FriedmanSection({
               <p>{STATS_INFO_P_VALUE}</p>
             </div>
           </div>
-        </Card>
+        </section>
       )}
     </div>
   );

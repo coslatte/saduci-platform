@@ -7,6 +7,7 @@ export interface SidebarItemConfig {
   label: string;
   href: string;
   active?: boolean;
+  children?: SidebarItemConfig[];
 }
 
 export interface SidebarSection {
@@ -46,10 +47,12 @@ export const SIDEBAR_SECTIONS: SidebarSection[] = [
       {
         label: "Simulación",
         href: "/simulation",
-      },
-      {
-        label: "Pruebas Estadísticas",
-        href: "/statistics",
+        children: [
+          {
+            label: "Pruebas Estadísticas",
+            href: "/statistics",
+          },
+        ],
       },
     ],
   },

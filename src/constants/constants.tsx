@@ -52,6 +52,10 @@ export const ROUTE_NAMES_MAP: Record<string, string> = {
   "/settings": "Ajustes",
 };
 
+export const ROUTE_BREADCRUMB_SEGMENTS: Record<string, { label: string; href: string }[]> = {
+  "/statistics": [{ label: "Simulación", href: "/simulation" }],
+};
+
 export const SIDEBAR_BRAND_FULL = APP_NAME;
 export const SIDEBAR_COLLAPSE_EXPAND = "Expandir barra lateral";
 export const SIDEBAR_COLLAPSE_COLLAPSE = "Contraer barra lateral";
