@@ -1,16 +1,7 @@
 import "../../setup";
 import { render, fireEvent } from "@testing-library/react";
-import { describe, expect, it, mock } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import { NAV_BRAND_SHORT } from "@/constants/constants";
-
-// Hoisted before static imports — Bun applies this mock before the Navbar
-// module (and its NavBreadcrumb dep) are evaluated, so useRouter never throws.
-mock.module("next/navigation", () => ({
-  usePathname: () => "/",
-  useRouter: () => ({ back: () => {}, push: () => {}, replace: () => {} }),
-  useSearchParams: () => new URLSearchParams(),
-}));
-
 import { Navbar } from "@/components/organisms/Navbar";
 
 describe("Navbar", () => {

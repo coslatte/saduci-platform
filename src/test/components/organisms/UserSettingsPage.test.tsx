@@ -1,5 +1,5 @@
 import "../../setup";
-import { render, fireEvent, waitFor, act } from "@testing-library/react";
+import { render, fireEvent, waitFor, act, cleanup } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
 
 describe("UserSettingsPage", () => {
@@ -83,5 +83,11 @@ describe("UserSettingsPage", () => {
     await waitFor(() => {
       expect(getByText("Contraseña actualizada (mock).")).toBeTruthy();
     });
+
+    // Eagerly unmount and clear DOM so no async React re-render leaks into
+    // subsequent tests (the success Alert would otherwise persist in the body).
+    globalThis.fetch = undefined as unknown as typeof fetch;
+    cleanup();
+    document.body.innerHTML = "";
   });
 });
