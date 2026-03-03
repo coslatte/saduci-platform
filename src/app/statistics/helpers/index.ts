@@ -48,9 +48,7 @@ export function extractNumericColumn(
 ): number[] {
   const rawValues = csv[columnLabel];
   if (!rawValues) return [];
-  return rawValues
-    .map((v) => parseFloat(v))
-    .filter((n) => !isNaN(n));
+  return rawValues.map((v) => parseFloat(v)).filter((n) => !isNaN(n));
 }
 
 /**

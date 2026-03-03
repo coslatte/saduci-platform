@@ -198,15 +198,15 @@ export default function SimulacionPage() {
               <h2 className="text-[length:var(--font-size-lg)] font-semibold text-slate-800">
                 Resultados de la Simulación
               </h2>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleDownload}
-                  aria-label="Descargar resultados en CSV"
-                >
-                  <FiDownload className="size-4" />
-                  {DOWNLOAD_CSV}
-                </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleDownload}
+                aria-label="Descargar resultados en CSV"
+              >
+                <FiDownload className="size-4" />
+                {DOWNLOAD_CSV}
+              </Button>
             </div>
             <SimulationResultTable result={result.simulation} />
             <div className="p-4 mt-4 border rounded-lg border-slate-200 bg-slate-50">

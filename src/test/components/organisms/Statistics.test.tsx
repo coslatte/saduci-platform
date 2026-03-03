@@ -84,7 +84,8 @@ describe("runWilcoxonTest — API client", () => {
 
   it("returns parsed statistic and p_value on success", async () => {
     globalThis.fetch = mock(
-      async () => new Response(JSON.stringify(wilcoxonResponse), { status: 200 }),
+      async () =>
+        new Response(JSON.stringify(wilcoxonResponse), { status: 200 }),
     ) as unknown as typeof fetch;
 
     const result = await runWilcoxonTest(wilcoxonRequest);
@@ -182,7 +183,8 @@ describe("runFriedmanTest — API client", () => {
 
   it("returns parsed statistic and p_value on success", async () => {
     globalThis.fetch = mock(
-      async () => new Response(JSON.stringify(friedmanResponse), { status: 200 }),
+      async () =>
+        new Response(JSON.stringify(friedmanResponse), { status: 200 }),
     ) as unknown as typeof fetch;
 
     const result = await runFriedmanTest(friedmanRequest);
@@ -230,11 +232,16 @@ describe("runFriedmanTest — API client", () => {
 
   it("handles a request with exactly 3 samples (minimum for Friedman)", async () => {
     const minRequest: FriedmanRequest = {
-      samples: [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+      samples: [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+      ],
     };
 
     globalThis.fetch = mock(
-      async () => new Response(JSON.stringify(friedmanResponse), { status: 200 }),
+      async () =>
+        new Response(JSON.stringify(friedmanResponse), { status: 200 }),
     ) as unknown as typeof fetch;
 
     const result = await runFriedmanTest(minRequest);
@@ -287,14 +294,18 @@ describe("extractNumericColumn", () => {
   });
 
   it("returns empty array for missing column", () => {
-    const csv = { "Other": ["10.5"] };
+    const csv = { Other: ["10.5"] };
     expect(extractNumericColumn(csv, "Tiempo VAM")).toEqual([]);
   });
 });
 
 describe("adjustArraySizes", () => {
   it("returns arrays trimmed to the minimum length", () => {
-    const { adjusted, minSize } = adjustArraySizes([[1, 2, 3], [4, 5], [6, 7, 8, 9]]);
+    const { adjusted, minSize } = adjustArraySizes([
+      [1, 2, 3],
+      [4, 5],
+      [6, 7, 8, 9],
+    ]);
     expect(minSize).toBe(2);
     expect(adjusted[0]).toEqual([1, 2]);
     expect(adjusted[1]).toEqual([4, 5]);
@@ -302,7 +313,11 @@ describe("adjustArraySizes", () => {
   });
 
   it("returns unchanged arrays when all have equal length", () => {
-    const { adjusted, minSize } = adjustArraySizes([[1, 2], [3, 4], [5, 6]]);
+    const { adjusted, minSize } = adjustArraySizes([
+      [1, 2],
+      [3, 4],
+      [5, 6],
+    ]);
     expect(minSize).toBe(2);
     adjusted.forEach((a) => expect(a.length).toBe(2));
   });
@@ -328,19 +343,25 @@ describe("StatisticsPage — smoke tests", () => {
 
   it("renders Wilcoxon tab button", () => {
     const { container } = render(<StatisticsPage />);
-    const tab = within(container).getByRole("tab", { name: WILCOXON_SECTION_TITLE });
+    const tab = within(container).getByRole("tab", {
+      name: WILCOXON_SECTION_TITLE,
+    });
     expect(tab).toBeTruthy();
   });
 
   it("renders Friedman tab button", () => {
     const { container } = render(<StatisticsPage />);
-    const tab = within(container).getByRole("tab", { name: FRIEDMAN_SECTION_TITLE });
+    const tab = within(container).getByRole("tab", {
+      name: FRIEDMAN_SECTION_TITLE,
+    });
     expect(tab).toBeTruthy();
   });
 
   it("wilcoxon panel is visible by default", () => {
     const { container } = render(<StatisticsPage />);
-    const panel = within(container).getByRole("tabpanel", { name: WILCOXON_SECTION_TITLE });
+    const panel = within(container).getByRole("tabpanel", {
+      name: WILCOXON_SECTION_TITLE,
+    });
     expect(panel.hidden).toBe(false);
   });
 
@@ -353,13 +374,17 @@ describe("StatisticsPage — smoke tests", () => {
 
   it("renders run Wilcoxon button", () => {
     const { container } = render(<StatisticsPage />);
-    const btn = within(container).getByRole("button", { name: STATS_RUN_WILCOXON });
+    const btn = within(container).getByRole("button", {
+      name: STATS_RUN_WILCOXON,
+    });
     expect(btn).toBeTruthy();
   });
 
   it("switching to Friedman tab shows friedman panel", () => {
     const { container } = render(<StatisticsPage />);
-    const friedmanTab = within(container).getByRole("tab", { name: FRIEDMAN_SECTION_TITLE });
+    const friedmanTab = within(container).getByRole("tab", {
+      name: FRIEDMAN_SECTION_TITLE,
+    });
     fireEvent.click(friedmanTab);
     const panel = container.querySelector("#panel-friedman");
     expect((panel as HTMLElement).hidden).toBe(false);
@@ -367,16 +392,21 @@ describe("StatisticsPage — smoke tests", () => {
 
   it("wilcoxon tab is marked as selected by default", () => {
     const { container } = render(<StatisticsPage />);
-    const tab = within(container).getByRole("tab", { name: WILCOXON_SECTION_TITLE });
+    const tab = within(container).getByRole("tab", {
+      name: WILCOXON_SECTION_TITLE,
+    });
     expect(tab.getAttribute("aria-selected")).toBe("true");
   });
 
   it("renders run Friedman button in friedman panel", () => {
     const { container } = render(<StatisticsPage />);
     within(container).getByRole("tab", { name: FRIEDMAN_SECTION_TITLE });
-    fireEvent.click(within(container).getByRole("tab", { name: FRIEDMAN_SECTION_TITLE }));
-    const btn = within(container).getByRole("button", { name: STATS_RUN_FRIEDMAN });
+    fireEvent.click(
+      within(container).getByRole("tab", { name: FRIEDMAN_SECTION_TITLE }),
+    );
+    const btn = within(container).getByRole("button", {
+      name: STATS_RUN_FRIEDMAN,
+    });
     expect(btn).toBeTruthy();
   });
 });
-

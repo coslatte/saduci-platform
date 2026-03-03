@@ -34,10 +34,7 @@ export function NavBreadcrumb({
   const router = useRouter();
 
   return (
-    <nav
-      aria-label="Breadcrumb"
-      className={cn(styles.root, className)}
-    >
+    <nav aria-label="Breadcrumb" className={cn(styles.root, className)}>
       <button
         type="button"
         className={styles.brand}
@@ -48,7 +45,9 @@ export function NavBreadcrumb({
       </button>
       {segments?.map((seg) => (
         <span key={seg.href} className="contents">
-          <span aria-hidden="true" className={styles.separator}>/</span>
+          <span aria-hidden="true" className={styles.separator}>
+            /
+          </span>
           <Link href={seg.href} className={styles.segment}>
             {seg.label}
           </Link>

@@ -41,7 +41,9 @@ describe("AppShell", () => {
     // Sidebar contains Dashboard link
     expect(container.textContent?.includes("Dashboard")).toBe(true);
     // "Simulación" appears in both sidebar nav and navbar breadcrumb
-    expect((container.textContent?.match(/Simulación/g) ?? []).length).toBeGreaterThanOrEqual(1);
+    expect(
+      (container.textContent?.match(/Simulación/g) ?? []).length,
+    ).toBeGreaterThanOrEqual(1);
     expect(container.textContent?.includes("Contenido de prueba")).toBe(true);
     // Footer is rendered as a <footer> element (role=contentinfo)
     expect(container.querySelector("footer")).toBeTruthy();

@@ -21,7 +21,8 @@ describe("NavBreadcrumb", () => {
   let NavBreadcrumb: FC<NavBreadcrumbProps>;
 
   beforeAll(async () => {
-    NavBreadcrumb = (await import("@/components/molecules/NavBreadcrumb")).NavBreadcrumb;
+    NavBreadcrumb = (await import("@/components/molecules/NavBreadcrumb"))
+      .NavBreadcrumb;
   });
 
   beforeEach(() => {
@@ -62,6 +63,8 @@ describe("NavBreadcrumb", () => {
     const { getByRole } = render(
       <NavBreadcrumb brandName="Saduci" currentPage="Dashboard" />,
     );
-    expect(getByRole("navigation").getAttribute("aria-label")).toBe("Breadcrumb");
+    expect(getByRole("navigation").getAttribute("aria-label")).toBe(
+      "Breadcrumb",
+    );
   });
 });

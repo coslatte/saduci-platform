@@ -1,5 +1,11 @@
 import "../../setup";
-import { render, fireEvent, waitFor, act, cleanup } from "@testing-library/react";
+import {
+  render,
+  fireEvent,
+  waitFor,
+  act,
+  cleanup,
+} from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
 
 describe("UserSettingsPage", () => {

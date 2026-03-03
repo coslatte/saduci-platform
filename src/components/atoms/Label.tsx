@@ -11,7 +11,8 @@ interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   disabled?: boolean;
 }
 
-const LABEL_BASE = "text-[length:var(--font-size-sm)] font-medium text-zinc-700";
+const LABEL_BASE =
+  "text-[length:var(--font-size-sm)] font-medium text-zinc-700";
 
 /**
  * Label

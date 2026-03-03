@@ -7,8 +7,13 @@ import {
 } from "@/context/notifications";
 
 function Consumer() {
-  const { notifications, unreadCount, markAsRead, addNotification, removeNotification } =
-    useNotifications();
+  const {
+    notifications,
+    unreadCount,
+    markAsRead,
+    addNotification,
+    removeNotification,
+  } = useNotifications();
   return (
     <div>
       <div data-testid="count">{unreadCount}</div>

@@ -65,11 +65,7 @@ export function Avatar({
     return (
       <div
         {...dataDisabledProps(disabled)}
-        className={cn(
-          AVATAR_IMG_BASE,
-          sizeClass,
-          className,
-        )}
+        className={cn(AVATAR_IMG_BASE, sizeClass, className)}
       >
         <Image src={src} alt={alt} fill className="object-cover" />
       </div>
@@ -79,11 +75,7 @@ export function Avatar({
   return (
     <div
       {...dataDisabledProps(disabled)}
-      className={cn(
-        AVATAR_FALLBACK_BASE,
-        sizeClass,
-        className,
-      )}
+      className={cn(AVATAR_FALLBACK_BASE, sizeClass, className)}
       aria-label={alt || name}
     >
       {name ? getInitials(name) : "?"}

@@ -66,7 +66,12 @@ describe("Navbar", () => {
   it("calls onLogout when logout button is clicked inside popover", () => {
     let logoutCalled = false;
     const { container, getByText } = render(
-      <Navbar pathname="/" onLogout={() => { logoutCalled = true; }} />,
+      <Navbar
+        pathname="/"
+        onLogout={() => {
+          logoutCalled = true;
+        }}
+      />,
     );
 
     const userBtn = container.querySelector(

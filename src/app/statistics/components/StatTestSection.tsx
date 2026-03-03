@@ -67,11 +67,11 @@ function FileUploader({ label, file, inputId, onChange }: FileUploaderProps) {
           }}
         />
         {file ? (
-          <span className="text-[length:var(--font-size-sm)] font-medium text-primary-700">
+          <span className="text-(length:--font-size-sm) font-medium text-primary-700">
             {file.name}
           </span>
         ) : (
-          <span className="text-[length:var(--font-size-sm)] text-zinc-400">
+          <span className="text-(length:--font-size-sm) text-zinc-400">
             {STATS_CLICK_TO_SELECT_FILE}
           </span>
         )}
@@ -127,14 +127,14 @@ function MultiFileUploader({
             {files.map((f, idx) => (
               <li
                 key={idx}
-                className="text-[length:var(--font-size-sm)] font-medium text-primary-700"
+                className="text-(length:--font-size-sm) font-medium text-primary-700"
               >
                 {STATS_EXPERIMENT_LABEL(idx + 1)}: {f.name}
               </li>
             ))}
           </ul>
         ) : (
-          <span className="text-[length:var(--font-size-sm)] text-zinc-400">
+          <span className="text-(length:--font-size-sm) text-zinc-400">
             {STATS_CLICK_TO_SELECT_FILES}
           </span>
         )}
@@ -151,7 +151,7 @@ function StatResultTable({ result }: StatResultTableProps) {
   return (
     <div className="overflow-x-auto">
       <table
-        className="w-full text-[length:var(--font-size-sm)]"
+        className="w-full text-(length:--font-size-sm)"
         aria-label={STATS_RESULTS_TITLE}
       >
         <thead>
@@ -219,7 +219,7 @@ export function WilcoxonSection({
 }: WilcoxonSectionProps) {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-4 border-b border-slate-100 pb-6">
+      <div className="flex flex-col gap-4 pb-6 border-b border-slate-100">
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <FileUploader
@@ -255,11 +255,11 @@ export function WilcoxonSection({
           </div>
 
           {file1 && file2 && (
-            <details className="text-[length:var(--font-size-sm)] text-zinc-500">
-              <summary className="cursor-pointer font-medium text-zinc-700">
+            <details className="text-(length:--font-size-sm) text-zinc-500">
+              <summary className="font-medium cursor-pointer text-zinc-700">
                 {STATS_PREVIEW_LABEL}
               </summary>
-              <ul className="mt-2 list-inside list-disc">
+              <ul className="mt-2 list-disc list-inside">
                 <li>{STATS_EXPERIMENT_LABEL(1)}: {file1.name}</li>
                 <li>{STATS_EXPERIMENT_LABEL(2)}: {file2.name}</li>
               </ul>
@@ -282,13 +282,13 @@ export function WilcoxonSection({
       {error && <Alert variant="danger">{error}</Alert>}
 
       {result && (
-        <section className="flex flex-col gap-4 border-t border-slate-100 pt-6">
-          <h3 className="text-[length:var(--font-size-base)] font-semibold text-slate-800 border-b border-slate-200 pb-3">
+        <section className="flex flex-col gap-4 pt-6 border-t border-slate-100">
+          <h3 className="text-(length:--font-size-base) font-semibold text-slate-800 border-b border-slate-200 pb-3">
             {STATS_RESULTS_TITLE}
           </h3>
           <div className="flex flex-col gap-4">
             <StatResultTable result={result} />
-            <div className="flex flex-col gap-1 rounded-lg border border-zinc-100 bg-zinc-50 p-3 text-[length:var(--font-size-sm)] text-zinc-600">
+            <div className="flex flex-col gap-1 rounded-lg border border-zinc-100 bg-zinc-50 p-3 text-(length:--font-size-sm) text-zinc-600">
               <p>{STATS_INFO_STATISTIC}</p>
               <p>{STATS_INFO_P_VALUE}</p>
             </div>
@@ -328,7 +328,7 @@ export function FriedmanSection({
 }: FriedmanSectionProps) {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-4 border-b border-slate-100 pb-6">
+      <div className="flex flex-col gap-4 pb-6 border-b border-slate-100">
         <div className="flex flex-col gap-4">
           <MultiFileUploader
             label={uploadLabel}
@@ -356,11 +356,11 @@ export function FriedmanSection({
           </div>
 
           {files.length > 0 && (
-            <details className="text-[length:var(--font-size-sm)] text-zinc-500">
-              <summary className="cursor-pointer font-medium text-zinc-700">
+            <details className="text-(length:--font-size-sm) text-zinc-500">
+              <summary className="font-medium cursor-pointer text-zinc-700">
                 {STATS_PREVIEW_LABEL}
               </summary>
-              <ul className="mt-2 list-inside list-disc">
+              <ul className="mt-2 list-disc list-inside">
                 {files.map((f, idx) => (
                   <li key={idx}>
                     {STATS_EXPERIMENT_LABEL(idx + 1)}: {f.name}
@@ -386,13 +386,13 @@ export function FriedmanSection({
       {error && <Alert variant="danger">{error}</Alert>}
 
       {result && (
-        <section className="flex flex-col gap-4 border-t border-slate-100 pt-6">
-          <h3 className="text-[length:var(--font-size-base)] font-semibold text-slate-800 border-b border-slate-200 pb-3">
+        <section className="flex flex-col gap-4 pt-6 border-t border-slate-100">
+          <h3 className="text-(length:--font-size-base) font-semibold text-slate-800 border-b border-slate-200 pb-3">
             {STATS_RESULTS_TITLE}
           </h3>
           <div className="flex flex-col gap-4">
             <StatResultTable result={result} />
-            <div className="flex flex-col gap-1 rounded-lg border border-zinc-100 bg-zinc-50 p-3 text-[length:var(--font-size-sm)] text-zinc-600">
+            <div className="flex flex-col gap-1 rounded-lg border border-zinc-100 bg-zinc-50 p-3 text-(length:--font-size-sm) text-zinc-600">
               <p>{STATS_INFO_STATISTIC}</p>
               <p>{STATS_INFO_P_VALUE}</p>
             </div>

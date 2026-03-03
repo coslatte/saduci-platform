@@ -7,7 +7,9 @@ describe("Divider", () => {
   it("renders horizontal separator by default", () => {
     const { container } = render(<Divider data-testid="divider" />);
 
-    const separator = container.querySelector("[role='separator']") as HTMLElement | null;
+    const separator = container.querySelector(
+      "[role='separator']",
+    ) as HTMLElement | null;
     expect(separator).toBeTruthy();
     if (!separator) return;
     expect(separator.tagName).toBe("HR");
@@ -23,7 +25,9 @@ describe("Divider", () => {
       </div>,
     );
 
-    const separator = container.querySelector("[role='separator']") as HTMLElement | null;
+    const separator = container.querySelector(
+      "[role='separator']",
+    ) as HTMLElement | null;
     expect(separator).toBeTruthy();
     if (!separator) return;
     expect(separator.tagName).toBe("DIV");
@@ -35,7 +39,9 @@ describe("Divider", () => {
 
   it("merges custom className on horizontal variant", () => {
     const { container } = render(<Divider className="my-4" />);
-    const separator = container.querySelector("[role='separator']") as HTMLElement | null;
+    const separator = container.querySelector(
+      "[role='separator']",
+    ) as HTMLElement | null;
     expect(separator).toBeTruthy();
     if (!separator) return;
     expect(separator.className.includes("my-4")).toBe(true);
@@ -44,7 +50,9 @@ describe("Divider", () => {
 
   it("sets data-disabled attribute when disabled", () => {
     const { container } = render(<Divider disabled />);
-    const separator = container.querySelector("[role='separator']") as HTMLElement | null;
+    const separator = container.querySelector(
+      "[role='separator']",
+    ) as HTMLElement | null;
     expect(separator).toBeTruthy();
     if (!separator) return;
     expect(separator.getAttribute("data-disabled")).toBe("true");

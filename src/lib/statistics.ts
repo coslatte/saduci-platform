@@ -47,7 +47,9 @@ export async function runWilcoxonTest(
     return response.json() as Promise<WilcoxonResponse>;
   } catch (err: unknown) {
     if (err instanceof Error && err.name === "AbortError") {
-      throw new Error("La solicitud del test de Wilcoxon excedió el tiempo de espera.");
+      throw new Error(
+        "La solicitud del test de Wilcoxon excedió el tiempo de espera.",
+      );
     }
     if (err instanceof Error) throw err;
     throw new Error(String(err));
@@ -87,7 +89,9 @@ export async function runFriedmanTest(
     return response.json() as Promise<FriedmanResponse>;
   } catch (err: unknown) {
     if (err instanceof Error && err.name === "AbortError") {
-      throw new Error("La solicitud del test de Friedman excedió el tiempo de espera.");
+      throw new Error(
+        "La solicitud del test de Friedman excedió el tiempo de espera.",
+      );
     }
     if (err instanceof Error) throw err;
     throw new Error(String(err));

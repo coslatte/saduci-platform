@@ -7,7 +7,9 @@ describe("Alert", () => {
   it("renders as role alert with default info variant", () => {
     const { container } = render(<Alert>Info body</Alert>);
 
-    const alert = container.querySelector("[role='alert']") as HTMLElement | null;
+    const alert = container.querySelector(
+      "[role='alert']",
+    ) as HTMLElement | null;
     expect(alert).toBeTruthy();
     if (!alert) return;
     expect(alert.className.includes("bg-blue-50")).toBe(true);
@@ -31,7 +33,9 @@ describe("Alert", () => {
       </Alert>,
     );
 
-    const alert = container.querySelector("[role='alert']") as HTMLElement | null;
+    const alert = container.querySelector(
+      "[role='alert']",
+    ) as HTMLElement | null;
     expect(alert).toBeTruthy();
     if (!alert) return;
     expect(alert.className.includes("bg-green-50")).toBe(true);
@@ -56,7 +60,9 @@ describe("Alert", () => {
           Content
         </Alert>,
       );
-      const alert = container.querySelector("[role='alert']") as HTMLElement | null;
+      const alert = container.querySelector(
+        "[role='alert']",
+      ) as HTMLElement | null;
       expect(alert).toBeTruthy();
       if (!alert) return;
 
@@ -68,7 +74,9 @@ describe("Alert", () => {
 
   it("applies correct text color for warning variant", () => {
     const { container } = render(<Alert variant="warning">Aviso</Alert>);
-    const alert = container.querySelector("[role='alert']") as HTMLElement | null;
+    const alert = container.querySelector(
+      "[role='alert']",
+    ) as HTMLElement | null;
     expect(alert).toBeTruthy();
     if (!alert) return;
     expect(alert.className.includes("text-yellow-900")).toBe(true);
@@ -77,7 +85,9 @@ describe("Alert", () => {
 
   it("applies correct text color for danger variant", () => {
     const { container } = render(<Alert variant="danger">Error</Alert>);
-    const alert = container.querySelector("[role='alert']") as HTMLElement | null;
+    const alert = container.querySelector(
+      "[role='alert']",
+    ) as HTMLElement | null;
     expect(alert).toBeTruthy();
     if (!alert) return;
     expect(alert.className.includes("text-red-900")).toBe(true);
@@ -91,7 +101,9 @@ describe("Alert", () => {
 
   it("sets data-disabled when disabled", () => {
     const { container } = render(<Alert disabled>Bloqueado</Alert>);
-    const alert = container.querySelector("[role='alert']") as HTMLElement | null;
+    const alert = container.querySelector(
+      "[role='alert']",
+    ) as HTMLElement | null;
     expect(alert).toBeTruthy();
     if (!alert) return;
     expect(alert.getAttribute("data-disabled")).toBe("true");

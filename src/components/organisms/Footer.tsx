@@ -9,7 +9,8 @@ import { useNotifications } from "@/context/notifications";
 const FOOTER_BASE =
   "flex h-12 shrink-0 items-center justify-between border-t border-slate-200 bg-white px-8 transition-colors";
 const FOOTER_DISABLED = "opacity-50 grayscale pointer-events-none";
-const COPYRIGHT = "text-[length:var(--font-size-xs)] font-medium text-slate-400";
+const COPYRIGHT =
+  "text-[length:var(--font-size-xs)] font-medium text-slate-400";
 const BELL_BTN =
   "relative p-2 rounded-md text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200";
 const BADGE =
@@ -27,9 +28,7 @@ export function Footer({ className, disabled }: FooterProps) {
     useNotifications();
 
   return (
-    <footer
-      className={cn(FOOTER_BASE, disabled && FOOTER_DISABLED, className)}
-    >
+    <footer className={cn(FOOTER_BASE, disabled && FOOTER_DISABLED, className)}>
       <p className={COPYRIGHT}>&copy; {currentYear} Saduci Platform</p>
 
       <div className="flex items-center gap-4">
@@ -43,9 +42,7 @@ export function Footer({ className, disabled }: FooterProps) {
               aria-label="Notificaciones"
             >
               <FiBell className="w-5 h-5" />
-              {unreadCount > 0 && (
-                <span className={BADGE}>{unreadCount}</span>
-              )}
+              {unreadCount > 0 && <span className={BADGE}>{unreadCount}</span>}
             </button>
           }
         >

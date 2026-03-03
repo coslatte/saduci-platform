@@ -37,7 +37,8 @@ const PAGE_SUBTITLE = "text-sm text-zinc-500 mt-1";
 const MOCK_TOGGLE =
   "flex items-center gap-1.5 text-xs text-zinc-400 cursor-pointer select-none shrink-0 mt-1";
 const GRID = "grid grid-cols-1 md:grid-cols-3 gap-6";
-const SECTION_HEADER = "flex items-center gap-2 text-sm font-medium text-zinc-700";
+const SECTION_HEADER =
+  "flex items-center gap-2 text-sm font-medium text-zinc-700";
 const PROFILE_CONTENT = "flex flex-col items-center text-center gap-4 py-2";
 const PROFILE_NAME = "font-semibold text-base text-zinc-900 leading-tight";
 const PROFILE_EMAIL = "text-sm text-zinc-500 mt-0.5";

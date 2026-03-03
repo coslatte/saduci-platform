@@ -3,7 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn, dataDisabledProps } from "@/lib/utils";
-import { NAV_BRAND_SHORT, ROUTE_NAMES_MAP, ROUTE_BREADCRUMB_SEGMENTS } from "@/constants/constants";
+import {
+  NAV_BRAND_SHORT,
+  ROUTE_NAMES_MAP,
+  ROUTE_BREADCRUMB_SEGMENTS,
+} from "@/constants/constants";
 import { Avatar } from "@/components/atoms/Avatar";
 import { NavBreadcrumb } from "@/components/molecules/NavBreadcrumb";
 import { Popover } from "@/components/molecules/Popover";
@@ -48,20 +52,30 @@ export function Navbar({
   const breadcrumbSegments = ROUTE_BREADCRUMB_SEGMENTS[detectedPath];
 
   const styles = {
-    header: "flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-8 z-10",
+    header:
+      "flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-8 z-10",
     triggerButton:
       "flex items-center gap-3 px-3 py-2 no-underline transition-all duration-150 bg-white border border-transparent rounded-lg group hover:border-slate-200 hover:shadow-sm focus:outline-none focus:shadow-sm",
     userInfo: "flex-col hidden leading-none lg:flex",
     userName: "text-[length:var(--font-size-sm)] font-medium text-slate-900",
     userRole: "text-[length:var(--font-size-xs)] text-slate-500",
     menu: "flex flex-col w-40 p-1 rounded-xl bg-white border border-slate-200 shadow-lg",
-    menuItem: "block px-3 py-2 text-sm border border-transparent rounded text-slate-700 hover:border-slate-200 hover:bg-slate-50",
-    menuItemButton: "w-full px-3 py-2 text-sm text-left border border-transparent rounded text-slate-700 hover:border-slate-200 hover:bg-slate-50",
+    menuItem:
+      "block px-3 py-2 text-sm border border-transparent rounded text-slate-700 hover:border-slate-200 hover:bg-slate-50",
+    menuItemButton:
+      "w-full px-3 py-2 text-sm text-left border border-transparent rounded text-slate-700 hover:border-slate-200 hover:bg-slate-50",
   };
 
   return (
-    <header {...dataDisabledProps(disabled)} className={cn(styles.header, className)}>
-      <NavBreadcrumb brandName={NAV_BRAND_SHORT} currentPage={currentPage} segments={breadcrumbSegments} />
+    <header
+      {...dataDisabledProps(disabled)}
+      className={cn(styles.header, className)}
+    >
+      <NavBreadcrumb
+        brandName={NAV_BRAND_SHORT}
+        currentPage={currentPage}
+        segments={breadcrumbSegments}
+      />
 
       <div className="flex items-center gap-4">
         <Popover
@@ -83,10 +97,7 @@ export function Navbar({
         >
           <ul className={styles.menu}>
             <li>
-              <Link
-                href="/settings"
-                className={styles.menuItem}
-              >
+              <Link href="/settings" className={styles.menuItem}>
                 Ajustes
               </Link>
             </li>

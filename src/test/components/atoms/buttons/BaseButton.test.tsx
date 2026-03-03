@@ -15,9 +15,7 @@ describe("BaseButton", () => {
   });
 
   it("disables button and shows loading spinner when loading=true", () => {
-    const { container } = render(
-      <BaseButton loading>Guardar</BaseButton>,
-    );
+    const { container } = render(<BaseButton loading>Guardar</BaseButton>);
 
     const button = container.querySelector("button");
     expect(button).toBeTruthy();

@@ -63,10 +63,7 @@ export function NotificationsPanel({
       <div className={LIST_BASE}>
         {notifications.length > 0 ? (
           notifications.map((n) => (
-            <div
-              key={n.id}
-              className={cn(ITEM_BASE, !n.read && ITEM_UNREAD)}
-            >
+            <div key={n.id} className={cn(ITEM_BASE, !n.read && ITEM_UNREAD)}>
               <div className="flex items-start gap-2">
                 <div className="mt-0.5 shrink-0">
                   {TYPE_ICON[n.type ?? "info"] ?? TYPE_ICON.info}

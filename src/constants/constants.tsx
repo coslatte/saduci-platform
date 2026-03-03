@@ -52,7 +52,10 @@ export const ROUTE_NAMES_MAP: Record<string, string> = {
   "/settings": "Ajustes",
 };
 
-export const ROUTE_BREADCRUMB_SEGMENTS: Record<string, { label: string; href: string }[]> = {
+export const ROUTE_BREADCRUMB_SEGMENTS: Record<
+  string,
+  { label: string; href: string }[]
+> = {
   "/statistics": [{ label: "Simulación", href: "/simulation" }],
 };
 

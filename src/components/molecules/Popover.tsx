@@ -124,11 +124,13 @@ export function Popover({
       const PANEL_WIDTH = 320;
       let left = rect.right - PANEL_WIDTH;
       if (align === "left") left = rect.left;
-      if (align === "center") left = rect.left + rect.width / 2 - PANEL_WIDTH / 2;
+      if (align === "center")
+        left = rect.left + rect.width / 2 - PANEL_WIDTH / 2;
       left = Math.max(8, Math.min(left, window.innerWidth - PANEL_WIDTH - 8));
 
       const PANEL_MAX_HEIGHT = 360;
-      const contentHeight = contentRef.current?.offsetHeight ?? PANEL_MAX_HEIGHT;
+      const contentHeight =
+        contentRef.current?.offsetHeight ?? PANEL_MAX_HEIGHT;
       const spaceBelow = window.innerHeight - rect.bottom;
 
       // prefer showing below when there's enough space, otherwise show above
@@ -183,7 +185,12 @@ export function Popover({
       )}
       style={
         position
-          ? { position: "fixed", top: position.top, bottom: position.bottom, left: position.left }
+          ? {
+              position: "fixed",
+              top: position.top,
+              bottom: position.bottom,
+              left: position.left,
+            }
           : { visibility: "hidden" }
       }
     >

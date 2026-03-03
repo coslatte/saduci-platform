@@ -161,26 +161,30 @@ export function Sidebar({
                         </span>
                       )}
                     </Link>
-                    {!collapsed && item.children && item.children.length > 0 && (
-                      <ul className="mt-0.5 flex flex-col gap-0.5 pl-9">
-                        {item.children.map((child, childIdx) => (
-                          <li key={childIdx}>
-                            <Link
-                              href={child.href}
-                              aria-current={child.active ? "page" : undefined}
-                              className={cn(
-                                SUB_LINK_BASE,
-                                child.active ? SUB_LINK_ACTIVE : SUB_LINK_INACTIVE,
-                              )}
-                            >
-                              <span className="truncate text-[length:var(--font-size-xs)]">
-                                {child.label}
-                              </span>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    {!collapsed &&
+                      item.children &&
+                      item.children.length > 0 && (
+                        <ul className="mt-0.5 flex flex-col gap-0.5 pl-9">
+                          {item.children.map((child, childIdx) => (
+                            <li key={childIdx}>
+                              <Link
+                                href={child.href}
+                                aria-current={child.active ? "page" : undefined}
+                                className={cn(
+                                  SUB_LINK_BASE,
+                                  child.active
+                                    ? SUB_LINK_ACTIVE
+                                    : SUB_LINK_INACTIVE,
+                                )}
+                              >
+                                <span className="truncate text-[length:var(--font-size-xs)]">
+                                  {child.label}
+                                </span>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                   </li>
                 ))}
               </ul>

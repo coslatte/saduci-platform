@@ -24,10 +24,7 @@ import {
   STATS_UPLOAD_EXPERIMENTS,
   STATS_TABLIST_LABEL,
 } from "@/constants/constants";
-import {
-  WilcoxonSection,
-  FriedmanSection,
-} from "./components/StatTestSection";
+import { WilcoxonSection, FriedmanSection } from "./components/StatTestSection";
 import { readCSVFile, extractNumericColumn, adjustArraySizes } from "./helpers";
 
 type ActiveTab = "wilcoxon" | "friedman";
@@ -94,9 +91,7 @@ export default function StatisticsPage() {
         const { adjusted, minSize } = adjustArraySizes([col1, col2]);
         x = adjusted[0];
         y = adjusted[1];
-        setWxWarning(
-          `${STATS_WARNING_SIZE_ADJUSTED} (${minSize} filas)`,
-        );
+        setWxWarning(`${STATS_WARNING_SIZE_ADJUSTED} (${minSize} filas)`);
       }
 
       const result = await runWilcoxonTest({ x, y });
@@ -123,9 +118,7 @@ export default function StatisticsPage() {
     setFmLoading(true);
     try {
       const csvData = await Promise.all(fmFiles.map(readCSVFile));
-      const columns = csvData.map((csv) =>
-        extractNumericColumn(csv, fmColumn),
-      );
+      const columns = csvData.map((csv) => extractNumericColumn(csv, fmColumn));
 
       const validColumns = columns.filter((col) => col.length > 0);
       if (validColumns.length < 3) {
@@ -137,9 +130,7 @@ export default function StatisticsPage() {
 
       const originalMin = Math.min(...validColumns.map((c) => c.length));
       if (originalMin !== minSize || validColumns.length < columns.length) {
-        setFmWarning(
-          `${STATS_WARNING_SIZE_ADJUSTED} (${minSize} filas)`,
-        );
+        setFmWarning(`${STATS_WARNING_SIZE_ADJUSTED} (${minSize} filas)`);
       }
 
       const result = await runFriedmanTest({ samples: adjusted });
@@ -154,10 +145,10 @@ export default function StatisticsPage() {
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-[length:var(--font-size-2xl)] font-bold tracking-tight text-slate-900 md:text-[length:var(--font-size-3xl)]">
+        <h1 className="text-(length:--font-size-2xl) font-bold tracking-tight text-slate-900 md:text-(length:--font-size-3xl)">
           {STATISTICS_PAGE_TITLE}
         </h1>
-        <p className="mt-2 text-[length:var(--font-size-sm)] text-slate-500">
+        <p className="mt-2 text-(length:--font-size-sm) text-slate-500">
           {STATISTICS_PAGE_SUBTITLE}
         </p>
       </div>
@@ -174,7 +165,10 @@ export default function StatisticsPage() {
             aria-controls="panel-wilcoxon"
             id="tab-wilcoxon"
             type="button"
-            className={cn(TAB_BASE, activeTab === "wilcoxon" ? TAB_ACTIVE : TAB_INACTIVE)}
+            className={cn(
+              TAB_BASE,
+              activeTab === "wilcoxon" ? TAB_ACTIVE : TAB_INACTIVE,
+            )}
             onClick={() => setActiveTab("wilcoxon")}
           >
             {WILCOXON_SECTION_TITLE}
@@ -185,7 +179,10 @@ export default function StatisticsPage() {
             aria-controls="panel-friedman"
             id="tab-friedman"
             type="button"
-            className={cn(TAB_BASE, activeTab === "friedman" ? TAB_ACTIVE : TAB_INACTIVE)}
+            className={cn(
+              TAB_BASE,
+              activeTab === "friedman" ? TAB_ACTIVE : TAB_INACTIVE,
+            )}
             onClick={() => setActiveTab("friedman")}
           >
             {FRIEDMAN_SECTION_TITLE}
