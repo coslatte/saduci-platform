@@ -1,5 +1,5 @@
 import "../../setup";
-import { render, fireEvent } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
 import AccessibleSelect from "@/components/atoms/AccessibleSelect";
 
@@ -26,7 +26,7 @@ describe("AccessibleSelect", () => {
 
   it("opens list and selects an option via click", () => {
     let val = "0";
-    const { container, getByText } = render(
+    const { container } = render(
       <AccessibleSelect
         value={val}
         onChange={(v) => {

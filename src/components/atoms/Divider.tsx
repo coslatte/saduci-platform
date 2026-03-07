@@ -11,9 +11,6 @@ interface DividerProps extends HTMLAttributes<HTMLHRElement | HTMLDivElement> {
   disabled?: boolean;
 }
 
-const DIVIDER_HORZ = "w-full border-t border-zinc-200";
-const DIVIDER_VERT = "h-full w-px bg-zinc-200";
-
 /**
  * Divider
  *
@@ -31,7 +28,7 @@ export function Divider({
     return (
       <div
         {...dataDisabledProps(disabled)}
-        className={cn(DIVIDER_VERT, className)}
+        className={cn("h-full w-px bg-zinc-200", className)}
         role="separator"
         aria-orientation="vertical"
         {...props}
@@ -41,7 +38,7 @@ export function Divider({
   return (
     <hr
       {...dataDisabledProps(disabled)}
-      className={cn(DIVIDER_HORZ, className)}
+      className={cn("w-full border-t border-zinc-200", className)}
       role="separator"
       aria-orientation="horizontal"
       {...props}

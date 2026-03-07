@@ -1,16 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn, dataDisabledProps } from "@/lib/utils";
-import {
-  NAV_BRAND_SHORT,
-  ROUTE_NAMES_MAP,
-  ROUTE_BREADCRUMB_SEGMENTS,
-} from "@/constants/constants";
+import { NAV_BRAND_SHORT } from "@/constants/constants";
 import { Avatar } from "@/components/atoms/Avatar";
+import { Text } from "@/components/atoms/Text";
 import { NavBreadcrumb } from "@/components/molecules/NavBreadcrumb";
 import { Popover } from "@/components/molecules/Popover";
+import { getBreadcrumbSegments, getRouteNameForPath } from "@/lib/navigation";
 
 /**
  * Props for the `Navbar` component.
@@ -47,34 +45,25 @@ export function Navbar({
   pathname,
   onLogout,
 }: NavbarProps) {
-  const detectedPath = pathname ?? usePathname() ?? "/";
-  const currentPage = ROUTE_NAMES_MAP[detectedPath] ?? NAV_BRAND_SHORT;
-  const breadcrumbSegments = ROUTE_BREADCRUMB_SEGMENTS[detectedPath];
-
-  const styles = {
-    header:
-      "flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-8 z-10",
-    triggerButton:
-      "flex items-center gap-3 px-3 py-2 no-underline transition-all duration-150 bg-white border border-transparent rounded-lg group hover:border-slate-200 hover:shadow-sm focus:outline-none focus:shadow-sm",
-    userInfo: "flex-col hidden leading-none lg:flex",
-    userName: "text-[length:var(--font-size-sm)] font-medium text-slate-900",
-    userRole: "text-[length:var(--font-size-xs)] text-slate-500",
-    menu: "flex flex-col w-40 p-1 rounded-xl bg-white border border-slate-200 shadow-lg",
-    menuItem:
-      "block px-3 py-2 text-sm border border-transparent rounded text-slate-700 hover:border-slate-200 hover:bg-slate-50",
-    menuItemButton:
-      "w-full px-3 py-2 text-sm text-left border border-transparent rounded text-slate-700 hover:border-slate-200 hover:bg-slate-50",
-  };
+  const pathnameFromHook = usePathname();
+  const detectedPath = pathname ?? pathnameFromHook ?? "/";
+  const router = useRouter();
+  const currentPage = getRouteNameForPath(detectedPath) ?? NAV_BRAND_SHORT;
+  const breadcrumbSegments = getBreadcrumbSegments(detectedPath);
 
   return (
     <header
       {...dataDisabledProps(disabled)}
-      className={cn(styles.header, className)}
+      className={cn(
+        "flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-8 z-10",
+        className,
+      )}
     >
       <NavBreadcrumb
         brandName={NAV_BRAND_SHORT}
         currentPage={currentPage}
         segments={breadcrumbSegments}
+        onBack={() => router.back()}
       />
 
       <div className="flex items-center gap-4">
@@ -83,22 +72,36 @@ export function Navbar({
           trigger={
             <button
               type="button"
-              className={styles.triggerButton}
+              className="flex items-center gap-3 px-3 py-2 no-underline transition-all duration-150 bg-white border border-transparent rounded-lg group hover:border-slate-200 hover:shadow-sm focus:outline-none focus:shadow-sm"
               aria-label={`Usuario ${userName}`}
               title={userName}
             >
               <Avatar src={userAvatar} name={userName} size="xs" />
-              <div className={styles.userInfo}>
-                <span className={styles.userName}>{userName}</span>
-                <span className={styles.userRole}>{userRole}</span>
+              <div className="flex-col hidden leading-none lg:flex">
+                <Text
+                  as="span"
+                  size="sm"
+                  weight="medium"
+                  className="text-slate-900"
+                >
+                  {userName}
+                </Text>
+                <Text as="span" size="xs" muted>
+                  {userRole}
+                </Text>
               </div>
             </button>
           }
         >
-          <ul className={styles.menu}>
+          <ul className="flex flex-col w-40 p-1 rounded-xl bg-white border border-slate-200 shadow-lg">
             <li>
-              <Link href="/settings" className={styles.menuItem}>
-                Ajustes
+              <Link
+                href="/settings"
+                className="block rounded border border-transparent px-3 py-2 hover:border-slate-200 hover:bg-slate-50"
+              >
+                <Text as="span" size="sm" className="text-slate-700">
+                  Ajustes
+                </Text>
               </Link>
             </li>
             {onLogout && (
@@ -106,9 +109,11 @@ export function Navbar({
                 <button
                   type="button"
                   onClick={onLogout}
-                  className={styles.menuItemButton}
+                  className="w-full rounded border border-transparent px-3 py-2 text-left hover:border-slate-200 hover:bg-slate-50"
                 >
-                  Cerrar sesión
+                  <Text as="span" size="sm" className="text-slate-700">
+                    Cerrar sesión
+                  </Text>
                 </button>
               </li>
             )}

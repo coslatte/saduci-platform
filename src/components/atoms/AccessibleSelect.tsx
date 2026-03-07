@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { inter } from "@/lib/fonts";
+import { FiChevronDown } from "react-icons/fi";
 
 interface Option {
   value: string;
@@ -23,7 +24,7 @@ interface AccessibleSelectProps {
  * Renders a native hidden <select> (sr-only) for form compatibility and tests,
  * and a custom button + popover list for consistent styling across platforms.
  */
-export default function AccessibleSelect({
+export function AccessibleSelect({
   id,
   value,
   onChange,
@@ -33,15 +34,29 @@ export default function AccessibleSelect({
 }: AccessibleSelectProps) {
   const [open, setOpen] = useState(false);
   const [highlight, setHighlight] = useState<number>(() =>
-    Math.max(0, options.findIndex((o) => o.value === String(value)))
+    Math.max(
+      0,
+      options.findIndex((o) => o.value === String(value)),
+    ),
   );
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const listRef = useRef<HTMLUListElement | null>(null);
 
-  useEffect(() => {
-    setHighlight(Math.max(0, options.findIndex((o) => o.value === String(value))));
-  }, [value, options]);
+  // Sync highlight with external value changes without needing an effect.
+  const [trackedValue, setTrackedValue] = useState<string | number>(value);
+  if (trackedValue !== value) {
+    setTrackedValue(value);
+    setHighlight(
+      Math.max(
+        0,
+        options.findIndex((o) => o.value === String(value)),
+      ),
+    );
+  }
 
+  //
+  // --- useEffects ---
+  //
   useEffect(() => {
     function onDocClick(e: MouseEvent) {
       if (
@@ -67,14 +82,18 @@ export default function AccessibleSelect({
       setOpen(true);
       setHighlight((h) => Math.min(options.length - 1, h + 1));
       requestAnimationFrame(() => {
-        listRef.current?.querySelectorAll("li")[highlight + 1]?.scrollIntoView({ block: "nearest" });
+        listRef.current
+          ?.querySelectorAll("li")
+          [highlight + 1]?.scrollIntoView({ block: "nearest" });
       });
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setOpen(true);
       setHighlight((h) => Math.max(0, h - 1));
       requestAnimationFrame(() => {
-        listRef.current?.querySelectorAll("li")[highlight - 1]?.scrollIntoView({ block: "nearest" });
+        listRef.current
+          ?.querySelectorAll("li")
+          [highlight - 1]?.scrollIntoView({ block: "nearest" });
       });
     } else if (e.key === "Enter") {
       e.preventDefault();
@@ -114,11 +133,19 @@ export default function AccessibleSelect({
         onKeyDown={handleKeyDown}
         className={cn(
           inter.className,
-          "h-9 w-full rounded-lg border bg-white px-3 text-(length:--font-size-sm) text-zinc-900 shadow-xs",
+          "h-9 w-full rounded-lg border border-zinc-300 bg-white px-3 pr-9 text-left text-(length:--font-size-sm) text-zinc-800 shadow-xs",
           "focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500",
+          "hover:border-zinc-400 transition-colors duration-150",
         )}
       >
-        <span className="truncate">{selected?.label}</span>
+        <span className="block truncate">{selected?.label}</span>
+        <FiChevronDown
+          className={cn(
+            "absolute right-2.5 top-1/2 -translate-y-1/2 size-4 text-zinc-400 transition-transform duration-150 pointer-events-none",
+            open && "rotate-180",
+          )}
+          aria-hidden
+        />
       </button>
 
       {open && (
@@ -127,7 +154,7 @@ export default function AccessibleSelect({
           aria-labelledby={id}
           ref={listRef}
           tabIndex={-1}
-          className="absolute z-50 mt-1 max-h-48 w-full overflow-auto rounded-md border bg-white p-1 text-sm shadow-lg"
+          className="absolute z-50 mt-1 max-h-48 w-full overflow-auto rounded-lg border border-zinc-300 bg-white p-1 text-(length:--font-size-sm) shadow-lg"
           onKeyDown={handleKeyDown}
         >
           {options.map((o, i) => (
@@ -154,3 +181,5 @@ export default function AccessibleSelect({
     </div>
   );
 }
+
+export default AccessibleSelect;

@@ -3,23 +3,10 @@
 import React from "react";
 import { FiBell, FiCheckCircle, FiXCircle, FiInfo } from "react-icons/fi";
 import { cn } from "@/lib/utils";
+import { Text } from "@/components/atoms/Text";
 import type { NotificationItem } from "@/context/notifications";
 
 export type { NotificationItem };
-
-const PANEL_BASE =
-  "w-80 rounded-xl bg-white border border-slate-200 shadow-lg z-20 overflow-hidden";
-const HEADER_BASE =
-  "p-3 border-b border-slate-100 flex items-center justify-between";
-const MARK_ALL_BTN = "text-sm text-slate-500 hover:text-slate-700";
-const LIST_BASE = "max-h-60 overflow-auto divide-y divide-slate-100";
-const ITEM_BASE =
-  "px-4 py-3 hover:bg-slate-50 flex justify-between items-start";
-const ITEM_UNREAD = "bg-slate-50";
-const ACTION_BTN = "text-sm text-blue-600 hover:underline";
-const EMPTY_BASE = "p-6 text-center text-sm text-slate-500";
-const EMPTY_ICON =
-  "mx-auto mb-2 inline-flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 text-slate-600";
 
 const TYPE_ICON: Record<string, React.ReactNode> = {
   success: <FiCheckCircle className="w-4 h-4 text-emerald-500" />,
@@ -47,38 +34,58 @@ export function NotificationsPanel({
   onMarkAllAsRead,
 }: NotificationsPanelProps) {
   return (
-    <div className={cn(PANEL_BASE, className)} role="dialog">
-      <div className={HEADER_BASE}>
-        <h4 className="text-sm font-semibold text-slate-800">Notificaciones</h4>
+    <div
+      className={cn(
+        "w-full max-w-xs rounded-xl bg-white border border-slate-200 shadow-lg z-20 overflow-hidden",
+        className,
+      )}
+      role="dialog"
+    >
+      <div className="flex items-center justify-between p-3 border-b border-slate-100">
+        <Text as="h4" size="sm" weight="semibold" className="text-slate-800">
+          Notificaciones
+        </Text>
         {onMarkAllAsRead && (
           <button
             type="button"
             onClick={onMarkAllAsRead}
-            className={MARK_ALL_BTN}
+            className="hover:text-slate-700"
           >
-            Marcar todo
+            <Text as="span" size="sm" className="text-slate-500">
+              Marcar todo
+            </Text>
           </button>
         )}
       </div>
-      <div className={LIST_BASE}>
+      <div className="overflow-auto divide-y divide-slate-100 max-h-[50vh]">
         {notifications.length > 0 ? (
           notifications.map((n) => (
-            <div key={n.id} className={cn(ITEM_BASE, !n.read && ITEM_UNREAD)}>
+            <div
+              key={n.id}
+              className={cn(
+                "px-4 py-3 hover:bg-slate-50 flex justify-between items-start",
+                !n.read && "bg-slate-50",
+              )}
+            >
               <div className="flex items-start gap-2">
                 <div className="mt-0.5 shrink-0">
                   {TYPE_ICON[n.type ?? "info"] ?? TYPE_ICON.info}
                 </div>
                 <div>
-                  <div
+                  <Text
+                    as="p"
+                    size="sm"
+                    weight="medium"
                     className={cn(
-                      "text-sm font-medium",
                       TYPE_TITLE[n.type ?? "info"] ?? TYPE_TITLE.info,
                     )}
                   >
                     {n.title}
-                  </div>
+                  </Text>
                   {n.body && (
-                    <div className="text-sm text-slate-600">{n.body}</div>
+                    <Text as="p" size="sm" className="text-slate-600">
+                      {n.body}
+                    </Text>
                   )}
                 </div>
               </div>
@@ -87,24 +94,28 @@ export function NotificationsPanel({
                   <button
                     type="button"
                     onClick={() => onMarkAsRead(n.id)}
-                    className={ACTION_BTN}
+                    className="hover:underline"
                   >
-                    Marcar leída
+                    <Text as="span" size="sm" className="text-blue-600">
+                      Marcar leída
+                    </Text>
                   </button>
                 </div>
               )}
             </div>
           ))
         ) : (
-          <div className={EMPTY_BASE}>
-            <div className={EMPTY_ICON}>
+          <div className="p-6 text-center text-slate-500">
+            <div className="inline-flex items-center justify-center w-8 h-8 mx-auto mb-2 rounded-md bg-slate-100 text-slate-600">
               <FiBell className="w-4 h-4" />
             </div>
-            <div>No hay notificaciones</div>
-            <div className="mt-2 text-[12px] text-slate-400">
+            <Text as="p" size="base">
+              No hay notificaciones
+            </Text>
+            <Text as="p" size="xs" className="mt-2 text-slate-400">
               No hay notificaciones recientes. Te avisaremos cuando haya
               novedades.
-            </div>
+            </Text>
           </div>
         )}
       </div>

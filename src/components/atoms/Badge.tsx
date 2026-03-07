@@ -15,17 +15,6 @@ interface BadgeProps {
   disabled?: boolean;
 }
 
-const statusClasses: Record<Status, string> = {
-  default: "bg-zinc-100 text-zinc-700",
-  info: "bg-secondary-50 text-secondary-700",
-  success: "bg-primary-50 text-primary-700",
-  warning: "bg-amber-50 text-amber-700",
-  danger: "bg-red-50 text-red-700",
-};
-
-const BADGE_BASE =
-  "inline-flex items-center rounded-full px-2.5 py-0.5 text-[length:var(--font-size-xs)] font-medium";
-
 /**
  * Badge
  *
@@ -40,7 +29,17 @@ export function Badge({
   return (
     <span
       {...dataDisabledProps(disabled)}
-      className={cn(BADGE_BASE, statusClasses[status], className)}
+      className={cn(
+        "inline-flex items-center rounded-full px-2.5 py-0.5 text-(length:--font-size-xs) font-medium",
+        {
+          default: "bg-zinc-100 text-zinc-700",
+          info: "bg-secondary-50 text-secondary-700",
+          success: "bg-primary-50 text-primary-700",
+          warning: "bg-amber-50 text-amber-700",
+          danger: "bg-red-50 text-red-700",
+        }[status],
+        className,
+      )}
     >
       {children}
     </span>

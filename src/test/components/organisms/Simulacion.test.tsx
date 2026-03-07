@@ -120,7 +120,9 @@ describe("simulacion page — smoke tests", () => {
         Seleccione un tipo de Insuficiencia Respiratoria.
       </Alert>,
     );
-    const alert = container.querySelector('[role="alert"]') as HTMLElement | null;
+    const alert = container.querySelector(
+      '[role="alert"]',
+    ) as HTMLElement | null;
     if (!alert) throw new Error("Alert not found");
     expect(alert.className.includes("bg-red-50")).toBe(true);
   });
@@ -239,7 +241,7 @@ describe("runSimulation — API client", () => {
     mock.module("sileo", () => ({
       Toaster: () => null,
       sileo: {
-        error: (_opts: unknown) => {
+        error: () => {
           toastCalled = true;
         },
       },

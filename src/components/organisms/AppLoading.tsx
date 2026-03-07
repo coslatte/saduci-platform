@@ -13,10 +13,10 @@ interface AppLoadingProps {
  * `className` to merge into the outer container.
  */
 export function AppLoading({ className }: AppLoadingProps) {
-  const CONTAINER = "flex min-h-[60vh] items-center justify-center";
-
   return (
-    <div className={cn(CONTAINER, className)}>
+    <div
+      className={cn("flex min-h-[60vh] items-center justify-center", className)}
+    >
       <Spinner size="lg" label="Cargando..." />
     </div>
   );

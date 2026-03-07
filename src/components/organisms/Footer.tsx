@@ -1,21 +1,11 @@
 "use client";
 
 import { FiBell } from "react-icons/fi";
+import { Text } from "@/components/atoms/Text";
 import { cn } from "@/lib/utils";
 import { Popover } from "@/components/molecules/Popover";
 import { NotificationsPanel } from "@/components/molecules/NotificationsPanel";
 import { useNotifications } from "@/context/notifications";
-
-const FOOTER_BASE =
-  "flex h-12 shrink-0 items-center justify-between border-t border-slate-200 bg-white px-8 transition-colors";
-const FOOTER_DISABLED = "opacity-50 grayscale pointer-events-none";
-const COPYRIGHT =
-  "text-[length:var(--font-size-xs)] font-medium text-slate-400";
-const BELL_BTN =
-  "relative p-2 rounded-md text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200";
-const BADGE =
-  "absolute -top-0.5 -right-0.5 inline-flex items-center justify-center rounded-full bg-rose-600 text-white text-[10px] px-1.5 py-0.5";
-const STATUS_DOT = "size-1.5 rounded-full bg-emerald-500 animate-pulse";
 
 interface FooterProps {
   className?: string;
@@ -28,8 +18,16 @@ export function Footer({ className, disabled }: FooterProps) {
     useNotifications();
 
   return (
-    <footer className={cn(FOOTER_BASE, disabled && FOOTER_DISABLED, className)}>
-      <p className={COPYRIGHT}>&copy; {currentYear} Saduci Platform</p>
+    <footer
+      className={cn(
+        "flex h-12 shrink-0 items-center justify-between border-t border-slate-200 bg-white px-8 transition-colors",
+        disabled && "opacity-50 grayscale pointer-events-none",
+        className,
+      )}
+    >
+      <Text as="p" size="xs" weight="medium" className="text-slate-400">
+        &copy; {currentYear} Saduci Platform
+      </Text>
 
       <div className="flex items-center gap-4">
         <Popover
@@ -37,12 +35,16 @@ export function Footer({ className, disabled }: FooterProps) {
           trigger={
             <button
               type="button"
-              className={BELL_BTN}
+              className="relative p-2 rounded-md text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200"
               title="Notificaciones"
               aria-label="Notificaciones"
             >
               <FiBell className="w-5 h-5" />
-              {unreadCount > 0 && <span className={BADGE}>{unreadCount}</span>}
+              {unreadCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center rounded-full bg-rose-600 px-1.5 py-0.5 text-(length:--font-size-xs) text-white">
+                  {unreadCount}
+                </span>
+              )}
             </button>
           }
         >
@@ -53,7 +55,7 @@ export function Footer({ className, disabled }: FooterProps) {
           />
         </Popover>
 
-        <div className={STATUS_DOT} />
+        <div className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
       </div>
     </footer>
   );

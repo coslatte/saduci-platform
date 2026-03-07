@@ -11,23 +11,6 @@ interface AvatarProps {
   disabled?: boolean;
 }
 
-const sizeClasses: Record<string, string> = {
-  xs: "size-6 text-[length:var(--font-size-xs)]",
-  sm: "size-8 text-[length:var(--font-size-sm)]",
-  md: "size-9 text-[length:var(--font-size-sm)]",
-  lg: "size-11 text-[length:var(--font-size-base)]",
-  xl: "size-14 text-[length:var(--font-size-lg)]",
-};
-
-// Class name building blocks used by the component. Extracted to constants
-// to make it straightforward to centralize or reuse styles later.
-// No visual border/shadow by default. On hover (ancestor with `group`), show a
-// subtle colored border + outer ring and a gentle scale for a "nice" effect.
-const AVATAR_IMG_BASE =
-  "relative overflow-hidden rounded-full bg-zinc-200 border-2 border-transparent transition-all duration-150 transform group-hover:border-primary-600 group-hover:ring-2 group-hover:ring-primary-100 group-hover:scale-105";
-const AVATAR_FALLBACK_BASE =
-  "inline-flex items-center justify-center rounded-full bg-primary-100 font-semibold text-primary-700 border-2 border-transparent transition-all duration-150 transform group-hover:border-primary-600 group-hover:ring-2 group-hover:ring-primary-100 group-hover:scale-105";
-
 function getInitials(name: string): string {
   return name
     .split(" ")
@@ -59,13 +42,26 @@ export function Avatar({
   className,
   disabled,
 }: AvatarProps) {
-  const sizeClass = sizeClasses[size];
+  const sizeClass =
+    size === "xs"
+      ? "size-6 text-(length:--font-size-xs)"
+      : size === "sm"
+        ? "size-8 text-(length:--font-size-sm)"
+        : size === "md"
+          ? "size-9 text-(length:--font-size-sm)"
+          : size === "lg"
+            ? "size-11 text-(length:--font-size-base)"
+            : "size-14 text-(length:--font-size-lg)";
 
   if (src) {
     return (
       <div
         {...dataDisabledProps(disabled)}
-        className={cn(AVATAR_IMG_BASE, sizeClass, className)}
+        className={cn(
+          "relative overflow-hidden rounded-full bg-zinc-200 border-2 border-transparent transition-all duration-150 transform group-hover:border-primary-600 group-hover:ring-2 group-hover:ring-primary-100 group-hover:scale-105",
+          sizeClass,
+          className,
+        )}
       >
         <Image src={src} alt={alt} fill className="object-cover" />
       </div>
@@ -75,7 +71,11 @@ export function Avatar({
   return (
     <div
       {...dataDisabledProps(disabled)}
-      className={cn(AVATAR_FALLBACK_BASE, sizeClass, className)}
+      className={cn(
+        "inline-flex items-center justify-center rounded-full bg-primary-100 font-semibold text-primary-700 border-2 border-transparent transition-all duration-150 transform group-hover:border-primary-600 group-hover:ring-2 group-hover:ring-primary-100 group-hover:scale-105",
+        sizeClass,
+        className,
+      )}
       aria-label={alt || name}
     >
       {name ? getInitials(name) : "?"}

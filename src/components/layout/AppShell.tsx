@@ -47,14 +47,14 @@ export function AppShell({
         />
         {/* Global Toaster for notifications */}
         <Toaster position="bottom-right" />
-        <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="flex flex-col flex-1 overflow-hidden">
           <Navbar
             userName={userName}
             userRole={userRole}
             userAvatar={userAvatar}
             onLogout={onLogout}
           />
-          <main className="flex-1 overflow-y-auto bg-white px-8 py-8">
+          <main className="flex-1 px-8 py-8 overflow-y-auto bg-white">
             {children}
           </main>
           <Footer />

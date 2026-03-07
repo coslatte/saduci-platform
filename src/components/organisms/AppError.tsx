@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { Text } from "@/components/atoms/Text";
 
 interface AppErrorProps {
   error: Error & { digest?: string };
@@ -22,22 +23,21 @@ export function AppError({ error, reset }: AppErrorProps) {
     console.error("[AppError]", error.message);
   }, [error]);
 
-  const CONTAINER =
-    "flex min-h-[60vh] flex-col items-center justify-center gap-4 text-center";
-  const TITLE = "text-lg font-semibold text-zinc-900";
-  const MESSAGE = "text-sm text-zinc-500";
-  const BUTTON =
-    "rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 transition-colors";
-
   return (
-    <div className={CONTAINER}>
+    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 text-center">
       <div className="flex flex-col gap-1">
-        <h2 className={TITLE}>Ocurrió un error inesperado</h2>
-        <p className={MESSAGE}>
+        <Text as="h2" size="lg" weight="semibold" className="text-zinc-900">
+          Ocurrió un error inesperado
+        </Text>
+        <Text as="p" size="sm" muted>
           {error.message || "Inténtalo de nuevo o contacta al administrador."}
-        </p>
+        </Text>
       </div>
-      <button type="button" onClick={reset} className={BUTTON}>
+      <button
+        type="button"
+        onClick={reset}
+        className="rounded-lg bg-primary-600 px-4 py-2 text-(length:--font-size-sm) font-medium text-white transition-colors hover:bg-primary-700"
+      >
         Reintentar
       </button>
     </div>

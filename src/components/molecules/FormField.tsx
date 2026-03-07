@@ -37,12 +37,11 @@ export function FormField({
   inputProps,
   disabled,
 }: FormFieldProps) {
-  const WRAPPER = "flex flex-col gap-1.5";
-  const HINT_CLASS = "text-[length:var(--font-size-xs)] text-zinc-500";
-  const ERROR_CLASS = "text-[length:var(--font-size-xs)] text-red-600";
-
   return (
-    <div {...dataDisabledProps(disabled)} className={cn(WRAPPER, className)}>
+    <div
+      {...dataDisabledProps(disabled)}
+      className={cn("flex flex-col gap-1.5", className)}
+    >
       <Label htmlFor={id} required={required} disabled={disabled}>
         {label}
       </Label>
@@ -57,12 +56,19 @@ export function FormField({
         {...inputProps}
       />
       {hint && !error && (
-        <p id={`${id}-hint`} className={HINT_CLASS}>
+        <p
+          id={`${id}-hint`}
+          className="text-(length:--font-size-xs) text-zinc-500"
+        >
           {hint}
         </p>
       )}
       {error && (
-        <p id={`${id}-error`} role="alert" className={ERROR_CLASS}>
+        <p
+          id={`${id}-error`}
+          role="alert"
+          className="text-(length:--font-size-xs) text-red-600"
+        >
           {error}
         </p>
       )}

@@ -10,9 +10,6 @@ export interface BaseButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
   spinner?: React.ReactNode;
 }
 
-export const baseButtonStyles =
-  "relative inline-flex items-center justify-center overflow-hidden font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-0";
-
 /**
  * BaseButton
  *
@@ -38,7 +35,10 @@ export function BaseButton({
     <button
       {...dataDisabledProps(disabled)}
       disabled={disabled || loading}
-      className={cn(baseButtonStyles, className)}
+      className={cn(
+        "relative inline-flex items-center justify-center overflow-hidden font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-0",
+        className,
+      )}
       {...props}
     >
       <span

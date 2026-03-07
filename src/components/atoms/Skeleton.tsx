@@ -13,12 +13,10 @@ export function Skeleton(
 ) {
   const { className, disabled, ...rest } = props;
 
-  const SKELETON_BASE = "animate-pulse rounded-md bg-zinc-200/80";
-
   return (
     <div
       {...dataDisabledProps(disabled)}
-      className={cn(SKELETON_BASE, className)}
+      className={cn("animate-pulse rounded-md bg-zinc-200/80", className)}
       {...(rest as HTMLAttributes<HTMLDivElement>)}
     />
   );

@@ -32,7 +32,7 @@ describe("Navbar", () => {
   });
 
   it("opens user popover and shows ajustes link when user button is clicked", () => {
-    const { container, getByText, getByRole } = render(<Navbar pathname="/" />);
+    const { container, getByRole } = render(<Navbar pathname="/" />);
 
     const userBtn = container.querySelector(
       "button[aria-haspopup='dialog']",
@@ -67,7 +67,7 @@ describe("Navbar", () => {
 
   it("calls onLogout when logout button is clicked inside popover", () => {
     let logoutCalled = false;
-    const { container, getByText, getByRole } = render(
+    const { container, getByRole } = render(
       <Navbar
         pathname="/"
         onLogout={() => {

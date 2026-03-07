@@ -24,14 +24,6 @@ import {
 } from "@/constants/constants";
 import { cn } from "@/lib/utils";
 
-const RESULT_TABLE_HEADER =
-  "py-2 pr-4 text-left text-[length:var(--font-size-sm)] font-medium text-zinc-500";
-const RESULT_TABLE_VALUE =
-  "py-2 pl-4 text-right text-[length:var(--font-size-sm)] tabular-nums font-semibold text-zinc-900";
-const FILE_ZONE_BASE =
-  "flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-center transition-colors hover:border-primary-400 cursor-pointer";
-const FILE_ZONE_FILLED = "border-primary-300 bg-primary-50";
-
 interface FileUploaderProps {
   label: string;
   file: File | null;
@@ -49,7 +41,10 @@ function FileUploader({ label, file, inputId, onChange }: FileUploaderProps) {
         role="button"
         tabIndex={0}
         aria-label={label}
-        className={cn(FILE_ZONE_BASE, file && FILE_ZONE_FILLED)}
+        className={cn(
+          "flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-center transition-colors hover:border-primary-400 cursor-pointer",
+          file && "border-primary-300 bg-primary-50",
+        )}
         onClick={() => inputRef.current?.click()}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
@@ -102,7 +97,10 @@ function MultiFileUploader({
         role="button"
         tabIndex={0}
         aria-label={label}
-        className={cn(FILE_ZONE_BASE, files.length > 0 && FILE_ZONE_FILLED)}
+        className={cn(
+          "flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-center transition-colors hover:border-primary-400 cursor-pointer",
+          files.length > 0 && "border-primary-300 bg-primary-50",
+        )}
         onClick={() => inputRef.current?.click()}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
@@ -116,9 +114,7 @@ function MultiFileUploader({
           multiple
           className="sr-only"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            const selected = e.target.files
-              ? Array.from(e.target.files)
-              : [];
+            const selected = e.target.files ? Array.from(e.target.files) : [];
             onChange(selected);
           }}
         />
@@ -156,10 +152,12 @@ function StatResultTable({ result }: StatResultTableProps) {
       >
         <thead>
           <tr className="border-b border-zinc-200">
-            <th className={RESULT_TABLE_HEADER}>{STATS_TABLE_METRIC_HEADER}</th>
+            <th className="py-2 pr-4 text-left text-(length:--font-size-sm) font-medium text-zinc-500">
+              {STATS_TABLE_METRIC_HEADER}
+            </th>
             <th
               className={cn(
-                RESULT_TABLE_HEADER,
+                "py-2 pr-4 text-left text-(length:--font-size-sm) font-medium text-zinc-500",
                 "pl-4 text-right text-zinc-700",
               )}
             >
@@ -169,14 +167,20 @@ function StatResultTable({ result }: StatResultTableProps) {
         </thead>
         <tbody>
           <tr className="border-b border-zinc-100">
-            <td className={RESULT_TABLE_HEADER}>{STATS_STATISTIC_LABEL}</td>
-            <td className={RESULT_TABLE_VALUE}>
+            <td className="py-2 pr-4 text-left text-(length:--font-size-sm) font-medium text-zinc-500">
+              {STATS_STATISTIC_LABEL}
+            </td>
+            <td className="py-2 pl-4 text-right text-(length:--font-size-sm) tabular-nums font-semibold text-zinc-900">
               {result.statistic.toFixed(4)}
             </td>
           </tr>
           <tr>
-            <td className={RESULT_TABLE_HEADER}>{STATS_P_VALUE_LABEL}</td>
-            <td className={RESULT_TABLE_VALUE}>{result.p_value.toFixed(4)}</td>
+            <td className="py-2 pr-4 text-left text-(length:--font-size-sm) font-medium text-zinc-500">
+              {STATS_P_VALUE_LABEL}
+            </td>
+            <td className="py-2 pl-4 text-right text-(length:--font-size-sm) tabular-nums font-semibold text-zinc-900">
+              {result.p_value.toFixed(4)}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -243,7 +247,10 @@ export function WilcoxonSection({
               value={selectedColumn}
               fullWidth
               onChange={(v) => onColumnChange(String(v))}
-              options={EXPERIMENT_VARIABLE_LABELS.map((label) => ({ value: label, label }))}
+              options={EXPERIMENT_VARIABLE_LABELS.map((label) => ({
+                value: label,
+                label,
+              }))}
             />
           </div>
 
@@ -253,8 +260,12 @@ export function WilcoxonSection({
                 {STATS_PREVIEW_LABEL}
               </summary>
               <ul className="mt-2 list-disc list-inside">
-                <li>{STATS_EXPERIMENT_LABEL(1)}: {file1.name}</li>
-                <li>{STATS_EXPERIMENT_LABEL(2)}: {file2.name}</li>
+                <li>
+                  {STATS_EXPERIMENT_LABEL(1)}: {file1.name}
+                </li>
+                <li>
+                  {STATS_EXPERIMENT_LABEL(2)}: {file2.name}
+                </li>
               </ul>
             </details>
           )}
@@ -337,7 +348,10 @@ export function FriedmanSection({
               value={selectedColumn}
               fullWidth
               onChange={(v) => onColumnChange(String(v))}
-              options={EXPERIMENT_VARIABLE_LABELS.map((label) => ({ value: label, label }))}
+              options={EXPERIMENT_VARIABLE_LABELS.map((label) => ({
+                value: label,
+                label,
+              }))}
             />
           </div>
 

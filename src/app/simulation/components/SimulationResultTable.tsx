@@ -12,18 +12,13 @@ export interface SimulationResultTableProps {
 /**
  * SimulationResultTable
  *
- * Renders a compact table of simulation statistics (mean, std, confidence
- * intervals) for each time variable provided by the simulation result.
- *
- * @param result - simulation results grouped by time variable
- * @param disabled - attach data-disabled to the wrapper for visual disabling
+ * Route-local table used by the simulation screen to render summary
+ * statistics (mean, std and confidence intervals) for each time variable.
  */
 export function SimulationResultTable({
   result,
   disabled,
 }: SimulationResultTableProps) {
-  // allow disabling visual display via data-disabled on wrapper
-  // (component remains read-only)
   const keys = Object.keys(result) as (keyof typeof result)[];
   const rows = [
     { label: "Promedio", key: "mean" as const },
@@ -34,7 +29,10 @@ export function SimulationResultTable({
 
   return (
     <div className="overflow-x-auto" {...dataDisabledProps(disabled)}>
-      <table className="w-full text-sm" aria-label="Resultados de simulación">
+      <table
+        className="w-full text-(length:--font-size-sm)"
+        aria-label="Resultados de simulación"
+      >
         <thead>
           <tr className="border-b border-zinc-200">
             <th className="py-2 pr-4 text-left font-medium text-zinc-500">

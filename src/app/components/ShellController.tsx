@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import type { ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { AppShell } from "./AppShell";
+import { AppShell } from "@/components/layout/AppShell";
 import { useAuth } from "@/lib/auth";
 
 interface Props {
@@ -21,12 +21,10 @@ export default function ShellController({ children }: Props) {
     }
   }, [isAuthenticated, pathname, router]);
 
-  // For the login page we don't want the shell at all
   if (pathname === "/login") {
     return <>{children}</>;
   }
 
-  // while redirecting, render nothing
   if (!isAuthenticated) return null;
 
   function handleLogout() {

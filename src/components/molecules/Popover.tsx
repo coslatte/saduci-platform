@@ -98,29 +98,6 @@ export function Popover({
     return () => el.removeEventListener("click", handler);
   }, [closeOnSelect]);
 
-  function resolvePosition() {
-    if (!wrapperRef.current) return;
-    // Prefer the actual trigger element (cloned button/anchor) when available
-    // as it provides a more accurate bounding rect in complex layouts.
-    const triggerEl = document.querySelector(`[aria-controls="${id}"]`) as
-      | HTMLElement
-      | null;
-    const rect = triggerEl?.getBoundingClientRect() ?? wrapperRef.current.getBoundingClientRect();
-    const PANEL_WIDTH = 320;
-    let left = rect.right - PANEL_WIDTH;
-    if (align === "left") left = rect.left;
-    if (align === "center") left = rect.left + rect.width / 2 - PANEL_WIDTH / 2;
-    left = Math.max(8, Math.min(left, window.innerWidth - PANEL_WIDTH - 8));
-
-    const PANEL_MAX_HEIGHT = 360;
-    const spaceBelow = window.innerHeight - rect.bottom;
-    if (spaceBelow < PANEL_MAX_HEIGHT) {
-      setPosition({ bottom: window.innerHeight - rect.top + 8, left });
-    } else {
-      setPosition({ top: rect.bottom + 8, left });
-    }
-  }
-
   // Re-compute position when open/align changes and on resize/scroll.
   useLayoutEffect(() => {
     if (!open) return;
@@ -128,10 +105,12 @@ export function Popover({
     function compute() {
       if (!wrapperRef.current) return;
       // Use the trigger element if present (aria-controls points to the popover id)
-      const triggerEl = document.querySelector(`[aria-controls="${id}"]`) as
-        | HTMLElement
-        | null;
-      const rect = triggerEl?.getBoundingClientRect() ?? wrapperRef.current.getBoundingClientRect();
+      const triggerEl = document.querySelector(
+        `[aria-controls="${id}"]`,
+      ) as HTMLElement | null;
+      const rect =
+        triggerEl?.getBoundingClientRect() ??
+        wrapperRef.current.getBoundingClientRect();
       const PANEL_WIDTH = 320;
       let left = rect.right - PANEL_WIDTH;
       if (align === "left") left = rect.left;
@@ -152,7 +131,10 @@ export function Popover({
       let transformed = false;
       while (el && el !== document.body) {
         const st = window.getComputedStyle(el as Element);
-        const hasTransform = (st.transform && st.transform !== "none") || (st.perspective && st.perspective !== "none") || (st.filter && st.filter !== "none");
+        const hasTransform =
+          (st.transform && st.transform !== "none") ||
+          (st.perspective && st.perspective !== "none") ||
+          (st.filter && st.filter !== "none");
         if (hasTransform) {
           transformed = true;
           break;
@@ -167,14 +149,22 @@ export function Popover({
         const top = Math.max(8, rect.top - contentHeight - 8);
         if (transformed) {
           const wrapperRect = wrapperRef.current.getBoundingClientRect();
-          setPosition({ top: top - wrapperRect.top, left: left - wrapperRect.left, relative: true });
+          setPosition({
+            top: top - wrapperRect.top,
+            left: left - wrapperRect.left,
+            relative: true,
+          });
         } else {
           setPosition({ top, left, relative: false });
         }
       } else {
         if (transformed) {
           const wrapperRect = wrapperRef.current.getBoundingClientRect();
-          setPosition({ top: rect.bottom + 8 - wrapperRect.top, left: left - wrapperRect.left, relative: true });
+          setPosition({
+            top: rect.bottom + 8 - wrapperRect.top,
+            left: left - wrapperRect.left,
+            relative: true,
+          });
         } else {
           setPosition({ top: rect.bottom + 8, left, relative: false });
         }
@@ -188,7 +178,7 @@ export function Popover({
       window.removeEventListener("resize", compute);
       window.removeEventListener("scroll", compute as EventListener);
     };
-  }, [open, align]);
+  }, [open, align, id]);
 
   // clear entering state after one frame to trigger CSS transition
   useEffect(() => {
@@ -242,14 +232,18 @@ export function Popover({
   // we wrap them in a button so the DOM and keyboard focus behavior remains
   // predictable for consumers and tests.
   const renderTrigger = () => {
-    const handleToggle = (e?: any) => {
+    const handleToggle = (e?: React.MouseEvent<HTMLElement>) => {
       // allow original handler to run first
       try {
         if (typeof trigger === "object" && React.isValidElement(trigger)) {
-          const origOnClick = (trigger.props as any).onClick;
+          const origOnClick = (
+            trigger.props as {
+              onClick?: (e?: React.MouseEvent<HTMLElement>) => void;
+            }
+          ).onClick;
           if (typeof origOnClick === "function") origOnClick(e);
         }
-      } catch (err) {
+      } catch {
         // ignore
       }
 
@@ -270,19 +264,23 @@ export function Popover({
     ) {
       // native interactive element like 'button' or 'a'
       const isButtonEl = trigger.type === "button";
-      const newProps: any = {
-        "aria-haspopup": "dialog",
+      const triggerProps = trigger.props as {
+        className?: string;
+        type?: string;
+      };
+      const newProps = {
+        "aria-haspopup": "dialog" as const,
         "aria-expanded": open,
         "aria-controls": id,
         onClick: handleToggle,
-        className: cn(
-          "inline-flex items-center",
-          (trigger.props as any).className,
-        ),
+        className: cn("inline-flex items-center", triggerProps.className),
+        ...(isButtonEl ? { type: triggerProps.type ?? "button" } : {}),
       };
-      if (isButtonEl) newProps.type = (trigger.props as any).type ?? "button";
 
-      return React.cloneElement(trigger, newProps);
+      return React.cloneElement(
+        trigger,
+        newProps as React.HTMLAttributes<HTMLElement>,
+      );
     }
 
     // fallback: wrap non-native triggers in a button
@@ -304,7 +302,8 @@ export function Popover({
     <div className={cn("relative inline-block", className)} ref={wrapperRef}>
       {renderTrigger()}
 
-      {(open || exiting) && (usePortal ? createPortal(content, document.body) : content)}
+      {(open || exiting) &&
+        (usePortal ? createPortal(content, document.body) : content)}
     </div>
   );
 }

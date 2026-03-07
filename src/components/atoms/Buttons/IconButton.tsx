@@ -1,7 +1,7 @@
 import { BaseButton, BaseButtonProps } from "./BaseButton";
 import { cn } from "@/lib/utils";
 import type { Size } from "@/lib/types";
-import { variantClasses, IconButtonVariant } from "./constants";
+import { IconButtonVariant } from "./constants";
 import { ReactElement } from "react";
 
 export interface IconButtonProps extends Omit<BaseButtonProps, "className"> {
@@ -11,14 +11,6 @@ export interface IconButtonProps extends Omit<BaseButtonProps, "className"> {
   "aria-label": string;
   className?: string;
 }
-
-const iconButtonSizeClasses: Record<Size, { button: string; icon: string }> = {
-  xs: { button: "size-7", icon: "text-[length:var(--font-size-xs)]" },
-  sm: { button: "size-8", icon: "text-[length:var(--font-size-sm)]" },
-  md: { button: "size-9", icon: "text-[length:var(--font-size-base)]" },
-  lg: { button: "size-10", icon: "text-[length:var(--font-size-lg)]" },
-  xl: { button: "size-12", icon: "text-[length:var(--font-size-xl)]" },
-};
 
 /**
  * IconButton
@@ -33,16 +25,47 @@ export function IconButton({
   icon,
   ...props
 }: IconButtonProps) {
-  const { button: buttonSize, icon: iconSize } = iconButtonSizeClasses[size];
+  const buttonSize =
+    size === "xs"
+      ? "size-7"
+      : size === "sm"
+        ? "size-8"
+        : size === "md"
+          ? "size-9"
+          : size === "lg"
+            ? "size-10"
+            : "size-12";
 
-  const ICON_BUTTON_BASE = "rounded-full shrink-0";
+  const iconSize =
+    size === "xs"
+      ? "text-(length:--font-size-xs)"
+      : size === "sm"
+        ? "text-(length:--font-size-sm)"
+        : size === "md"
+          ? "text-(length:--font-size-base)"
+          : size === "lg"
+            ? "text-(length:--font-size-lg)"
+            : "text-(length:--font-size-xl)";
+
+  const variantClass =
+    variant === "primary"
+      ? "bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 focus-visible:ring-primary-500"
+      : variant === "secondary"
+        ? "bg-zinc-100 text-zinc-900 hover:bg-zinc-200 active:bg-zinc-300 focus-visible:ring-zinc-400"
+        : variant === "outline"
+          ? "border border-zinc-300 bg-transparent text-zinc-700 hover:bg-zinc-50 active:bg-zinc-100 focus-visible:ring-zinc-400"
+          : variant === "ghost"
+            ? "bg-transparent text-zinc-700 hover:bg-zinc-100 active:bg-zinc-200 focus-visible:ring-zinc-400"
+            : variant === "danger"
+              ? "bg-red-600 text-white hover:bg-red-700 active:bg-red-800 focus-visible:ring-red-500"
+              : "bg-green-600 text-white hover:bg-green-700 active:bg-green-800 focus-visible:ring-green-500";
 
   return (
     <BaseButton
       size={size}
       className={cn(
-        ICON_BUTTON_BASE,
-        variantClasses[variant],
+        "rounded-full shrink-0",
+        variantClass,
         buttonSize,
         className,
       )}

@@ -72,23 +72,19 @@ export const VALIDATION_SELECT_RESP =
 // Home / Dashboard
 export const HOME_DEFAULT_GREETING = "Bienvenido";
 export const HOME_WELCOME_SUBTITLE =
-  "Panel principal de Saduci Platform — sistema de simulación y análisis clínico para Unidades de Cuidados Intensivos.";
+  "Panel principal de Saduci Platform - sistema de simulación y análisis clínico para Unidades de Cuidados Intensivos.";
 
 export const ABOUT_TITLE = "Acerca de la Plataforma";
-// Export as JSX to allow inline formatting (strong/italic) while keeping centralized text
+
 export const ABOUT_DESC: React.ReactNode = (
   <>
-    <strong>Saduci Platform</strong> es una herramienta de simulación clínica
-    diseñada para modelar la evolución de pacientes en la Unidad de Cuidados
-    Intensivos (UCI). Permite ejecutar simulaciones
-    <em> Monte Carlo</em> con parámetros clínicos reales y obtener predicciones
-    de mortalidad. "Saduci" significa "Sistema de Apoyo en la Decisión en la
-    Unidad de Cuidado Intensivo".
+    <strong>SADUCI</strong> es una plataforma para el apoyo en la unidad clínica
+    la evolución de pacientes en la Unidad de Cuidados Intensivos (UCI).{" "}
+    {
+      '"Saduci" significa "Sistema de Apoyo en la Decisión en la Unidad de Cuidado Intensivo".'
+    }
   </>
 );
-
-export const ABOUT_TAG_MC = "Simulación Monte Carlo";
-export const ABOUT_VERSION = "v0.1.0";
 
 export const PROJECT_LINKS = [
   {
@@ -123,6 +119,19 @@ export const SETTINGS_PWD_MISMATCH = "Las contraseñas no coinciden.";
 export const SETTINGS_PWD_SUCCESS = "Contraseña actualizada correctamente.";
 export const SETTINGS_PWD_ERROR = "Error al actualizar la contraseña.";
 export const SETTINGS_NET_ERROR = "Error de red al cambiar la contraseña.";
+
+// Not-found / Error pages
+export const NOT_FOUND_CODE = "404";
+export const NOT_FOUND_TITLE = "Página no encontrada";
+export const NOT_FOUND_SUBTITLE =
+  "La ruta que intentas acceder no existe o no está disponible.";
+export const NOT_FOUND_BACK_BUTTON = "Volver al inicio";
+
+export const ERROR_PAGE_TITLE = "Ocurrió un error inesperado";
+export const ERROR_PAGE_SUBTITLE =
+  "Algo salió mal al cargar esta sección. Puedes intentar de nuevo o volver al inicio.";
+export const ERROR_PAGE_RETRY_BUTTON = "Reintentar";
+export const ERROR_PAGE_BACK_BUTTON = "Volver al inicio";
 
 // Statistics
 export const STATISTICS_PAGE_TITLE = "Pruebas Estadísticas";

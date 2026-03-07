@@ -6,6 +6,7 @@ import { Badge } from "@/components/atoms/Badge";
 import { Divider } from "@/components/atoms/Divider";
 import { Spinner } from "@/components/atoms/Spinner";
 import { Button } from "@/components/atoms/Buttons";
+import { Text } from "@/components/atoms/Text";
 import { Alert } from "@/components/molecules/Alert";
 import { FormField } from "@/components/molecules/FormField";
 import { useAuth } from "@/lib/auth";
@@ -29,21 +30,6 @@ import {
   SETTINGS_PWD_ERROR,
   SETTINGS_NET_ERROR,
 } from "@/constants/constants";
-
-const PAGE_WRAPPER = "p-0";
-const PAGE_HEADER = "mb-8 flex items-start justify-between gap-4";
-const PAGE_TITLE = "text-2xl font-semibold text-zinc-900";
-const PAGE_SUBTITLE = "text-sm text-zinc-500 mt-1";
-const MOCK_TOGGLE =
-  "flex items-center gap-1.5 text-xs text-zinc-400 cursor-pointer select-none shrink-0 mt-1";
-const GRID = "grid grid-cols-1 md:grid-cols-3 gap-6";
-const SECTION_HEADER =
-  "flex items-center gap-2 text-sm font-medium text-zinc-700";
-const PROFILE_CONTENT = "flex flex-col items-center text-center gap-4 py-2";
-const PROFILE_NAME = "font-semibold text-base text-zinc-900 leading-tight";
-const PROFILE_EMAIL = "text-sm text-zinc-500 mt-0.5";
-const FORM_WRAPPER = "flex flex-col gap-5";
-const FORM_FOOTER = "flex justify-end pt-1";
 
 export default function UserSettingsPage() {
   const { user } = useAuth();
@@ -119,13 +105,17 @@ export default function UserSettingsPage() {
   }
 
   return (
-    <main className={PAGE_WRAPPER}>
-      <div className={PAGE_HEADER}>
+    <main className="p-0">
+      <div className="mb-8 flex items-start justify-between gap-4">
         <div>
-          <h1 className={PAGE_TITLE}>{SETTINGS_PAGE_TITLE}</h1>
-          <p className={PAGE_SUBTITLE}>{SETTINGS_PAGE_SUBTITLE}</p>
+          <Text as="h1" size="2xl" weight="semibold" className="text-zinc-900">
+            {SETTINGS_PAGE_TITLE}
+          </Text>
+          <Text as="p" size="sm" muted className="mt-1">
+            {SETTINGS_PAGE_SUBTITLE}
+          </Text>
         </div>
-        <label className={MOCK_TOGGLE}>
+        <label className="mt-1 flex shrink-0 cursor-pointer select-none items-center gap-1.5 text-(length:--font-size-xs) text-zinc-400">
           <input
             type="checkbox"
             checked={useMock}
@@ -137,28 +127,41 @@ export default function UserSettingsPage() {
         </label>
       </div>
 
-      <div className={GRID}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-1 flex flex-col gap-4 border-b border-slate-100 pb-6 md:border-b-0 md:border-r md:pr-6">
-          <div className={SECTION_HEADER}>
+          <div className="flex items-center gap-2 text-zinc-700">
             <FiUser size={14} />
-            <span>{SETTINGS_PROFILE_SECTION}</span>
+            <Text as="span" size="sm" weight="medium" className="text-zinc-700">
+              {SETTINGS_PROFILE_SECTION}
+            </Text>
           </div>
-          <div className={PROFILE_CONTENT}>
+          <div className="flex flex-col items-center text-center gap-4 py-2">
             <Avatar name={effectiveUser.name} size="xl" />
             <div>
-              <p className={PROFILE_NAME}>{effectiveUser.name}</p>
-              <p className={PROFILE_EMAIL}>{effectiveUser.email}</p>
+              <Text
+                as="p"
+                size="base"
+                weight="semibold"
+                className="leading-tight text-zinc-900"
+              >
+                {effectiveUser.name}
+              </Text>
+              <Text as="p" size="sm" muted className="mt-0.5">
+                {effectiveUser.email}
+              </Text>
             </div>
             <Badge status="info">{effectiveUser.role}</Badge>
           </div>
         </div>
 
         <div className="md:col-span-2 flex flex-col gap-4">
-          <div className={SECTION_HEADER}>
+          <div className="flex items-center gap-2 text-zinc-700">
             <FiShield size={14} />
-            <span>{SETTINGS_SECURITY_SECTION}</span>
+            <Text as="span" size="sm" weight="medium" className="text-zinc-700">
+              {SETTINGS_SECURITY_SECTION}
+            </Text>
           </div>
-          <form onSubmit={handleSubmit} className={FORM_WRAPPER}>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <FormField
               id="current-password"
               label={SETTINGS_CURRENT_PWD_LABEL}
@@ -206,7 +209,7 @@ export default function UserSettingsPage() {
               </Alert>
             )}
 
-            <div className={FORM_FOOTER}>
+            <div className="flex justify-end pt-1">
               <Button type="submit" disabled={loading}>
                 {loading ? (
                   <span className="flex items-center gap-2">

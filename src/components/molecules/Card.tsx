@@ -12,9 +12,6 @@ interface CardProps {
   disabled?: boolean;
 }
 
-const CARD_BASE = "rounded-xl border border-zinc-200 bg-white shadow-sm";
-const CARD_SECTION = "px-5 py-4 border-zinc-200";
-
 /**
  * Card
  *
@@ -31,10 +28,20 @@ export function Card({
   disabled,
 }: CardProps) {
   return (
-    <div {...dataDisabledProps(disabled)} className={cn(CARD_BASE, className)}>
-      {header && <div className={cn("border-b", CARD_SECTION)}>{header}</div>}
+    <div
+      {...dataDisabledProps(disabled)}
+      className={cn(
+        "rounded-xl border border-zinc-200 bg-white shadow-sm",
+        className,
+      )}
+    >
+      {header && (
+        <div className={cn("border-b px-5 py-4 border-zinc-200")}>{header}</div>
+      )}
       <div className={cn(padded && "px-5 py-4")}>{children}</div>
-      {footer && <div className={cn("border-t", CARD_SECTION)}>{footer}</div>}
+      {footer && (
+        <div className={cn("border-t px-5 py-4 border-zinc-200")}>{footer}</div>
+      )}
     </div>
   );
 }

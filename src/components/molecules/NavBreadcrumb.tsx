@@ -1,7 +1,6 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 interface BreadcrumbSegment {
@@ -14,49 +13,49 @@ interface NavBreadcrumbProps {
   currentPage: string;
   segments?: BreadcrumbSegment[];
   className?: string;
+  onBack?: () => void;
 }
-
-const styles = {
-  root: "flex items-center gap-2 text-[length:var(--font-size-sm)] text-slate-500",
-  brand:
-    "cursor-pointer select-none transition-colors hover:text-slate-800 focus:outline-none focus-visible:underline",
-  separator: "text-slate-300",
-  segment: "transition-colors hover:text-slate-800",
-  page: "font-semibold text-primary-700",
-};
 
 export function NavBreadcrumb({
   brandName,
   currentPage,
   segments,
   className,
+  onBack,
 }: NavBreadcrumbProps) {
-  const router = useRouter();
-
   return (
-    <nav aria-label="Breadcrumb" className={cn(styles.root, className)}>
+    <nav
+      aria-label="Breadcrumb"
+      className={cn(
+        "flex items-center gap-2 text-(length:--font-size-sm) text-slate-500",
+        className,
+      )}
+    >
       <button
         type="button"
-        className={styles.brand}
-        onClick={() => router.back()}
+        className="cursor-pointer select-none transition-colors hover:text-slate-800 focus:outline-none focus-visible:underline"
+        onClick={onBack}
         aria-label={`Volver a la página anterior — ${brandName}`}
       >
         {brandName}
       </button>
       {segments?.map((seg) => (
         <span key={seg.href} className="contents">
-          <span aria-hidden="true" className={styles.separator}>
+          <span aria-hidden="true" className="text-slate-300">
             /
           </span>
-          <Link href={seg.href} className={styles.segment}>
+          <Link
+            href={seg.href}
+            className="transition-colors hover:text-slate-800"
+          >
             {seg.label}
           </Link>
         </span>
       ))}
-      <span aria-hidden="true" className={styles.separator}>
+      <span aria-hidden="true" className="text-slate-300">
         /
       </span>
-      <span className={styles.page} aria-current="page">
+      <span className="font-semibold text-primary-700" aria-current="page">
         {currentPage}
       </span>
     </nav>

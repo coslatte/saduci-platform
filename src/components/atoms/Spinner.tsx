@@ -10,16 +10,6 @@ interface SpinnerProps {
   disabled?: boolean;
 }
 
-const sizeClasses: Record<string, string> = {
-  xs: "size-3",
-  sm: "size-4",
-  md: "size-6",
-  lg: "size-8",
-  xl: "size-10", // extra large spinner
-};
-
-const SPINNER_BASE = "animate-spin text-primary-600";
-
 /**
  * Spinner
  *
@@ -32,10 +22,21 @@ export function Spinner({
   label = "Loading...",
   disabled,
 }: SpinnerProps) {
+  const sizeClass =
+    size === "xs"
+      ? "size-3"
+      : size === "sm"
+        ? "size-4"
+        : size === "md"
+          ? "size-6"
+          : size === "lg"
+            ? "size-8"
+            : "size-10";
+
   return (
     <AiOutlineLoading3Quarters
       {...dataDisabledProps(disabled)}
-      className={cn(SPINNER_BASE, sizeClasses[size], className)}
+      className={cn("animate-spin text-primary-600", sizeClass, className)}
       role="status"
       aria-label={label}
     />

@@ -1,4 +1,4 @@
-# Arquitectura para `sadeci-platform`
+# Arquitectura para `saduci-platform`
 
 - Stack principal: Next.js (App Router) + React 19 + TypeScript + Tailwind v4, ejecutado con Bun.
 - Estructura de UI: `src/components/atoms`, `molecules`, `organisms`, `layout`.
@@ -46,15 +46,16 @@ Aplicación con propósito de hosteo en servidor con propósito de soporte para 
 
 Salvo que sea realmente necesario, evitar modificar:
 
-- `yarn.lock` o `package.json` salvo que sea estrictamente necesario para agregar dependencias o scripts. Siempre se revisará qué dependencias se estarán agregando, y si estas son actualizadas o están en su última versión.
+- `yarn.lock`, `package.json`, `bun.lock`, `eslint.config.mjs`, `tailwind.config.ts`, `tsconfig.json`, `next-env.d.ts`, `next.config.ts`, y otros archivos de configuración salvo que sea estrictamente necesario para agregar dependencias o scripts. Siempre se revisará qué dependencias se estarán agregando, y si estas son actualizadas o están en su última versión.
 - Modificar archivos de dependencias
 
 ## Política de estilos (TailwindCSS / CSS)
 
 - Usa Tailwind para estilos, evitando CSS personalizado salvo que sea necesario para casos muy específicos.
 - Usa de referencia la última versión de Tailwind (v4) y sus nuevas utilidades (en caso de ser necesario buscar en la web para utilidades en particular, realizarlo).
-
 - Extraer variables/tokens de Tailwind: Cuando un componente se cree o se modifique y se le añadan estilos, extrae las clases de Tailwind a constantes/variables reutilizables en un archivo de estilos central o en un archivo asociado al componente (ej. `src/constants/styles.ts` o `src/components/<Componente>/styles.ts`). Lo más deseado es que las variables de estilos estén dentro del componente, para que sea más fácil encontrarlas. Usa nombres descriptivos, agrupa variantes en objetos y compón clases usando la utilidad `cn()` en `src/lib/utils.ts`. Evita incluir largas cadenas de clases inline en el TSX; el objetivo es mantener los estilos separados, legibles y reutilizables para futuros componentes y facilitar cambios globales.
+- Evitar lo máximo posible el uso de `!important` o hacks de CSS. Si es necesario, documenta claramente el motivo en la PR/commit.
+- Evitar lo máximo posible el uso de widths/heights fijos en estilos. Prioriza clases de Tailwind que permitan flexibilidad y adaptabilidad (ej. `w-full`, `max-w-md`, `h-auto`) para mejorar la responsividad y evitar problemas de diseño en diferentes tamaños de pantalla.
 
 ## Política de instrucciones de usuario
 
@@ -149,3 +150,7 @@ bun run lint ; bun run test ; bun run build
 - Para handlers de eventos, usar tipos explícitos: `React.ChangeEvent<HTMLInputElement>`, `HTMLSelectElement`, etc.
 - Para props de componentes, definir interfaces o tipos claros y exportarlos si se reutilizan.
 - Evitar tipos genéricos excesivos o complejos sin necesidad. Mantén el tipado lo más simple y directo posible para facilitar mantenimiento y revisión.
+
+## Bun como runtime
+
+- En lugar de usar `pnpm`, `npm` o `yarn`, se utiliza `bun` como gestor de paquetes y runtime. Tener presente `bunx` como sustituto de `npx` para ejecutar scripts sin necesidad de instalarlos globalmente.

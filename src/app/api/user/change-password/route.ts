@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { currentPassword: _currentPassword, newPassword, mock } = body || {};
+    const { currentPassword, newPassword, mock } = body || {};
+    void currentPassword;
 
     // In mock mode, just simulate success
     if (mock) {
@@ -15,11 +16,7 @@ export async function POST(req: Request) {
     }
 
     // Basic validation — in a real API we'd verify the currentPassword and update the user's password
-    if (
-      !newPassword ||
-      typeof newPassword !== "string" ||
-      newPassword.length < 8
-    ) {
+    if (typeof newPassword !== "string" || newPassword.length < 8) {
       return NextResponse.json(
         {
           ok: false,

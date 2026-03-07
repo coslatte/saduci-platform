@@ -29,18 +29,12 @@ import { readCSVFile, extractNumericColumn, adjustArraySizes } from "./helpers";
 
 type ActiveTab = "wilcoxon" | "friedman";
 
-const TAB_BASE =
-  "px-4 py-2 text-[length:var(--font-size-sm)] font-medium border-b-2 transition-colors focus:outline-none";
-const TAB_ACTIVE = "border-primary-600 text-primary-700";
-const TAB_INACTIVE =
-  "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300";
-
 export default function StatisticsPage() {
   const [activeTab, setActiveTab] = useState<ActiveTab>("wilcoxon");
 
   const defaultColumn = EXPERIMENT_VARIABLE_LABELS[0];
 
-  // ─── Wilcoxon state ──────────────────────────────────────────────────────────
+  // Wilcoxon state
   const [wxFile1, setWxFile1] = useState<File | null>(null);
   const [wxFile2, setWxFile2] = useState<File | null>(null);
   const [wxColumn, setWxColumn] = useState<string>(defaultColumn);
@@ -49,15 +43,13 @@ export default function StatisticsPage() {
   const [wxError, setWxError] = useState<string | null>(null);
   const [wxWarning, setWxWarning] = useState<string | null>(null);
 
-  // ─── Friedman state ──────────────────────────────────────────────────────────
+  // Friedman state
   const [fmFiles, setFmFiles] = useState<File[]>([]);
   const [fmColumn, setFmColumn] = useState<string>(defaultColumn);
   const [fmLoading, setFmLoading] = useState(false);
   const [fmResult, setFmResult] = useState<StatisticalTestResult | null>(null);
   const [fmError, setFmError] = useState<string | null>(null);
   const [fmWarning, setFmWarning] = useState<string | null>(null);
-
-  // ─── Wilcoxon handler ────────────────────────────────────────────────────────
 
   async function handleRunWilcoxon(): Promise<void> {
     setWxError(null);
@@ -102,8 +94,6 @@ export default function StatisticsPage() {
       setWxLoading(false);
     }
   }
-
-  // ─── Friedman handler ────────────────────────────────────────────────────────
 
   async function handleRunFriedman(): Promise<void> {
     setFmError(null);
@@ -166,8 +156,10 @@ export default function StatisticsPage() {
             id="tab-wilcoxon"
             type="button"
             className={cn(
-              TAB_BASE,
-              activeTab === "wilcoxon" ? TAB_ACTIVE : TAB_INACTIVE,
+              "px-4 py-2 text-(length:--font-size-sm) font-medium border-b-2 transition-colors focus:outline-none",
+              activeTab === "wilcoxon"
+                ? "border-primary-600 text-primary-700"
+                : "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300",
             )}
             onClick={() => setActiveTab("wilcoxon")}
           >
@@ -180,8 +172,10 @@ export default function StatisticsPage() {
             id="tab-friedman"
             type="button"
             className={cn(
-              TAB_BASE,
-              activeTab === "friedman" ? TAB_ACTIVE : TAB_INACTIVE,
+              "px-4 py-2 text-(length:--font-size-sm) font-medium border-b-2 transition-colors focus:outline-none",
+              activeTab === "friedman"
+                ? "border-primary-600 text-primary-700"
+                : "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300",
             )}
             onClick={() => setActiveTab("friedman")}
           >

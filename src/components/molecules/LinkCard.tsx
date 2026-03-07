@@ -9,12 +9,8 @@ interface LinkCardProps {
   description?: string;
   className?: string;
   target?: string;
+  iconPosition?: "left" | "top";
 }
-
-const LINKCARD_BASE = "group flex items-start gap-4 transition-all";
-const LINKCARD_HOVER = "hover:border-primary-200 hover:shadow-md";
-const LINKCARD_ICON =
-  "flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-colors group-hover:bg-primary-50 group-hover:text-primary-600";
 
 /**
  * LinkCard
@@ -37,6 +33,7 @@ export function LinkCard({
   description,
   className,
   target = "_blank",
+  iconPosition = "left",
 }: LinkCardProps) {
   return (
     <Link
@@ -45,15 +42,25 @@ export function LinkCard({
       rel={target === "_blank" ? "noopener noreferrer" : undefined}
       className="group"
     >
-      <Card className={cn(LINKCARD_BASE, LINKCARD_HOVER, className)}>
-        <div className={cn(LINKCARD_ICON)}>{icon}</div>
+      <Card
+        className={cn(
+          "group flex gap-4 transition-all hover:border-primary-500 hover:shadow-md",
+          iconPosition === "left"
+            ? "flex-row items-start"
+            : "flex-col items-center text-center",
+          className,
+        )}
+      >
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-colors group-hover:bg-primary-50 group-hover:text-primary-700">
+          {icon}
+        </div>
 
         <div>
-          <p className="text-[length:var(--font-size-sm)] font-semibold text-slate-800 group-hover:text-primary-700">
+          <p className="text-(length:--font-size-sm) font-semibold text-slate-800 group-hover:text-primary-700">
             {label}
           </p>
           {description && (
-            <p className="mt-0.5 text-[length:var(--font-size-xs)] text-slate-500">
+            <p className="mt-0.5 text-(length:--font-size-xs) text-slate-500">
               {description}
             </p>
           )}

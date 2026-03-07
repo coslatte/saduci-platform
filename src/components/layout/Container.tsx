@@ -11,20 +11,20 @@ export function Container({
   disabled,
   ...props
 }: ContainerProps & { disabled?: boolean }) {
-  const sizeClasses = {
-    sm: "max-w-3xl",
-    md: "max-w-5xl",
-    lg: "max-w-7xl",
-    xl: "max-w-[96rem]",
-    full: "max-w-full",
-  };
-
   return (
     <div
       {...dataDisabledProps(disabled)}
       className={cn(
         "mx-auto w-full px-8 sm:px-12 lg:px-16",
-        sizeClasses[size],
+        size === "sm"
+          ? "max-w-3xl"
+          : size === "md"
+            ? "max-w-5xl"
+            : size === "lg"
+              ? "max-w-7xl"
+              : size === "xl"
+                ? "max-w-[96rem]"
+                : "max-w-full",
         className,
       )}
       {...props}

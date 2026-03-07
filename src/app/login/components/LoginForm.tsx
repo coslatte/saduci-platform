@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/atoms/Buttons";
 import { Input } from "@/components/atoms/Input";
 import { Label } from "@/components/atoms/Label";
+import { Text } from "@/components/atoms/Text";
 import { Alert } from "@/components/molecules/Alert";
 import {
   APP_NAME,
@@ -46,17 +47,32 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="w-full max-w-md space-y-8 rounded-2xl border border-slate-200 bg-white p-8 shadow-xl">
+    <div className="w-full max-w-md p-8 space-y-8 bg-white border shadow-xl rounded-2xl border-slate-200 md:p-10">
       <div className="text-center">
-        <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-xl bg-primary-700 text-2xl font-bold text-white shadow-md">
-          S
+        <div className="flex items-center justify-center mx-auto mb-4 text-white shadow-md size-14 rounded-xl bg-primary-700">
+          <Text
+            as="span"
+            size="xl"
+            weight="bold"
+            family="secondary"
+            className="text-white"
+          >
+            S
+          </Text>
         </div>
-        <h1 className="text-[length:var(--font-size-2xl)] font-bold tracking-tight text-slate-900">
+        <Text
+          as="h1"
+          size="3xl"
+          weight="bold"
+          family="secondary"
+          tracking="tight"
+          className="text-slate-900"
+        >
           {APP_NAME}
-        </h1>
-        <p className="mt-1 text-[length:var(--font-size-sm)] text-slate-500">
+        </Text>
+        <Text as="p" size="sm" muted className="mt-2">
           {LOGIN_PROMPT}
-        </p>
+        </Text>
       </div>
 
       {error && (

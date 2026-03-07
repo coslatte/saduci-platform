@@ -37,7 +37,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   });
 
-  const login = useCallback(async (email: string, _password: string) => {
+  const login = useCallback(async (email: string, password: string) => {
+    void password;
     await new Promise((r) => setTimeout(r, 400));
 
     const mockUser: User = {
