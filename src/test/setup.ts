@@ -21,5 +21,6 @@ try {
 
 afterEach(() => {
   cleanup();
-  document.body.innerHTML = "";
+  GlobalRegistrator.unregister();
+  GlobalRegistrator.register();
 });

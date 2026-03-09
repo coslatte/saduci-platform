@@ -25,3 +25,6 @@ export interface GlobalProps {
   disabled?: boolean;
   className?: string;
 }
+
+// Roles
+export type Role = "Administrador" | "Analista";

@@ -99,6 +99,18 @@ export const PROJECT_LINKS = [
   },
 ];
 
+// Predefined tag color palette for page builder tags
+export const TAG_COLOR_PALETTE = [
+  { name: "Azul", value: "#3b82f6" },
+  { name: "Verde", value: "#22c55e" },
+  { name: "Amarillo", value: "#eab308" },
+  { name: "Rojo", value: "#ef4444" },
+  { name: "Morado", value: "#a855f7" },
+  { name: "Gris", value: "#6b7280" },
+  { name: "Rosa", value: "#ec4899" },
+  { name: "Naranja", value: "#f97316" },
+];
+
 // User Settings
 export const SETTINGS_PAGE_TITLE = "Ajustes de usuario";
 export const SETTINGS_PAGE_SUBTITLE =

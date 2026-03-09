@@ -49,8 +49,9 @@ body {
 }
 
 .font-secondary {
-  font-family: var(--font-family-secondary), var(--font-family-primary),
-    ui-sans-serif, system-ui, sans-serif;
+  font-family:
+    var(--font-family-secondary), var(--font-family-primary), ui-sans-serif,
+    system-ui, sans-serif;
 }
 
 @keyframes slide-in-down {

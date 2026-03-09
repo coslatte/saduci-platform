@@ -7,12 +7,13 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
+import type { Role } from "@/lib/types";
 
 export interface User {
   id: string;
   name: string;
   email: string;
-  role: string;
+  role: Role;
   avatar?: string;
 }
 

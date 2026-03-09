@@ -5,38 +5,37 @@ import { Toaster } from "sileo";
 import type { ReactNode } from "react";
 import { Navbar, Sidebar, Footer } from "@/components/organisms";
 import { NotificationsProvider } from "@/context/notifications";
+import {
+  APP_NAVIGATION_SECTIONS,
+  type NavigationSectionConfig,
+} from "@/lib/navigation";
 
 /**
  * Props for `AppShell`.
  */
 interface AppShellProps {
   children: ReactNode;
-  /**
-   * Lightweight user info passed from the controller to keep this component
-   * rendering stable across route changes.
-   */
   userName?: string;
   userRole?: string;
   userAvatar?: string;
   onLogout?: () => void;
+  /** Extra sidebar sections appended after the default ones (e.g. admin section) */
+  extraSections?: NavigationSectionConfig[];
 }
 
-/**
- * AppShell
- *
- * Top-level layout wrapper for authenticated pages. It composes the
- * `Sidebar`, `Navbar`, and `Footer` and provides a `NotificationsProvider`.
- * Keep this component presentation-focused: route content should be rendered
- * as children.
- */
 export function AppShell({
   children,
   userName = "Usuario",
   userRole = "",
   userAvatar,
   onLogout,
+  extraSections,
 }: AppShellProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const sidebarSections: NavigationSectionConfig[] = extraSections
+    ? [...APP_NAVIGATION_SECTIONS, ...extraSections]
+    : APP_NAVIGATION_SECTIONS;
 
   return (
     <NotificationsProvider>
@@ -44,6 +43,7 @@ export function AppShell({
         <Sidebar
           collapsed={sidebarCollapsed}
           onToggleCollapse={() => setSidebarCollapsed((s) => !s)}
+          sections={sidebarSections}
         />
         {/* Global Toaster for notifications */}
         <Toaster position="bottom-right" />
