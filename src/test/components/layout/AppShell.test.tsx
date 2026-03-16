@@ -41,7 +41,9 @@ describe("AppShell", () => {
     ).toBeGreaterThanOrEqual(1);
     expect(container.textContent?.includes("Contenido de prueba")).toBe(true);
     // Footer is rendered as a <footer> element (role=contentinfo)
-    expect(container.querySelector("footer")).toBeTruthy();
+    const footer = container.querySelector("footer");
+    expect(footer).toBeTruthy();
+    expect(footer?.className.includes("surface-backdrop-opaque")).toBe(true);
 
     // The sidebar nav link should have aria-current="page"
     const activeLink = container.querySelector("a[aria-current='page']");

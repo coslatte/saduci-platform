@@ -41,7 +41,7 @@ export function SidebarTreeToggleButton({
       aria-expanded={expanded}
       aria-label={actionLabel}
       title={actionLabel}
-      className="absolute inline-flex items-center justify-center transition-colors -translate-y-1/2 border-2 rounded-lg right-3 top-1/2 size-10 border-slate-100 border-lg text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+      className="absolute inline-flex items-center justify-center overflow-hidden transition-colors -translate-y-1/2 border rounded-lg shadow-sm right-3 top-1/2 size-10 border-slate-200/80 bg-white/70 supports-backdrop-filter:bg-white/55 surface-backdrop-opaque surface-noise text-slate-600 hover:bg-white/85 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
     >
       {expanded ? (
         <FiChevronUp className="size-4" aria-hidden="true" />

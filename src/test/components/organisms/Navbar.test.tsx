@@ -19,6 +19,13 @@ describe("Navbar", () => {
     expect(container.textContent?.includes(NAV_BRAND_SHORT)).toBe(true);
   });
 
+  it("applies opaque transparent backdrop styling", () => {
+    const { container } = render(<Navbar pathname="/" />);
+    const header = container.querySelector("header");
+    expect(header?.className.includes("surface-backdrop-opaque")).toBe(true);
+    expect(header?.className.includes("border-slate-200/80")).toBe(true);
+  });
+
   it("renders current route breadcrumb", () => {
     const { container } = render(<Navbar pathname="/simulation" />);
     expect(container.textContent?.includes("Simulación")).toBe(true);

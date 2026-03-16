@@ -1,8 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link";
-import { FiLogOut } from "react-icons/fi";
 import { cn, dataDisabledProps } from "@/lib/utils";
 import {
   NAV_BRAND_SHORT,
@@ -10,9 +8,7 @@ import {
   SIDEBAR_LOGOUT,
   SIDEBAR_USER_STATUS,
 } from "@/constants/constants";
-import { NavBreadcrumb } from "@/components/molecules/NavBreadcrumb";
-import { Avatar } from "@/components/atoms/Avatar";
-import { Text } from "@/components/atoms/Text";
+import { NavBreadcrumb, NavbarProfile } from "@/components/molecules";
 import { getBreadcrumbSegments, getRouteNameForPath } from "@/lib/navigation";
 import { routes } from "@/lib/routes";
 
@@ -61,7 +57,7 @@ export function Navbar({
     <header
       {...dataDisabledProps(disabled)}
       className={cn(
-        "z-10 flex h-16 shrink-0 items-center justify-between border-b border-slate-200 surface-backdrop-medium px-8",
+        "sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between border-b border-slate-200/80 bg-white/75 supports-backdrop-filter:bg-white/60 surface-backdrop-opaque px-8",
         className,
       )}
     >
@@ -72,51 +68,14 @@ export function Navbar({
       />
 
       {showProfile && (
-        <div className="flex items-center min-w-0 gap-3 ml-4">
-          <Link
+        <div className="flex items-center min-w-0 gap-2 ml-4">
+          <NavbarProfile
+            userName={userName}
+            userAvatar={userAvatar}
+            roleLabel={roleLabel}
             href={routes.settings}
-            aria-label={NAVBAR_PROFILE_SETTINGS}
-            className="group flex min-w-0 items-center gap-2 px-1 py-0.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-200"
-          >
-            <Avatar
-              src={userAvatar}
-              name={userName}
-              alt={`Perfil de ${userName}`}
-              size="sm"
-            />
-            <div className="min-w-0 text-left">
-              <Text
-                as="p"
-                size="sm"
-                weight="semibold"
-                className="truncate text-slate-800 group-hover:text-primary-700"
-              >
-                {userName}
-              </Text>
-              <div className="flex items-center gap-1.5">
-                <span
-                  data-slot="navbar-user-online-indicator"
-                  aria-hidden
-                  className="size-1.5 rounded-full bg-primary-500"
-                />
-                <Text as="p" size="xs" className="truncate text-slate-500">
-                  {roleLabel}
-                </Text>
-              </div>
-            </div>
-          </Link>
-
-          {onLogout && (
-            <button
-              type="button"
-              onClick={onLogout}
-              className="inline-flex items-center justify-center transition-colors rounded-md size-8 text-slate-500 hover:bg-slate-100 hover:text-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-200"
-              aria-label={SIDEBAR_LOGOUT}
-              title={SIDEBAR_LOGOUT}
-            >
-              <FiLogOut className="size-4" />
-            </button>
-          )}
+            ariaLabel={NAVBAR_PROFILE_SETTINGS}
+          />
         </div>
       )}
     </header>

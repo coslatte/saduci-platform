@@ -4,5 +4,6 @@ export * from "./FormField";
 export * from "./LinkCard";
 export * from "./NavBreadcrumb";
 export * from "./NavItem";
+export * from "./NavbarProfile";
 export * from "./Popover";
 export * from "./NotificationsPanel";

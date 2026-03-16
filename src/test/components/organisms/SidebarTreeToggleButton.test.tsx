@@ -38,5 +38,6 @@ describe("SidebarTreeToggleButton", () => {
     });
 
     expect(button.getAttribute("aria-expanded")).toBe("true");
+    expect(button.className.includes("surface-backdrop-opaque")).toBe(true);
   });
 });
