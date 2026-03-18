@@ -56,4 +56,24 @@ describe("SimulationResultsSection", () => {
 
     expect(onDownload).toHaveBeenCalledTimes(1);
   });
+
+  it("shows a loading skeleton without remounting the panel", () => {
+    const { container } = render(
+      <SimulationResultsSection
+        results={[simulationResponse]}
+        activeIndex={0}
+        loading
+        onActiveIndexChange={() => undefined}
+        onDownload={() => undefined}
+      />,
+    );
+
+    const section = container.querySelector("section");
+    expect(section?.getAttribute("aria-busy")).toBe("true");
+    expect(container.querySelectorAll(".animate-pulse").length).toBeGreaterThan(
+      0,
+    );
+    expect(container.querySelector("table")).toBeNull();
+    expect(within(container).queryByText("Predicción del modelo")).toBeNull();
+  });
 });

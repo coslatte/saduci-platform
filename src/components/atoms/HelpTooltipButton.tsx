@@ -44,12 +44,12 @@ export function HelpTooltipButton({
       <div
         role="tooltip"
         className={cn(
-          "pointer-events-none absolute bottom-full right-0 mb-2 w-60 max-w-xs whitespace-normal rounded-lg bg-gray-800 px-3 py-2 text-(length:--font-size-xs) text-white opacity-0 transition-opacity group-hover/help:opacity-100 group-focus-within/help:opacity-100",
+          "surface-backdrop-opaque surface-noise-strong pointer-events-none absolute bottom-full right-0 mb-2 w-60 max-w-xs whitespace-normal rounded-lg border border-slate-200/80 px-3 py-2 text-(length:--font-size-xs) text-slate-700 shadow-lg opacity-0 transition-opacity group-hover/help:opacity-100 group-focus-within/help:opacity-100",
           tooltipClassName,
         )}
       >
         {help}
-        <div className="absolute border-4 border-transparent right-3 top-full border-t-gray-800" />
+        <div className="absolute right-3 top-full border-4 border-transparent border-t-white/80" />
       </div>
     </div>
   );

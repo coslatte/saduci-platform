@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Divider } from "@/components/atoms/Divider";
 import { Alert } from "@/components/molecules/Alert";
 import SimulationInputs from "./components/SimulationInputs";
 import { SimulationPageHeader } from "./components/SimulationPageHeader";
@@ -159,7 +158,6 @@ export default function SimulacionPage() {
     setSimulationStartedAt(startedAt);
     setClockNowMs(startedAt);
     setElapsedMs(0);
-    setActiveResultIndex(-1);
 
     const controller = new AbortController();
     simulationController.current = controller;
@@ -202,7 +200,6 @@ export default function SimulacionPage() {
   return (
     <>
       <SimulationPageHeader />
-      <Divider className="mb-6 border-slate-200/80" />
 
       <div className="flex flex-col gap-5">
         <SimulationInputs
@@ -256,12 +253,13 @@ export default function SimulacionPage() {
           </Alert>
         )}
 
-        {resultHistory.length > 0 && activeResultIndex >= 0 && (
+        {(loading || resultHistory.length > 0) && (
           <SimulationResultsSection
             results={resultHistory}
             activeIndex={activeResultIndex}
             onActiveIndexChange={setActiveResultIndex}
             onDownload={handleDownload}
+            loading={loading}
           />
         )}
       </div>

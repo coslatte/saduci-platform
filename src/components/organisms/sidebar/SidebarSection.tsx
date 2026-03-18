@@ -68,7 +68,7 @@ function TreeItem({
 
   return (
     <li className="relative">
-      <div className="relative flex items-center gap-2 overflow-visible">
+      <div className="relative overflow-visible">
         <NavItem
           href={item.href}
           label={item.label}
@@ -81,22 +81,25 @@ function TreeItem({
           className={cn(
             depth > 0 && "min-h-10",
             collapsed && isRoot ? "mx-auto flex-none" : "flex-1 min-w-0",
+            hasChildren && !collapsed && "pr-11",
           )}
           labelClassName={cn(depth > 0 && "text-sm font-medium")}
         />
 
         {hasChildren && !collapsed && (
-          <SidebarTreeToggleButton
-            expanded={expanded}
-            label={item.label}
-            onToggle={() => {
-              if (onToggleManual) {
-                onToggleManual(item.href);
-              } else {
-                setLocalManuallySet(!expanded);
-              }
-            }}
-          />
+          <div className="absolute -translate-y-1/2 right-3 top-1/2">
+            <SidebarTreeToggleButton
+              expanded={expanded}
+              label={item.label}
+              onToggle={() => {
+                if (onToggleManual) {
+                  onToggleManual(item.href);
+                } else {
+                  setLocalManuallySet(!expanded);
+                }
+              }}
+            />
+          </div>
         )}
       </div>
 

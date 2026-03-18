@@ -65,9 +65,8 @@ export function NavItem({
 
   const state = (() => {
     if (isNested) {
-      if (current)
-        return "border-primary-400 bg-white text-primary-700 shadow-sm shadow-primary-700/30";
-      if (active) return "border-slate-200 bg-white text-slate-800";
+      if (current || active)
+        return "border-primary-500/60 bg-primary-500/15 text-primary-700 shadow-sm shadow-primary-500/25 active:bg-primary-500/20";
       return "text-slate-600 hover:border-slate-200 hover:bg-white hover:text-slate-800";
     }
 
@@ -156,7 +155,9 @@ export function NavItem({
         <span
           className={cn(
             isNested
-              ? "flex size-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-colors group-hover:bg-slate-200 group-hover:text-slate-700"
+              ? current || active
+                ? "flex size-7 shrink-0 items-center justify-center rounded-lg bg-primary-500/15 text-primary-700 transition-colors group-hover:bg-primary-500/20 group-hover:text-primary-700"
+                : "flex size-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-colors group-hover:bg-slate-200 group-hover:text-slate-700"
               : [
                   "flex size-9 shrink-0 items-center justify-center rounded-xl text-current transform transition-transform duration-200 ease-out will-change-transform",
                   !disableIconHoverScale && "group-hover:scale-105",

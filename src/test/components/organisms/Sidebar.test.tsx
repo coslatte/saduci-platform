@@ -119,7 +119,7 @@ describe("Sidebar", () => {
     expect(expandedWrapper).toBeTruthy();
   });
 
-  it("renders tree toggle as a sibling control, not inside the parent link", () => {
+  it("renders the tree toggle inside the same item container", () => {
     const { container } = render(<Sidebar sections={nestedSections} />);
     const sidebarScope = within(container);
 
@@ -130,6 +130,12 @@ describe("Sidebar", () => {
       name: /(expandir|contraer) sección simulación/i,
     });
 
+    const parentItem = parentLink.closest("li");
+
+    expect(parentItem).toBeTruthy();
+    if (!parentItem) return;
+
+    expect(parentItem.contains(toggleButton)).toBe(true);
     expect(parentLink.contains(toggleButton)).toBe(false);
   });
 

@@ -10,9 +10,11 @@ describe("HelpTooltipButton", () => {
     const helpButton = container.querySelector(
       '[aria-label="Información de ayuda del campo"]',
     ) as HTMLButtonElement;
+    const tooltip = container.querySelector('[role="tooltip"]');
 
     expect(helpButton).toBeTruthy();
     expect(container.textContent?.includes("Ayuda contextual")).toBe(true);
+    expect(tooltip?.className.includes("surface-backdrop-opaque")).toBe(true);
   });
 
   it("shows the expected trigger character", () => {

@@ -97,4 +97,26 @@ describe("SimulationResultsSection", () => {
     fireEvent.click(button);
     expect(downloaded).toBe(true);
   });
+
+  it("keeps the section mounted and shows skeletons while loading", () => {
+    const { container } = render(
+      <SimulationResultsSection
+        results={results}
+        activeIndex={1}
+        loading
+        onActiveIndexChange={() => {}}
+        onDownload={() => {}}
+      />,
+    );
+
+    const section = container.querySelector("section");
+    expect(section?.getAttribute("aria-busy")).toBe("true");
+    expect(container.querySelectorAll(".animate-pulse").length).toBeGreaterThan(
+      0,
+    );
+    expect(
+      within(container).queryByText(SIMULATION_RESULTS_RUN_HISTORY),
+    ).toBeNull();
+    expect(within(container).queryByRole("table")).toBeNull();
+  });
 });

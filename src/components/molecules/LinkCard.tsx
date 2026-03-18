@@ -52,7 +52,7 @@ export function LinkCard({
           className,
         )}
       >
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-colors group-hover:bg-primary-50 group-hover:text-primary-700">
+        <div className="flex items-center justify-center transition-colors rounded-lg size-10 shrink-0 bg-slate-100 text-slate-500 group-hover:bg-primary-50 group-hover:text-primary-700">
           {icon}
         </div>
 

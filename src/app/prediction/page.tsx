@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Alert } from "@/components/molecules/Alert";
-import { Divider } from "@/components/atoms/Divider";
 import { Text } from "@/components/atoms/Text";
 import { Stack } from "@/components/layout/Stack";
 import { PredictionForm } from "./components/PredictionForm";
@@ -110,10 +109,8 @@ export default function PredictionPage() {
         </Text>
       </div>
 
-      <Divider className="border-slate-200/80" />
-
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
-        <section className="rounded-2xl border border-slate-200 bg-white p-5">
+        <section className="p-5 bg-white border rounded-2xl border-slate-200">
           <PredictionForm
             edad={edad}
             setEdad={setEdad}
@@ -132,7 +129,7 @@ export default function PredictionPage() {
           />
         </section>
 
-        <section className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5">
+        <section className="flex flex-col p-5 bg-white border rounded-2xl border-slate-200">
           {predictError && (
             <Alert variant="danger" title={PREDICTION_ERROR_TITLE}>
               {predictError}
@@ -149,7 +146,7 @@ export default function PredictionPage() {
         </section>
       </div>
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-5">
+      <section className="p-5 bg-white border rounded-2xl border-slate-200">
         <ExplicacionPanel
           hasPrediction={prediction !== null}
           method={method}

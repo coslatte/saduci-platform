@@ -75,8 +75,8 @@ export function NavbarProfile({
         </button>
       }
     >
-      <div className="w-64 rounded-xl border border-slate-200 bg-white p-2 shadow-lg">
-        <div className="border-b border-slate-200 px-3 py-2">
+      <div className="w-64 p-2 bg-white border shadow-lg rounded-xl border-slate-200">
+        <div className="px-3 py-2 border-b border-slate-200">
           <Text as="p" size="sm" weight="semibold" className="text-slate-900">
             {userName}
           </Text>
@@ -88,7 +88,7 @@ export function NavbarProfile({
         <div className="flex flex-col gap-1 px-1 py-2">
           <Link
             href={href}
-            className="w-full rounded-md px-3 py-2 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100"
+            className="w-full px-3 py-2 text-sm font-medium text-left transition-colors rounded-md text-slate-700 hover:bg-slate-100"
           >
             {NAVBAR_MENU_SETTINGS}
           </Link>
@@ -96,7 +96,7 @@ export function NavbarProfile({
           <button
             type="button"
             onClick={onLogout}
-            className="w-full rounded-md px-3 py-2 text-left text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
+            className="w-full px-3 py-2 text-sm font-medium text-left text-red-600 transition-colors rounded-md hover:bg-red-50"
           >
             {NAVBAR_MENU_LOGOUT}
           </button>

@@ -45,6 +45,8 @@ describe("NavbarProfile", () => {
     });
 
     const bodyScope = within(document.body);
+    const dialog = bodyScope.getByRole("dialog");
+    const panel = dialog.querySelector(".surface-backdrop-opaque");
     const settingsAction = bodyScope.getByRole("link", {
       name: /configuraciones/i,
     });
@@ -57,9 +59,8 @@ describe("NavbarProfile", () => {
     fireEvent.click(logoutAction);
     expect(onLogout).toHaveBeenCalledTimes(1);
 
-    expect(bodyScope.getByRole("dialog").textContent).toContain("Eva Gómez");
-    expect(bodyScope.getByRole("dialog").textContent).toContain(
-      "SESION ACTIVA",
-    );
+    expect(panel).toBeTruthy();
+    expect(dialog.textContent).toContain("Eva Gómez");
+    expect(dialog.textContent).toContain("SESION ACTIVA");
   });
 });

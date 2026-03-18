@@ -4,7 +4,6 @@ import { FiGithub, FiBox, FiBookOpen } from "react-icons/fi";
 import LinkCard from "@/components/molecules/LinkCard";
 import { useAuth } from "@/lib/auth";
 import { Text } from "@/components/atoms/Text";
-import { Divider } from "@/components/atoms/Divider";
 import { DashboardInfoSection } from "@/app/components/DashboardInfoSection";
 import {
   HOME_DEFAULT_GREETING,

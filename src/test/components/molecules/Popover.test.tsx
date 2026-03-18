@@ -1,11 +1,111 @@
 import "../../setup";
-import { render, fireEvent, act } from "@testing-library/react";
+import { act, fireEvent, render } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
 import { Popover } from "@/components/molecules/Popover";
 
 const ANIMATION_MS = 300;
 
 describe("Popover", () => {
+  it("keeps a right-aligned popover anchored to the trigger when there is room", async () => {
+    const originalInnerWidth = window.innerWidth;
+    const originalInnerHeight = window.innerHeight;
+    const originalGetBoundingClientRect =
+      HTMLElement.prototype.getBoundingClientRect;
+    const originalOffsetWidth = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      "offsetWidth",
+    );
+
+    Object.defineProperty(window, "innerWidth", {
+      configurable: true,
+      value: 1200,
+    });
+    Object.defineProperty(window, "innerHeight", {
+      configurable: true,
+      value: 900,
+    });
+
+    Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
+      configurable: true,
+      get() {
+        return this.classList?.contains("transform-gpu") ? 300 : 40;
+      },
+    });
+
+    HTMLElement.prototype.getBoundingClientRect = function () {
+      if (
+        this.classList?.contains("relative") &&
+        this.classList?.contains("inline-block")
+      ) {
+        return {
+          x: 820,
+          y: 40,
+          top: 40,
+          left: 820,
+          right: 900,
+          bottom: 80,
+          width: 40,
+          height: 40,
+          toJSON: () => ({}),
+        };
+      }
+
+      return {
+        x: 0,
+        y: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: 0,
+        height: 0,
+        toJSON: () => ({}),
+      };
+    };
+
+    try {
+      const { container } = render(
+        <Popover trigger={<span>Position</span>}>
+          <div>Anchored content</div>
+        </Popover>,
+      );
+
+      const trigger = container.querySelector("button");
+      expect(trigger).toBeTruthy();
+      if (!trigger) return;
+
+      fireEvent.click(trigger);
+
+      const dialog = document.body.querySelector("[role='dialog']");
+      expect(dialog).toBeTruthy();
+      if (!(dialog instanceof HTMLElement)) return;
+      expect(document.body.contains(dialog)).toBe(true);
+      expect(dialog.parentElement?.className).toContain("fixed inset-0");
+      expect(dialog.style.position).toBe("absolute");
+      expect(dialog.style.left).toBe("600px");
+    } finally {
+      Object.defineProperty(window, "innerWidth", {
+        configurable: true,
+        value: originalInnerWidth,
+      });
+      Object.defineProperty(window, "innerHeight", {
+        configurable: true,
+        value: originalInnerHeight,
+      });
+
+      if (originalOffsetWidth) {
+        Object.defineProperty(
+          HTMLElement.prototype,
+          "offsetWidth",
+          originalOffsetWidth,
+        );
+      }
+
+      HTMLElement.prototype.getBoundingClientRect =
+        originalGetBoundingClientRect;
+    }
+  });
+
   it("toggles content when trigger is clicked", async () => {
     const { container, queryByText } = render(
       <Popover trigger={<span>Open</span>}>

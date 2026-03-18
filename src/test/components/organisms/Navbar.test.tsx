@@ -1,5 +1,5 @@
 import "../../setup";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, within } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
 import { NAV_BRAND_SHORT } from "@/constants/constants";
 
@@ -40,7 +40,7 @@ describe("Navbar", () => {
 
   it("renders profile menu trigger and executes logout from dropdown", () => {
     const onLogout = mock(() => {});
-    const { getByRole } = render(
+    const { container } = render(
       <Navbar
         pathname="/"
         userName="Alex Rodriguez"
@@ -49,22 +49,29 @@ describe("Navbar", () => {
       />,
     );
 
-    const profileTrigger = getByRole("button", {
+    const scope = within(container);
+
+    const profileTrigger = scope.getAllByRole("button", {
       name: /ir a ajustes de perfil/i,
-    });
+    })[0];
     expect(profileTrigger).toBeTruthy();
 
     fireEvent.click(profileTrigger);
 
-    expect(getByRole("dialog").textContent?.includes("Alex Rodriguez")).toBe(
-      true,
-    );
-    expect(getByRole("dialog").textContent?.includes("SYSTEM ADMIN")).toBe(
-      true,
-    );
-    expect(getByRole("link", { name: /configuraciones/i })).toBeTruthy();
+    const dialog = Array.from(
+      document.body.querySelectorAll("[role='dialog']"),
+    ).find((node) => node.textContent?.includes("Alex Rodriguez"));
+    expect(dialog).toBeTruthy();
+    if (!(dialog instanceof HTMLElement)) return;
 
-    const logout = getByRole("button", { name: /cerrar sesión/i });
+    const dialogScope = within(dialog);
+    expect(dialogScope.getByText("Alex Rodriguez")).toBeTruthy();
+    expect(dialogScope.getByText("SYSTEM ADMIN")).toBeTruthy();
+    expect(
+      dialogScope.getByRole("link", { name: /configuraciones/i }),
+    ).toBeTruthy();
+
+    const logout = dialogScope.getByRole("button", { name: /cerrar sesión/i });
     fireEvent.click(logout);
     expect(onLogout).toHaveBeenCalledTimes(1);
   });

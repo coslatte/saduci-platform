@@ -58,20 +58,20 @@ export function Popover({
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [position, setPosition] = useState<{
     top?: number;
-    bottom?: number;
     left: number;
-    relative?: boolean;
   } | null>(null);
-  const [usePortal, setUsePortal] = useState(true);
+  const [placement, setPlacement] = useState<"above" | "below">("below");
   const [hoverTimeoutId, setHoverTimeoutId] = useState<number | null>(null);
   const [pinnedByClick, setPinnedByClick] = useState(false);
 
-  const openPopover = () => {
+  const VIEWPORT_MARGIN = 8;
+
+  const openPopover = useCallback(() => {
     if (!open) {
       setEntering(true);
       setOpen(true);
     }
-  };
+  }, [open]);
 
   const clearHoverCloseTimeout = useCallback(() => {
     if (hoverTimeoutId !== null) {
@@ -144,63 +144,36 @@ export function Popover({
     function compute() {
       if (!wrapperRef.current) return;
       const rect = wrapperRef.current.getBoundingClientRect();
-      const PANEL_WIDTH = contentRef.current?.offsetWidth ?? 320;
+      const maxPanelWidth = Math.max(
+        0,
+        window.innerWidth - VIEWPORT_MARGIN * 2,
+      );
+      const measuredPanelWidth = contentRef.current?.offsetWidth ?? 320;
+      const PANEL_WIDTH = Math.min(measuredPanelWidth, maxPanelWidth);
       let left = rect.right - PANEL_WIDTH;
       if (align === "left") left = rect.left;
       if (align === "center")
         left = rect.left + rect.width / 2 - PANEL_WIDTH / 2;
-      left = Math.max(8, Math.min(left, window.innerWidth - PANEL_WIDTH - 8));
+
+      left = Math.max(
+        VIEWPORT_MARGIN,
+        Math.min(left, window.innerWidth - PANEL_WIDTH - VIEWPORT_MARGIN),
+      );
 
       const PANEL_MAX_HEIGHT = 360;
       const contentHeight =
         contentRef.current?.offsetHeight ?? PANEL_MAX_HEIGHT;
       const spaceBelow = window.innerHeight - rect.bottom;
 
-      // detect transformed/filter/perspective ancestors which can change how
-      // fixed positioning behaves (they create a containing block). When
-      // present, we'll render the popover absolute inside the wrapper to
-      // avoid misalignment.
-      let el: Element | null = wrapperRef.current.parentElement;
-      let transformed = false;
-      while (el && el !== document.body) {
-        const st = window.getComputedStyle(el as Element);
-        const hasTransform =
-          (st.transform && st.transform !== "none") ||
-          (st.perspective && st.perspective !== "none") ||
-          (st.filter && st.filter !== "none");
-        if (hasTransform) {
-          transformed = true;
-          break;
-        }
-        el = el.parentElement;
-      }
-      setUsePortal(!transformed);
-
       // prefer showing below when there's enough space, otherwise show above
       if (spaceBelow < contentHeight + 16) {
         // place above the trigger, keeping 8px margin
         const top = Math.max(8, rect.top - contentHeight - 8);
-        if (transformed) {
-          const wrapperRect = wrapperRef.current.getBoundingClientRect();
-          setPosition({
-            top: top - wrapperRect.top,
-            left: left - wrapperRect.left,
-            relative: true,
-          });
-        } else {
-          setPosition({ top, left, relative: false });
-        }
+        setPlacement("above");
+        setPosition({ top, left });
       } else {
-        if (transformed) {
-          const wrapperRect = wrapperRef.current.getBoundingClientRect();
-          setPosition({
-            top: rect.bottom + 8 - wrapperRect.top,
-            left: left - wrapperRect.left,
-            relative: true,
-          });
-        } else {
-          setPosition({ top: rect.bottom + 8, left, relative: false });
-        }
+        setPlacement("below");
+        setPosition({ top: rect.bottom + 8, left });
       }
     }
 
@@ -229,6 +202,7 @@ export function Popover({
       setOpen(false);
       setPinnedByClick(false);
       setPosition(null);
+      setPlacement("below");
     }, 180);
     return () => clearTimeout(t);
   }, [exiting]);
@@ -240,18 +214,24 @@ export function Popover({
       role="dialog"
       aria-modal={false}
       className={cn(
-        "transform-gpu transition-all duration-150 z-50",
+        "pointer-events-auto transform-gpu transition-[opacity,transform] duration-150 z-50",
+        align === "left" &&
+          (placement === "above" ? "origin-bottom-left" : "origin-top-left"),
+        align === "center" &&
+          (placement === "above" ? "origin-bottom" : "origin-top"),
+        align === "right" &&
+          (placement === "above" ? "origin-bottom-right" : "origin-top-right"),
         exiting || entering
-          ? "opacity-0 -translate-y-1 scale-95 pointer-events-none"
-          : "opacity-100 translate-y-0 scale-100",
+          ? "opacity-0 scale-95 pointer-events-none"
+          : "opacity-100 scale-100",
       )}
       style={
         position
           ? {
-              position: position.relative ? "absolute" : "fixed",
+              position: "absolute",
               top: position.top,
-              bottom: position.bottom,
               left: position.left,
+              maxWidth: "calc(100vw - 16px)",
             }
           : { visibility: "hidden" }
       }
@@ -384,17 +364,17 @@ export function Popover({
     scheduleHoverClose,
   ]);
 
-  useEffect(() => {
-    if (!openOnHover || !pinnedByClick) return;
-    clearHoverCloseTimeout();
-  }, [openOnHover, pinnedByClick]);
-
   return (
     <div className={cn("relative inline-block", className)} ref={wrapperRef}>
       {renderTrigger()}
 
       {(open || exiting) &&
-        (usePortal ? createPortal(content, document.body) : content)}
+        createPortal(
+          <div className="fixed inset-0 z-50 pointer-events-none overflow-visible">
+            {content}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

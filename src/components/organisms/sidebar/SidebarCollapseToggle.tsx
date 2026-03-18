@@ -24,7 +24,8 @@ export function SidebarCollapseToggle({
       onClick={onToggleCollapse}
       className={cn(
         "absolute -right-4 top-0 bottom-0 my-auto z-50 flex h-12 w-4 items-center justify-center rounded-r-md border border-l-0 border-slate-200 bg-slate-50 text-slate-400 transition-all duration-200 hover:border-primary-500 hover:text-primary-500 hover:shadow-primary-500/20 hover:shadow-sm focus:outline-none",
-        collapsed && "ring-0 ring-primary-50",
+        collapsed &&
+          "ring-0 ring-primary-100/50 bg-zinc-50 border-3 hover:bg-primary-100",
       )}
       aria-label={
         collapsed ? SIDEBAR_COLLAPSE_EXPAND : SIDEBAR_COLLAPSE_COLLAPSE

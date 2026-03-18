@@ -29,7 +29,7 @@ export function Footer({ className, disabled }: FooterProps) {
         className,
       )}
     >
-      <Text as="p" size="xs" weight="medium" className="text-slate-400">
+      <Text as="p" size="xs" weight="medium" className="text-slate-200">
         &copy; {currentYear} Saduci Platform
       </Text>
 

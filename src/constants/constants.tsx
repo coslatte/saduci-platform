@@ -267,6 +267,10 @@ export const PREDICTION_DIAG_ING2_LABEL = "Diag.Ing2";
 export const PREDICTION_DIAG_EGR2_LABEL = "Diag.Egr2";
 export const PREDICTION_APACHE_LABEL = "APACHE II";
 export const PREDICTION_TIEMPO_VAM_LABEL = "TiempoVAM";
+export const PREDICTION_DIAGNOSIS_OPTION_LABEL = (
+  code: number,
+  diagnosisLabel?: string,
+) => (diagnosisLabel ? `${code} — ${diagnosisLabel}` : `Código ${code}`);
 export const PREDICTION_PREDICT_BUTTON = "Predecir";
 export const PREDICTION_PREDICTING_BUTTON = "Prediciendo...";
 export const PREDICTION_RESULT_TITLE = "Probabilidad de No Supervivencia";

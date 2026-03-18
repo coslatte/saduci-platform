@@ -27,7 +27,7 @@ export function SimulationPatientSection({
   handleNewPatient,
 }: SimulationPatientSectionProps) {
   return (
-    <section className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5">
+    <section className="flex flex-col gap-4 p-5 bg-white border rounded-2xl border-slate-200">
       <div className="flex items-center justify-between">
         <h2 className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-700">
           {SIMULATION_PATIENT_SECTION_TITLE}
