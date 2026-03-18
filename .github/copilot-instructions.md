@@ -103,7 +103,7 @@ Deben usarse componentes ya existentes siempre que cumplan el propósito, inclus
 Ejecutar siempre que se concluya una tarea o cambio importante los siguientes comandos para verificar que no se rompa nada:
 
 ```bash
-bun run lint ; bun run test 
+bun run lint ; bun run test
 ```
 
 Muy especialmente, con ánimo de resolver un problema en que involucre esta función, correr:

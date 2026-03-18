@@ -49,9 +49,14 @@
 /* Surface/backdrop design tokens */
 :root {
   --surface-bg-very: rgba(255, 255, 255, 0.05); /* bastante transparente */
-  --surface-bg-medium: rgba(255, 255, 255, 0.10); /* medio */
+  --surface-bg-medium: rgba(255, 255, 255, 0.1); /* medio */
   --surface-bg-opaque: rgba(255, 255, 255, 0.75); /* poco transparente */
-  --surface-bg-full: rgba(255, 255, 255, 0.95); /* casi opaco, más fuerte que opaque */
+  --surface-bg-full: rgba(
+    255,
+    255,
+    255,
+    0.95
+  ); /* casi opaco, más fuerte que opaque */
   --surface-blur-sm: 4px;
   --surface-blur-md: 8px;
   --surface-blur-lg: 12px;
@@ -191,17 +196,18 @@ input[type="number"] {
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    background:
-      linear-gradient(
-        135deg,
-        color-mix(in oklab, var(--color-primary-700) 88%, white 12%) 0%,
-        color-mix(in oklab, var(--color-primary-500) 78%, white 22%) 100%
-      );
-    border: 1px solid color-mix(in oklab, var(--color-primary-400) 70%, white 30%);
+    background: linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--color-primary-700) 88%, white 12%) 0%,
+      color-mix(in oklab, var(--color-primary-500) 78%, white 22%) 100%
+    );
+    border: 1px solid
+      color-mix(in oklab, var(--color-primary-400) 70%, white 30%);
     -webkit-backdrop-filter: blur(10px) saturate(145%);
     backdrop-filter: blur(10px) saturate(145%);
     box-shadow:
-      0 8px 22px -12px color-mix(in oklab, var(--color-primary-700) 45%, transparent),
+      0 8px 22px -12px
+        color-mix(in oklab, var(--color-primary-700) 45%, transparent),
       inset 0 1px 0 rgba(255, 255, 255, 0.45);
     transition:
       box-shadow 180ms ease,
@@ -226,8 +232,16 @@ input[type="number"] {
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(circle at 20% -10%, rgba(255, 255, 255, 0.5) 0%, transparent 55%),
-      radial-gradient(circle at 90% 120%, rgba(13, 148, 136, 0.18) 0%, transparent 55%);
+      radial-gradient(
+        circle at 20% -10%,
+        rgba(255, 255, 255, 0.5) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        circle at 90% 120%,
+        rgba(13, 148, 136, 0.18) 0%,
+        transparent 55%
+      );
     opacity: 0.45;
     transition: opacity 180ms ease;
   }
@@ -236,7 +250,8 @@ input[type="number"] {
     /* Removed translateY hover movement to keep element stationary */
     border-color: color-mix(in oklab, var(--color-primary-400) 74%, white 26%);
     box-shadow:
-      0 14px 28px -14px color-mix(in oklab, var(--color-primary-700) 52%, transparent),
+      0 14px 28px -14px
+        color-mix(in oklab, var(--color-primary-700) 52%, transparent),
       inset 0 1px 0 rgba(255, 255, 255, 0.55);
     filter: saturate(150%);
   }
@@ -248,7 +263,8 @@ input[type="number"] {
   .glass-noise-primary:active {
     /* Ensure no transform is applied on active */
     box-shadow:
-      0 8px 18px -12px color-mix(in oklab, var(--color-primary-700) 40%, transparent),
+      0 8px 18px -12px
+        color-mix(in oklab, var(--color-primary-700) 40%, transparent),
       inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
