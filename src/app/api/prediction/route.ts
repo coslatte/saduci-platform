@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-type FetchLike = (
-  input: RequestInfo | URL,
-  init?: RequestInit,
-) => Promise<Response>;
-
 function resolveCoreApiUrl(): string {
   const raw =
     process.env.API_URL ??
@@ -15,139 +10,7 @@ function resolveCoreApiUrl(): string {
 }
 
 const CORE_API_URL = resolveCoreApiUrl();
-const CORE_PREDICTION_PATHS = [
-  "/api/predictions",
-  "/predictions",
-  "/prediccion",
-] as const;
-const FALLBACK_PREDICTION_SERVICE_URL =
-  process.env.PREDICTION_SERVICE_URL ??
-  deriveFallbackPredictionServiceUrl(CORE_API_URL);
-
-interface LegacyPredictionRequest {
-  patient_id: string;
-  model_name: "mortality_risk";
-  features: {
-    age: number;
-    severity_score: number;
-  };
-}
-
-interface LegacyPredictionResponse {
-  prediction?: {
-    risk_score?: number;
-  };
-  risk_score?: number;
-  probability?: number;
-}
-
-function deriveFallbackPredictionServiceUrl(coreApiUrl: string): string {
-  try {
-    const url = new URL(coreApiUrl);
-    if (url.port === "8000") {
-      url.port = "8002";
-      return url.toString().replace(/\/$/, "");
-    }
-  } catch {
-    // Fall back to the original URL when it is not a valid absolute URL.
-  }
-
-  return coreApiUrl;
-}
-
-function buildLegacyPredictionRequest(
-  body: unknown,
-): LegacyPredictionRequest | null {
-  if (!body || typeof body !== "object") return null;
-
-  const payload = body as Record<string, unknown>;
-  if (typeof payload.edad !== "number" || typeof payload.apache !== "number") {
-    return null;
-  }
-
-  return {
-    patient_id: "saduci-platform",
-    model_name: "mortality_risk",
-    features: {
-      age: payload.edad,
-      severity_score: payload.apache,
-    },
-  };
-}
-
-function extractProbability(payload: unknown): number | null {
-  if (!payload || typeof payload !== "object") return null;
-
-  const data = payload as LegacyPredictionResponse;
-  if (typeof data.probability === "number") return data.probability;
-  if (typeof data.risk_score === "number") return data.risk_score;
-  if (typeof data.prediction?.risk_score === "number") {
-    return data.prediction.risk_score;
-  }
-
-  return null;
-}
-
-async function postJson(
-  url: string,
-  body: unknown,
-  timeoutMs: number,
-  fetchImpl: FetchLike = fetch,
-): Promise<Response> {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-  try {
-    return await fetchImpl(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
-  } finally {
-    clearTimeout(timeoutId);
-  }
-}
-
-async function postJsonAndParse(
-  url: string,
-  body: unknown,
-  timeoutMs: number,
-  fetchImpl: FetchLike = fetch,
-): Promise<{ response: Response; data: unknown }> {
-  const response = await postJson(url, body, timeoutMs, fetchImpl);
-  const contentType = response.headers.get("content-type") ?? "";
-  const data: unknown = contentType.includes("application/json")
-    ? await response.json()
-    : { error: await response.text() };
-
-  return { response, data };
-}
-
-async function tryPredictionUpstream(
-  baseUrl: string,
-  paths: readonly string[],
-  body: unknown,
-  timeoutMs: number,
-  fetchImpl: FetchLike = fetch,
-): Promise<{ response: Response; data: unknown; url: string } | null> {
-  let lastNotFound: { response: Response; data: unknown; url: string } | null =
-    null;
-
-  for (const path of paths) {
-    const url = `${baseUrl}${path}`;
-    const attempt = await postJsonAndParse(url, body, timeoutMs, fetchImpl);
-
-    if (attempt.response.status === 404) {
-      lastNotFound = { ...attempt, url };
-      continue;
-    }
-
-    return { ...attempt, url };
-  }
-
-  return lastNotFound;
-}
+const CORE_PREDICTION_PATH = "/prediccion";
 
 function getUpstreamErrorMessage(data: unknown): string | null {
   if (typeof data === "string" && data.trim().length > 0) return data;
@@ -180,10 +43,7 @@ function getUpstreamErrorMessage(data: unknown): string | null {
   return null;
 }
 
-export async function handlePredictionRequest(
-  req: NextRequest,
-  fetchImpl: FetchLike = fetch,
-) {
+export async function POST(req: NextRequest) {
   let body: unknown;
   try {
     body = await req.json();
@@ -194,98 +54,36 @@ export async function handlePredictionRequest(
     );
   }
 
-  try {
-    const upstream = await tryPredictionUpstream(
-      CORE_API_URL,
-      CORE_PREDICTION_PATHS,
-      body,
-      15_000,
-      fetchImpl,
-    );
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15_000);
 
-    if (!upstream) {
+  try {
+    const upstream = await fetch(`${CORE_API_URL}${CORE_PREDICTION_PATH}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+
+    const contentType = upstream.headers.get("content-type") ?? "";
+    const data: unknown = contentType.includes("application/json")
+      ? await upstream.json()
+      : { error: await upstream.text() };
+
+    if (upstream.status === 404) {
       return NextResponse.json(
         {
-          error: "No se pudo conectar con el servidor de predicción.",
+          error:
+            "El backend activo no expone el endpoint /prediccion. Verifica que saduci-core esté actualizado y desplegado con la versión compatible para predicción.",
+          upstream_status: upstream.status,
+          upstream_url: `${CORE_API_URL}${CORE_PREDICTION_PATH}`,
+          upstream_error: getUpstreamErrorMessage(data),
         },
         { status: 502 },
       );
     }
 
-    const { response: upstreamResponse, data } = upstream;
-
-    const probability = extractProbability(data);
-    if (upstreamResponse.ok && probability !== null) {
-      return NextResponse.json({ probability }, { status: 200 });
-    }
-
-    if (upstreamResponse.status === 404) {
-      const fallbackRequest = buildLegacyPredictionRequest(body);
-      if (!fallbackRequest) {
-        return NextResponse.json(
-          {
-            error:
-              "El backend activo no expone el endpoint /prediccion y no fue posible adaptar la solicitud al servicio alterno.",
-            upstream_status: upstreamResponse.status,
-            upstream_url: upstream.url,
-            upstream_error: getUpstreamErrorMessage(data),
-          },
-          { status: 502 },
-        );
-      }
-
-      try {
-        const fallback = await postJson(
-          `${FALLBACK_PREDICTION_SERVICE_URL}/predictions`,
-          fallbackRequest,
-          15_000,
-          fetchImpl,
-        );
-
-        const fallbackContentType = fallback.headers.get("content-type") ?? "";
-        const fallbackData: unknown = fallbackContentType.includes(
-          "application/json",
-        )
-          ? await fallback.json()
-          : { error: await fallback.text() };
-
-        const fallbackProbability = extractProbability(fallbackData);
-        if (fallback.ok && fallbackProbability !== null) {
-          return NextResponse.json(
-            { probability: fallbackProbability },
-            { status: 200 },
-          );
-        }
-
-        return NextResponse.json(
-          {
-            error:
-              "El backend activo no expone el endpoint /prediccion y el servicio alterno no pudo completar la predicción.",
-            upstream_status: upstreamResponse.status,
-            upstream_url: upstream.url,
-            upstream_error: getUpstreamErrorMessage(data),
-            fallback_status: fallback.status,
-            fallback_url: `${FALLBACK_PREDICTION_SERVICE_URL}/predictions`,
-            fallback_error: getUpstreamErrorMessage(fallbackData),
-          },
-          { status: 502 },
-        );
-      } catch {
-        return NextResponse.json(
-          {
-            error:
-              "El backend activo no expone el endpoint /prediccion y el servicio alterno de predicción no respondió.",
-            upstream_status: upstreamResponse.status,
-            upstream_url: upstream.url,
-            upstream_error: getUpstreamErrorMessage(data),
-            fallback_url: `${FALLBACK_PREDICTION_SERVICE_URL}/predictions`,
-          },
-          { status: 502 },
-        );
-      }
-    }
-
-    return NextResponse.json(data, { status: upstreamResponse.status });
+    return NextResponse.json(data, { status: upstream.status });
   } catch (err) {
     const isTimeout = err instanceof Error && err.name === "AbortError";
     return NextResponse.json(
@@ -296,9 +94,7 @@ export async function handlePredictionRequest(
       },
       { status: isTimeout ? 504 : 502 },
     );
+  } finally {
+    clearTimeout(timeout);
   }
-}
-
-export async function POST(req: NextRequest) {
-  return handlePredictionRequest(req);
 }

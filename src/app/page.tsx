@@ -46,34 +46,6 @@ export default function Home() {
           </div>
         </div>
       </DashboardInfoSection>
-
-      <DashboardInfoSection
-        title={HOME_DOCUMENTATION_SECTION_TITLE}
-        className="pt-8"
-      >
-        <Text size="sm" muted className="text-justify">
-          {HOME_DOCUMENTATION_SECTION_DESCRIPTION}
-        </Text>
-
-        <div className="grid gap-4 sm:mx-auto sm:w-full sm:max-w-4xl sm:grid-cols-2">
-          {PROJECT_LINKS.map((link) => (
-            <LinkCard
-              key={link.href}
-              href={link.href}
-              icon={
-                link.href.includes("github") ? (
-                  <FiGithub className="size-5" />
-                ) : (
-                  <FiBookOpen className="size-5" />
-                )
-              }
-              label={link.label}
-              description={link.description}
-              iconPosition="left"
-            />
-          ))}
-        </div>
-      </DashboardInfoSection>
     </div>
   );
 }
