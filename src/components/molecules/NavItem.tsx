@@ -28,6 +28,8 @@ interface NavItemProps {
    * When true prevent the icon from scaling on parent hover (used by tree items)
    */
   disableIconHoverScale?: boolean;
+  /** When true avoid layout/transform animations (used while sidebar collapses) */
+  suppressLayoutAnimations?: boolean;
 }
 
 /**
@@ -50,6 +52,7 @@ export function NavItem({
   iconClassName,
   disabled,
   disableIconHoverScale = false,
+  suppressLayoutAnimations = false,
 }: NavItemProps) {
   const isNested = variant === "nested";
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -57,11 +60,15 @@ export function NavItem({
   // Compose classes in a clearer way to avoid deep nested ternaries and
   // repeated strings. Keep few local vars (base/state/common) for readability
   // while not introducing a large number of intermediate variables.
+  const transitionClass = suppressLayoutAnimations
+    ? "transition-opacity duration-200"
+    : "transition-all duration-200";
+
   const base = isNested
-    ? "group flex w-full items-center gap-2.5 rounded-xl border border-transparent px-3 py-2 text-sm font-medium transition-all duration-200"
+    ? cn("group flex w-full items-center gap-2.5 rounded-xl border border-transparent px-3 py-2 text-sm font-medium", transitionClass)
     : collapsed
-      ? "group flex h-11 w-11 items-center justify-center rounded-2xl border border-transparent transition-all duration-200"
-      : "group flex w-full items-center gap-3 rounded-2xl border border-transparent px-3 py-2.5 text-(length:--font-size-sm) font-medium transition-all duration-200";
+      ? cn("group flex h-11 w-11 items-center justify-center rounded-2xl border border-transparent", transitionClass)
+      : cn("group flex w-full items-center gap-3 rounded-2xl border border-transparent px-3 py-2.5 text-(length:--font-size-sm) font-medium", transitionClass);
 
   const state = (() => {
     if (isNested) {
@@ -159,8 +166,13 @@ export function NavItem({
                 ? "flex size-7 shrink-0 items-center justify-center rounded-lg bg-primary-500/15 text-primary-700 transition-colors group-hover:bg-primary-500/20 group-hover:text-primary-700"
                 : "flex size-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-colors group-hover:bg-slate-200 group-hover:text-slate-700"
               : [
-                  "flex size-9 shrink-0 items-center justify-center rounded-xl text-current transform transition-transform duration-200 ease-out will-change-transform",
-                  !disableIconHoverScale && "group-hover:scale-105",
+                  // When suppressing layout animations avoid transform/scale
+                  // transitions so the icon doesn't animate geometry while the
+                  // sidebar collapses.
+                  suppressLayoutAnimations
+                    ? "flex size-9 shrink-0 items-center justify-center rounded-xl text-current"
+                    : "flex size-9 shrink-0 items-center justify-center rounded-xl text-current transform transition-transform duration-200 ease-out will-change-transform",
+                  !disableIconHoverScale && !suppressLayoutAnimations && "group-hover:scale-105",
                 ],
             // For non-nested items, when collapsed avoid the white bg / shadow
             // so the sidebar remains compact. When not collapsed, show bg and
@@ -183,7 +195,8 @@ export function NavItem({
 
       <span
         className={cn(
-          "min-w-0 truncate no-underline overflow-hidden transition-all duration-200",
+          "min-w-0 truncate no-underline overflow-hidden",
+          transitionClass,
           collapsed ? "w-0 opacity-0 flex-none" : "flex-1 opacity-100",
           labelClassName,
         )}
@@ -195,7 +208,8 @@ export function NavItem({
       {trailingContent && (
         <span
           className={cn(
-            "flex-none transition-all duration-200",
+            "flex-none",
+            transitionClass,
             collapsed
               ? "w-0 opacity-0 overflow-hidden"
               : "opacity-100 overflow-visible",

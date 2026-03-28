@@ -189,7 +189,7 @@ export function AccessibleSelect({
       {help && (
         <HelpTooltipButton
           help={help}
-          className="absolute right-2 top-1/2 -translate-y-1/2"
+          className="absolute -translate-y-1/2 right-2 top-1/2"
           buttonClassName="flex items-center justify-center cursor-help"
         />
       )}

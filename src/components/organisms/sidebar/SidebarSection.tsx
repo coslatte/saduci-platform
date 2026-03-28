@@ -11,6 +11,7 @@ interface SidebarSectionProps {
   title: string;
   items: NavItemType[];
   collapsed: boolean;
+  suppressLayoutAnimations?: boolean;
 }
 
 interface TreeItemProps {
@@ -19,6 +20,7 @@ interface TreeItemProps {
   collapsed: boolean;
   manualExpanded?: Record<string, boolean>;
   onToggleManual?: (href: string) => void;
+  suppressLayoutAnimations?: boolean;
 }
 
 function getInitialManualExpandedState(): Record<string, boolean> {
@@ -36,6 +38,10 @@ function TreeItem({
   collapsed,
   manualExpanded,
   onToggleManual,
+  // When true avoid layout/height/transform animations; only allow fade
+  // transitions so collapsing the whole sidebar doesn't trigger many
+  // simultaneous geometry animations.
+  suppressLayoutAnimations,
 }: TreeItemProps) {
   const hasChildren = !!item.children?.length;
   const isRoot = depth === 0;
@@ -84,6 +90,7 @@ function TreeItem({
             hasChildren && !collapsed && "pr-11",
           )}
           labelClassName={cn(depth > 0 && "text-sm font-medium")}
+          suppressLayoutAnimations={suppressLayoutAnimations}
         />
 
         {hasChildren && !collapsed && (
@@ -104,17 +111,22 @@ function TreeItem({
       </div>
 
       {hasChildren && (
-        <div
-          aria-hidden={!showChildren}
-          className={cn(
-            "ml-7 overflow-hidden border-l border-slate-200/80 pl-4 pr-1 transition-[max-height,opacity,margin,padding] duration-300",
-            depth > 0 && "ml-5",
-            showChildren ? "mt-1 py-1" : "mt-0 py-0",
-            showChildren
-              ? "max-h-96 opacity-100"
-              : "max-h-0 opacity-0 pointer-events-none",
-          )}
-        >
+          <div
+              aria-hidden={!showChildren}
+              className={cn(
+                "ml-7 overflow-hidden border-l border-slate-200/80 pl-4 pr-1",
+                depth > 0 && "ml-5",
+                // Use only opacity transition when suppression requested,
+                // otherwise animate max-height and related layout properties.
+                suppressLayoutAnimations
+                  ? "transition-opacity duration-200"
+                  : "transition-[max-height,opacity,margin,padding] duration-300",
+                showChildren ? "mt-1 py-1" : "mt-0 py-0",
+                showChildren
+                  ? "max-h-96 opacity-100"
+                  : "max-h-0 opacity-0 pointer-events-none",
+              )}
+            >
           <ul className="flex flex-col gap-2">
             {item.children!.map((child) => (
               <TreeItem
@@ -124,6 +136,7 @@ function TreeItem({
                 collapsed={collapsed}
                 manualExpanded={manualExpanded}
                 onToggleManual={onToggleManual}
+                suppressLayoutAnimations={suppressLayoutAnimations}
               />
             ))}
           </ul>
@@ -141,6 +154,7 @@ export function SidebarSection({
   title,
   items,
   collapsed,
+  suppressLayoutAnimations,
 }: SidebarSectionProps) {
   const [manualExpanded, setManualExpanded] = useState<Record<string, boolean>>(
     getInitialManualExpandedState,
@@ -165,7 +179,10 @@ export function SidebarSection({
     <div className="flex flex-col gap-2">
       <div
         className={cn(
-          "overflow-hidden transition-[max-height,opacity] duration-300",
+          "overflow-hidden",
+          suppressLayoutAnimations
+            ? "transition-opacity duration-200"
+            : "transition-[max-height,opacity] duration-300",
           collapsed ? "max-h-0 opacity-0" : "max-h-8 opacity-100",
         )}
       >
@@ -190,6 +207,7 @@ export function SidebarSection({
             collapsed={collapsed}
             manualExpanded={manualExpanded}
             onToggleManual={handleToggleManual}
+            suppressLayoutAnimations={suppressLayoutAnimations}
           />
         ))}
       </ul>

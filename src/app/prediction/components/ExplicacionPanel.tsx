@@ -99,27 +99,27 @@ export function ExplicacionPanel({
     >
       <h2
         id="prediction-explain-section-title"
-        className="font-semibold text-zinc-800"
+        className="font-semibold text-center text-zinc-800"
       >
         {PREDICTION_EXPLAIN_SECTION_TITLE}
       </h2>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col w-full gap-4 mx-auto">
         {!hasPrediction && (
           <Alert variant="warning">{PREDICTION_WARN_NO_PREDICTION}</Alert>
         )}
 
-        <div className="flex flex-col gap-1.5 sm:max-w-xs">
+        <div className="flex w-full flex-col gap-1.5">
           <Label htmlFor="pred-method">{PREDICTION_METHOD_LABEL}</Label>
           <AccessibleSelect
             id="pred-method"
             value={method}
             onChange={(value) => setMethod(toExplanationMethod(value))}
             options={methodOptions}
-            fullWidth
+            fullWidth={true}
           />
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-center">
           <Button
             variant="secondary"
             disabled={!hasPrediction || loading}
@@ -139,7 +139,7 @@ export function ExplicacionPanel({
         {error && <Alert variant="danger">{error}</Alert>}
 
         {result && (
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col w-full gap-3">
             <h3 className="font-medium text-zinc-700">
               {PREDICTION_EXPLAIN_TITLE(method)}
             </h3>
