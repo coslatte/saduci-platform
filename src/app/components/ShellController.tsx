@@ -18,16 +18,27 @@ interface Props {
 export default function ShellController({ children }: Props) {
   const pathname = usePathname() ?? "/";
   const router = useRouter();
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, isLoading, logout } = useAuth();
 
   useEffect(() => {
-    if (!isAuthenticated && pathname !== "/login") {
+    if (isLoading) return;
+
+    if (pathname === "/login" && isAuthenticated) {
+      router.replace("/");
+      return;
+    }
+
+    if (pathname !== "/login" && !isAuthenticated) {
       router.replace("/login");
     }
-  }, [isAuthenticated, pathname, router]);
+  }, [isAuthenticated, isLoading, pathname, router]);
+
+  if (isLoading) {
+    return <div className="min-h-dvh bg-slate-50" />;
+  }
 
   if (pathname === "/login") {
-    return <>{children}</>;
+    return isAuthenticated ? null : <>{children}</>;
   }
 
   if (!isAuthenticated) return null;

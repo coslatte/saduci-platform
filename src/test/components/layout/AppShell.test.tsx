@@ -18,8 +18,17 @@ mock.module("sileo", () => ({
 
 mock.module("@/lib/auth", () => ({
   useAuth: () => ({
-    user: { id: "1", name: "Test", email: "t@test", role: "Admin" },
+    user: {
+      id: "1",
+      username: "test",
+      name: "Test",
+      email: "t@test",
+      role: "Administrador",
+      isSuperuser: true,
+    },
+    token: "test-token",
     isAuthenticated: true,
+    isLoading: false,
     login: async () => {},
     logout: () => {},
   }),

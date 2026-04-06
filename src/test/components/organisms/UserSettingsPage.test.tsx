@@ -6,69 +6,63 @@ import {
   act,
   cleanup,
 } from "@testing-library/react";
-import { describe, expect, it, mock } from "bun:test";
+import { describe, expect, it } from "bun:test";
 
 describe("UserSettingsPage", () => {
-  it("renders mock user when toggle is enabled and submits change-password", async () => {
-    mock.module("@/lib/auth", () => ({
-      useAuth: () => ({
-        user: null,
-        isAuthenticated: false,
-        login: async () => {},
-        logout: () => {},
-      }),
-    }));
+  it("renders the authenticated user and submits change-password with a bearer token", async () => {
+    const user = {
+      id: "1",
+      username: "admin",
+      name: "Admin",
+      email: "admin@saduci.com",
+      role: "Administrador",
+      isSuperuser: true,
+    };
 
-    // mock fetch and track calls
     let called = false;
-    // cast to typeof fetch to satisfy bun's global fetch typing (includes extra helpers)
-    globalThis.fetch = (async () => {
-      called = true;
-      return {
-        ok: true,
-        json: async () => ({ message: "Contraseña actualizada (mock)." }),
-      };
+    let requestInit: RequestInit | undefined;
+    globalThis.fetch = (async (url: string | URL, init?: RequestInit) => {
+      const target = typeof url === "string" ? url : url.toString();
+
+      if (target.endsWith("/api/user/change-password")) {
+        called = true;
+        requestInit = init;
+        return new Response(
+          JSON.stringify({ message: "Contraseña actualizada correctamente." }),
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      }
+
+      throw new Error(`Unexpected fetch: ${target}`);
     }) as unknown as typeof fetch;
 
-    const { default: Page } = await import("@/app/settings/page");
+    const { UserSettingsPageContent } = await import("@/app/settings/page");
 
-    const { getByText, getByLabelText, getByPlaceholderText, container } =
-      render(<Page />);
+    const { getByText, getByPlaceholderText, container } = render(
+      <UserSettingsPageContent user={user} token="test-token" />,
+    );
 
-    // Enable mock toggle (wrap in act to ensure state updates are flushed)
-    const toggle = getByLabelText("Usar datos mock");
-    await act(async () => {
-      fireEvent.click(toggle);
-    });
+    expect(getByText("admin@saduci.com")).toBeTruthy();
 
-    expect(getByText("Juan Pérez")).toBeTruthy();
-
-    // Fill passwords and submit (use placeholders)
     const newPwd = getByPlaceholderText("Nueva contraseña");
     const confirmPwd = getByPlaceholderText("Confirmar nueva contraseña");
     const currentPwd = getByPlaceholderText("Contraseña actual");
 
     await act(async () => {
-      // assign values directly and dispatch native input events to ensure controlled components update
-      (currentPwd as HTMLInputElement).value = "oldpass";
-      currentPwd.dispatchEvent(new Event("input", { bubbles: true }));
-
-      (newPwd as HTMLInputElement).value = "newpassword";
-      newPwd.dispatchEvent(new Event("input", { bubbles: true }));
-
-      (confirmPwd as HTMLInputElement).value = "newpassword";
-      confirmPwd.dispatchEvent(new Event("input", { bubbles: true }));
+      fireEvent.input(currentPwd, { target: { value: "oldpass123" } });
+      fireEvent.input(newPwd, { target: { value: "newpassword" } });
+      fireEvent.input(confirmPwd, { target: { value: "newpassword" } });
     });
 
-    // wait for React state to reflect the input changes before submitting
     await waitFor(() => {
-      expect((currentPwd as HTMLInputElement).value).toBe("oldpass");
+      expect((currentPwd as HTMLInputElement).value).toBe("oldpass123");
       expect((newPwd as HTMLInputElement).value).toBe("newpassword");
       expect((confirmPwd as HTMLInputElement).value).toBe("newpassword");
     });
 
-    // submit the form — some DOM environments trigger submit reliably via
-    // fireEvent.submit instead of clicking the button
     const form = container.querySelector("form") as HTMLFormElement;
     if (form) {
       await act(async () => {
@@ -85,13 +79,22 @@ describe("UserSettingsPage", () => {
       expect(called).toBe(true);
     });
 
-    // Wait for the full async response to be processed (state settled, no pending renders)
-    await waitFor(() => {
-      expect(getByText("Contraseña actualizada (mock).")).toBeTruthy();
+    expect(
+      (requestInit?.headers as Record<string, string | undefined>)
+        ?.Authorization,
+    ).toBe("Bearer test-token");
+
+    expect(
+      requestInit?.body ? JSON.parse(requestInit.body as string) : null,
+    ).toEqual({
+      currentPassword: "oldpass123",
+      newPassword: "newpassword",
     });
 
-    // Eagerly unmount and clear DOM so no async React re-render leaks into
-    // subsequent tests (the success Alert would otherwise persist in the body).
+    await waitFor(() => {
+      expect(getByText("Contraseña actualizada correctamente.")).toBeTruthy();
+    });
+
     globalThis.fetch = undefined as unknown as typeof fetch;
     cleanup();
     document.body.innerHTML = "";

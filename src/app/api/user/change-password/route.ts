@@ -1,38 +1,44 @@
 import { NextResponse } from "next/server";
 
+function resolveCoreApiUrl(): string {
+  const raw =
+    process.env.API_URL ??
+    process.env.NEXT_PUBLIC_API_URL ??
+    "http://localhost:8000";
+
+  return raw.replace(/\/+$/, "").replace(/\/api$/, "");
+}
+
+const CORE_API_URL = resolveCoreApiUrl();
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { currentPassword, newPassword, mock } = body || {};
-    void currentPassword;
+    const authorization = req.headers.get("authorization") ?? "";
 
-    // In mock mode, just simulate success
-    if (mock) {
-      await new Promise((r) => setTimeout(r, 200));
-      return NextResponse.json({
-        ok: true,
-        message: "Contraseña actualizada (mock).",
-      });
-    }
-
-    // Basic validation — in a real API we'd verify the currentPassword and update the user's password
-    if (typeof newPassword !== "string" || newPassword.length < 8) {
+    if (!authorization) {
       return NextResponse.json(
-        {
-          ok: false,
-          message: "La nueva contraseña debe tener al menos 8 caracteres.",
-        },
-        { status: 400 },
+        { ok: false, message: "Credenciales de autenticación no enviadas." },
+        { status: 401 },
       );
     }
 
-    // TODO: implement real password change logic (DB, auth)
-    await new Promise((r) => setTimeout(r, 300));
-
-    return NextResponse.json({
-      ok: true,
-      message: "Contraseña actualizada correctamente.",
+    const upstream = await fetch(`${CORE_API_URL}/auth/change-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authorization,
+      },
+      body: JSON.stringify(body),
+      signal: req.signal,
     });
+
+    const contentType = upstream.headers.get("content-type") ?? "";
+    const data: unknown = contentType.includes("application/json")
+      ? await upstream.json()
+      : { message: await upstream.text() };
+
+    return NextResponse.json(data, { status: upstream.status });
   } catch {
     return NextResponse.json(
       { ok: false, message: "Error en el servidor." },

@@ -23,6 +23,8 @@ API_URL=http://localhost:8000
 
 The frontend routes all simulation requests through `/api/simulation` (a Next.js Route Handler), so `API_URL` stays server-side and is never exposed to the browser.
 
+The same backend is now also required for authentication. The login screen uses the admin user seeded by `saduci-core` on first startup, so the gateway must be running before entering the app.
+
 ### 2. Run the development server
 
 ```bash

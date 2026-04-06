@@ -20,6 +20,8 @@ mock.module("@/lib/auth", () => ({
   useAuth: () => ({
     user: null,
     isAuthenticated: false,
+    isLoading: false,
+    token: null,
     login: async () => {},
     logout: () => {},
   }),

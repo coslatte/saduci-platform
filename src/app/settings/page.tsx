@@ -9,7 +9,7 @@ import { Button } from "@/components/atoms/Buttons";
 import { Text } from "@/components/atoms/Text";
 import { Alert } from "@/components/molecules/Alert";
 import { FormField } from "@/components/molecules/FormField";
-import { useAuth } from "@/lib/auth";
+import { useAuth, type User } from "@/lib/auth";
 import { FiShield, FiUser } from "react-icons/fi";
 import {
   SETTINGS_PAGE_TITLE,
@@ -21,7 +21,6 @@ import {
   SETTINGS_CONFIRM_PWD_LABEL,
   SETTINGS_SAVE_BTN,
   SETTINGS_SAVING_BTN,
-  SETTINGS_MOCK_LABEL,
   SETTINGS_PWD_MIN_HINT,
   SETTINGS_PWD_EMPTY,
   SETTINGS_PWD_TOO_SHORT,
@@ -31,19 +30,15 @@ import {
   SETTINGS_NET_ERROR,
 } from "@/constants/constants";
 
-export default function UserSettingsPage() {
-  const { user } = useAuth();
-  const [useMock, setUseMock] = useState(false);
+interface UserSettingsPageContentProps {
+  user: User;
+  token: string | null;
+}
 
-  const effectiveUser =
-    useMock || !user
-      ? {
-          name: "Juan Pérez",
-          email: "juan.perez@example.com",
-          role: "Administrador",
-        }
-      : user;
-
+export function UserSettingsPageContent({
+  user,
+  token,
+}: UserSettingsPageContentProps) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -79,10 +74,17 @@ export default function UserSettingsPage() {
     setLoading(true);
 
     try {
+      if (!token) {
+        throw new Error(SETTINGS_NET_ERROR);
+      }
+
       const res = await fetch("/api/user/change-password", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ currentPassword, newPassword, mock: useMock }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ currentPassword, newPassword }),
       });
 
       const data = await res.json();
@@ -115,16 +117,6 @@ export default function UserSettingsPage() {
             {SETTINGS_PAGE_SUBTITLE}
           </Text>
         </div>
-        <label className="flex cursor-pointer select-none items-center gap-1.5 self-start text-(length:--font-size-xs) text-zinc-400 sm:mt-1 sm:self-auto">
-          <input
-            type="checkbox"
-            checked={useMock}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setUseMock(e.target.checked)
-            }
-          />
-          {SETTINGS_MOCK_LABEL}
-        </label>
       </div>
 
       <Divider className="mb-6 border-slate-200/80" />
@@ -138,7 +130,7 @@ export default function UserSettingsPage() {
             </Text>
           </div>
           <div className="flex flex-col items-center text-center gap-4 py-2">
-            <Avatar name={effectiveUser.name} size="xl" />
+            <Avatar name={user.name} size="xl" />
             <div>
               <Text
                 as="p"
@@ -146,13 +138,13 @@ export default function UserSettingsPage() {
                 weight="semibold"
                 className="leading-tight text-zinc-900"
               >
-                {effectiveUser.name}
+                {user.name}
               </Text>
               <Text as="p" size="sm" muted className="mt-0.5">
-                {effectiveUser.email}
+                {user.email}
               </Text>
             </div>
-            <Badge status="info">{effectiveUser.role}</Badge>
+            <Badge status="info">{user.role}</Badge>
           </div>
         </div>
 
@@ -232,4 +224,14 @@ export default function UserSettingsPage() {
       </div>
     </main>
   );
+}
+
+export default function UserSettingsPage() {
+  const { user, token } = useAuth();
+
+  if (!user) {
+    return null;
+  }
+
+  return <UserSettingsPageContent user={user} token={token} />;
 }

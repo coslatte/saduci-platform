@@ -1,7 +1,19 @@
 import "../../setup";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
 import type { ReactNode } from "react";
+
+function restoreNavigationMock() {
+  mock.module("next/navigation", () => ({
+    useRouter: () => ({
+      push: () => {},
+      replace: () => {},
+    }),
+    usePathname: () => "/",
+    useSearchParams: () => new URLSearchParams(),
+    redirect: () => {},
+  }));
+}
 
 describe("AdminPage", () => {
   it("does not render the builder entry anymore", async () => {
@@ -13,17 +25,24 @@ describe("AdminPage", () => {
         push: mock(() => {}),
         replace,
       }),
+      usePathname: () => "/admin",
+      useSearchParams: () => new URLSearchParams(),
+      redirect: () => {},
     }));
 
     mock.module("@/lib/auth", () => ({
       useAuth: () => ({
         user: {
           id: "admin-1",
+          username: "admin",
           name: "Admin",
-          email: "admin@saduci.com",
+          email: "admin@saduci.local",
           role: "Administrador",
+          isSuperuser: true,
         },
+        token: "test-token",
         isAuthenticated: true,
+        isLoading: false,
         login: async () => {},
         logout: () => {},
       }),
@@ -49,10 +68,12 @@ describe("AdminPage", () => {
     }));
 
     const { default: AdminPage } = await import("@/app/admin/page");
-    render(<AdminPage />);
+    const { container } = render(<AdminPage />);
 
-    expect(screen.queryByRole("link", { name: /builder/i })).toBeNull();
-    expect(screen.getByText("Mi página")).toBeTruthy();
-    expect(screen.getByRole("link", { name: "Ver" })).toBeTruthy();
+    expect(container.querySelector("a[href*='/admin/builder/']")).toBeNull();
+    expect(container.textContent?.includes("Mi página")).toBe(true);
+    expect(container.querySelector('a[href="/pages/mi-pagina"]')).toBeTruthy();
+
+    restoreNavigationMock();
   });
 });

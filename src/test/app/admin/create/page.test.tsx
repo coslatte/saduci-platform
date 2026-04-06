@@ -1,7 +1,20 @@
 import "../../../setup";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
 import type { ReactNode } from "react";
+import { ADMIN_CREATE_PAGE_SUBMIT_BUTTON } from "@/constants/constants";
+
+function restoreNavigationMock() {
+  mock.module("next/navigation", () => ({
+    useRouter: () => ({
+      push: () => {},
+      replace: () => {},
+    }),
+    usePathname: () => "/",
+    useSearchParams: () => new URLSearchParams(),
+    redirect: () => {},
+  }));
+}
 
 describe("CreatePage", () => {
   it("creates a page and returns to admin without opening the builder", async () => {
@@ -19,17 +32,24 @@ describe("CreatePage", () => {
         push,
         replace,
       }),
+      usePathname: () => "/admin/create",
+      useSearchParams: () => new URLSearchParams(),
+      redirect: () => {},
     }));
 
     mock.module("@/lib/auth", () => ({
       useAuth: () => ({
         user: {
           id: "admin-1",
+          username: "admin",
           name: "Admin",
-          email: "admin@saduci.com",
+          email: "admin@saduci.local",
           role: "Administrador",
+          isSuperuser: true,
         },
+        token: "test-token",
         isAuthenticated: true,
+        isLoading: false,
         login: async () => {},
         logout: () => {},
       }),
@@ -48,15 +68,33 @@ describe("CreatePage", () => {
     }));
 
     const { default: CreatePage } = await import("@/app/admin/create/page");
-    render(<CreatePage />);
+    const { getByRole, getByLabelText } = render(<CreatePage />);
 
-    expect(screen.getByRole("button", { name: "Crear página" })).toBeTruthy();
+    expect(
+      getByRole("button", {
+        name: new RegExp(ADMIN_CREATE_PAGE_SUBMIT_BUTTON, "i"),
+      }),
+    ).toBeTruthy();
 
-    fireEvent.change(screen.getByLabelText("Titulo"), {
-      target: { value: "Mi pagina" },
+    const titleInput = getByLabelText("Titulo") as HTMLInputElement;
+    await act(async () => {
+      titleInput.value = "Mi pagina";
+      fireEvent.input(titleInput, {
+        target: { value: "Mi pagina" },
+      });
     });
 
-    fireEvent.click(screen.getByRole("button", { name: "Crear página" }));
+    await waitFor(() => {
+      expect((getByLabelText("Slug (URL)") as HTMLInputElement).value).toBe(
+        "mi-pagina",
+      );
+    });
+
+    fireEvent.click(
+      getByRole("button", {
+        name: new RegExp(ADMIN_CREATE_PAGE_SUBMIT_BUTTON, "i"),
+      }),
+    );
 
     await waitFor(() => expect(createPage).toHaveBeenCalledTimes(1));
     expect(createPage).toHaveBeenCalledWith({
@@ -65,6 +103,8 @@ describe("CreatePage", () => {
       description: "",
       showInSidebar: true,
     });
-    expect(push).toHaveBeenCalledWith("/admin");
+    await waitFor(() => expect(push).toHaveBeenCalledWith("/admin"));
+
+    restoreNavigationMock();
   });
 });

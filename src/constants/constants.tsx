@@ -4,18 +4,21 @@ import React from "react";
 export const APP_NAME = "Saduci Platform";
 
 // Login
-export const LOGIN_DEFAULT_EMAIL = "ana@saduci.com";
+export const LOGIN_DEFAULT_EMAIL = "";
 // WARNING: Do not set any real default password here. This constant must not be
 // used for authentication in production; prefer environment variables or config.
 export const LOGIN_DEFAULT_PASSWORD = "";
 
-export const LOGIN_PROMPT = "Inicie sesión para continuar";
-export const LOGIN_BUTTON = "Iniciar Sesión";
-export const LOGIN_ERROR_MSG = "No se pudo iniciar sesión. Intente de nuevo.";
-export const LOGIN_EMAIL_LABEL = "Correo electrónico";
-export const LOGIN_EMAIL_PLACEHOLDER = "usuario@ejemplo.com";
+export const LOGIN_PROMPT = "Inicie sesión con su usuario administrador";
+export const LOGIN_BUTTON = "Iniciar sesión";
+export const LOGIN_ERROR_MSG =
+  "No se pudo iniciar sesión. Verifique sus credenciales.";
+export const LOGIN_EMAIL_LABEL = "Usuario o correo electrónico";
+export const LOGIN_EMAIL_PLACEHOLDER = "admin o admin@saduci.com";
 export const LOGIN_PASSWORD_LABEL = "Contraseña";
 export const LOGIN_PASSWORD_PLACEHOLDER = "••••••••";
+export const LOGIN_HELP_TEXT =
+  "El acceso depende del backend de saduci-core activo.";
 
 // Simulation page
 export const SIMULATION_PAGE_TITLE = "Simulación de Paciente UCI";
@@ -186,7 +189,7 @@ export const SETTINGS_NEW_PWD_LABEL = "Nueva contraseña";
 export const SETTINGS_CONFIRM_PWD_LABEL = "Confirmar nueva contraseña";
 export const SETTINGS_SAVE_BTN = "Guardar cambios";
 export const SETTINGS_SAVING_BTN = "Guardando...";
-export const SETTINGS_MOCK_LABEL = "Usar datos mock";
+export const SETTINGS_MOCK_LABEL = "Datos del usuario autenticado";
 export const SETTINGS_PWD_MIN_HINT = "Mínimo 8 caracteres";
 export const SETTINGS_PWD_EMPTY = "Este campo es requerido.";
 export const SETTINGS_PWD_TOO_SHORT =

@@ -11,8 +11,6 @@ import { Text } from "@/components/atoms/Text";
 import { Alert } from "@/components/molecules/Alert";
 import {
   APP_NAME,
-  LOGIN_DEFAULT_EMAIL,
-  LOGIN_DEFAULT_PASSWORD,
   LOGIN_PROMPT,
   LOGIN_BUTTON,
   LOGIN_ERROR_MSG,
@@ -20,6 +18,7 @@ import {
   LOGIN_EMAIL_PLACEHOLDER,
   LOGIN_PASSWORD_LABEL,
   LOGIN_PASSWORD_PLACEHOLDER,
+  LOGIN_HELP_TEXT,
   ALERT_ERROR_TITLE,
 } from "@/constants/constants";
 
@@ -31,7 +30,7 @@ export default function LoginForm() {
   const { login } = useAuth();
   const router = useRouter();
 
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -40,15 +39,17 @@ export default function LoginForm() {
     event.preventDefault();
     setError(null);
 
-    const finalEmail = email.trim() || LOGIN_DEFAULT_EMAIL;
-    const finalPassword = password.trim() || LOGIN_DEFAULT_PASSWORD;
+    const finalIdentifier = identifier.trim();
+    const finalPassword = password;
 
     setLoading(true);
     try {
-      await login(finalEmail, finalPassword);
+      await login(finalIdentifier, finalPassword);
       router.push("/");
-    } catch {
-      setError(LOGIN_ERROR_MSG);
+    } catch (submitError) {
+      setError(
+        submitError instanceof Error ? submitError.message : LOGIN_ERROR_MSG,
+      );
     } finally {
       setLoading(false);
     }
@@ -70,6 +71,9 @@ export default function LoginForm() {
         <Text as="p" size="sm" muted className="mt-2">
           {LOGIN_PROMPT}
         </Text>
+        <Text as="p" size="xs" muted className="mt-1">
+          {LOGIN_HELP_TEXT}
+        </Text>
       </div>
 
       {error && (
@@ -80,17 +84,18 @@ export default function LoginForm() {
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="login-email">{LOGIN_EMAIL_LABEL}</Label>
+          <Label htmlFor="login-identifier">{LOGIN_EMAIL_LABEL}</Label>
           <Input
-            id="login-email"
-            type="email"
-            value={email}
+            id="login-identifier"
+            type="text"
+            value={identifier}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setEmail(event.target.value)
+              setIdentifier(event.target.value)
             }
             placeholder={LOGIN_EMAIL_PLACEHOLDER}
             fullWidth
             autoFocus
+            required
           />
         </div>
         <div className="flex flex-col gap-1.5">
@@ -104,6 +109,7 @@ export default function LoginForm() {
             }
             placeholder={LOGIN_PASSWORD_PLACEHOLDER}
             fullWidth
+            required
           />
         </div>
         <Button

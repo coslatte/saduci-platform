@@ -13,6 +13,7 @@ try {
       usePathname: () => "/",
       useRouter: () => ({ back: () => {}, push: () => {}, replace: () => {} }),
       useSearchParams: () => new URLSearchParams(),
+      redirect: () => {},
     }));
   }
 } catch {
