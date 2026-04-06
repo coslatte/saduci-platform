@@ -65,10 +65,19 @@ export function NavItem({
     : "transition-all duration-200";
 
   const base = isNested
-    ? cn("group flex w-full items-center gap-2.5 rounded-xl border border-transparent px-3 py-2 text-sm font-medium", transitionClass)
+    ? cn(
+        "group flex w-full items-center gap-2.5 rounded-xl border border-transparent px-3 py-2 text-sm font-medium",
+        transitionClass,
+      )
     : collapsed
-      ? cn("group flex h-11 w-11 items-center justify-center rounded-2xl border border-transparent", transitionClass)
-      : cn("group flex w-full items-center gap-3 rounded-2xl border border-transparent px-3 py-2.5 text-(length:--font-size-sm) font-medium", transitionClass);
+      ? cn(
+          "group flex h-11 w-11 items-center justify-center rounded-2xl border border-transparent",
+          transitionClass,
+        )
+      : cn(
+          "group flex w-full items-center gap-3 rounded-2xl border border-transparent px-3 py-2.5 text-(length:--font-size-sm) font-medium",
+          transitionClass,
+        );
 
   const state = (() => {
     if (isNested) {
@@ -172,7 +181,9 @@ export function NavItem({
                   suppressLayoutAnimations
                     ? "flex size-9 shrink-0 items-center justify-center rounded-xl text-current"
                     : "flex size-9 shrink-0 items-center justify-center rounded-xl text-current transform transition-transform duration-200 ease-out will-change-transform",
-                  !disableIconHoverScale && !suppressLayoutAnimations && "group-hover:scale-105",
+                  !disableIconHoverScale &&
+                    !suppressLayoutAnimations &&
+                    "group-hover:scale-105",
                 ],
             // For non-nested items, when collapsed avoid the white bg / shadow
             // so the sidebar remains compact. When not collapsed, show bg and
@@ -183,7 +194,7 @@ export function NavItem({
                   ? "ring-primary-700/50 ring-2 shadow-sm shadow-primary-800/70"
                   : ""
                 : current
-                  ? "bg-white ring-primary-700/50 ring-2 shadow-sm shadow-primary-800/70"
+                  ? "bg-primary-500/15 text-primary-700 transition-colors group-hover:bg-primary-500/20 group-hover:text-primary-700"
                   : "bg-white ring-slate-200/80 shadow-sm"),
             iconClassName,
           )}

@@ -1,7 +1,12 @@
 import "../../setup";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
-import { NAV_BRAND_SHORT, SIDEBAR_BRAND_FULL } from "@/constants/constants";
+import {
+  APP_SHELL_CLOSE_NAVIGATION,
+  NAVBAR_OPEN_NAVIGATION,
+  NAV_BRAND_SHORT,
+  SIDEBAR_BRAND_FULL,
+} from "@/constants/constants";
 
 mock.module("sileo", () => ({
   Toaster: () => null,
@@ -48,5 +53,42 @@ describe("AppShell", () => {
     // The sidebar nav link should have aria-current="page"
     const activeLink = container.querySelector("a[aria-current='page']");
     expect(activeLink).toBeTruthy();
+  });
+
+  it("opens and closes the mobile sidebar drawer", () => {
+    const { container } = render(
+      <AppShell>
+        <h1>Contenido de prueba</h1>
+      </AppShell>,
+    );
+
+    const openSidebarButton = container.querySelector(
+      `button[aria-label='${NAVBAR_OPEN_NAVIGATION}']`,
+    ) as HTMLButtonElement | null;
+
+    expect(openSidebarButton).toBeTruthy();
+    if (!openSidebarButton) return;
+
+    const mobileSidebar = container.querySelector(
+      "#app-shell-sidebar-mobile",
+    ) as HTMLDivElement | null;
+
+    expect(mobileSidebar).toBeTruthy();
+    expect(mobileSidebar?.className.includes("-translate-x-full")).toBe(true);
+
+    fireEvent.click(openSidebarButton);
+
+    expect(mobileSidebar?.className.includes("translate-x-0")).toBe(true);
+
+    const closeSidebarButton = container.querySelector(
+      `button[aria-label='${APP_SHELL_CLOSE_NAVIGATION}']`,
+    ) as HTMLButtonElement | null;
+
+    expect(closeSidebarButton).toBeTruthy();
+    if (!closeSidebarButton) return;
+
+    fireEvent.click(closeSidebarButton);
+
+    expect(mobileSidebar?.className.includes("-translate-x-full")).toBe(true);
   });
 });

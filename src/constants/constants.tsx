@@ -12,6 +12,10 @@ export const LOGIN_DEFAULT_PASSWORD = "";
 export const LOGIN_PROMPT = "Inicie sesión para continuar";
 export const LOGIN_BUTTON = "Iniciar Sesión";
 export const LOGIN_ERROR_MSG = "No se pudo iniciar sesión. Intente de nuevo.";
+export const LOGIN_EMAIL_LABEL = "Correo electrónico";
+export const LOGIN_EMAIL_PLACEHOLDER = "usuario@ejemplo.com";
+export const LOGIN_PASSWORD_LABEL = "Contraseña";
+export const LOGIN_PASSWORD_PLACEHOLDER = "••••••••";
 
 // Simulation page
 export const SIMULATION_PAGE_TITLE = "Simulación de Paciente UCI";
@@ -79,6 +83,11 @@ export function runsRangeText(min: number, max: number) {
 // Navigation & UI
 export const NAV_BRAND_SHORT = "Saduci";
 export const SEARCH_PLACEHOLDER = "Buscar...";
+export const NAVBAR_OPEN_NAVIGATION = "Abrir navegación";
+export const APP_SHELL_CLOSE_NAVIGATION = "Cerrar navegación";
+
+// Admin
+export const ADMIN_CREATE_PAGE_SUBMIT_BUTTON = "Crear página";
 
 export const ROUTE_NAMES_MAP: Record<string, string> = {
   "/": "Dashboard",

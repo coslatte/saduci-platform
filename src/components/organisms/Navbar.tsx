@@ -1,8 +1,10 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { FiMenu } from "react-icons/fi";
 import { cn, dataDisabledProps } from "@/lib/utils";
 import {
+  NAVBAR_OPEN_NAVIGATION,
   NAV_BRAND_SHORT,
   NAVBAR_PROFILE_SETTINGS,
   SIDEBAR_USER_STATUS,
@@ -24,6 +26,9 @@ interface NavbarProps {
   userRole?: string;
   userAvatar?: string;
   onLogout?: () => void;
+  showSidebarTrigger?: boolean;
+  sidebarOpen?: boolean;
+  onOpenSidebar?: () => void;
 }
 
 /**
@@ -44,6 +49,9 @@ export function Navbar({
   userRole,
   userAvatar,
   onLogout,
+  showSidebarTrigger = false,
+  sidebarOpen = false,
+  onOpenSidebar,
 }: NavbarProps) {
   const pathnameFromHook = usePathname();
   const detectedPath = pathname ?? pathnameFromHook ?? "/";
@@ -56,18 +64,34 @@ export function Navbar({
     <header
       {...dataDisabledProps(disabled)}
       className={cn(
-        "sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between border-b border-slate-200/80 bg-white/75 supports-backdrop-filter:bg-white/80 surface-backdrop-full px-8",
+        "sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between gap-2 border-b border-slate-200/80 bg-white/75 px-3 supports-backdrop-filter:bg-white/80 surface-backdrop-full sm:px-4 lg:px-8",
         className,
       )}
     >
-      <NavBreadcrumb
-        brandName={NAV_BRAND_SHORT}
-        currentPage={currentPage}
-        segments={breadcrumbSegments}
-      />
+      <div className="flex min-w-0 items-center gap-2">
+        {showSidebarTrigger && (
+          <button
+            type="button"
+            onClick={onOpenSidebar}
+            aria-label={NAVBAR_OPEN_NAVIGATION}
+            aria-expanded={sidebarOpen}
+            aria-controls="app-shell-sidebar-mobile"
+            className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-200 lg:hidden"
+          >
+            <FiMenu className="size-5" />
+          </button>
+        )}
+
+        <NavBreadcrumb
+          brandName={NAV_BRAND_SHORT}
+          currentPage={currentPage}
+          segments={breadcrumbSegments}
+          className="min-w-0"
+        />
+      </div>
 
       {showProfile && (
-        <div className="flex items-center min-w-0 gap-2 ml-4">
+        <div className="ml-2 flex min-w-0 items-center gap-2 sm:ml-4">
           <NavbarProfile
             userName={userName}
             userAvatar={userAvatar}

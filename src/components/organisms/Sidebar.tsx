@@ -1,7 +1,7 @@
-﻿"use client";
+"use client";
 
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { SidebarCollapseToggle } from "@/components/organisms/sidebar/SidebarCollapseToggle";
 import { SidebarSection } from "@/components/organisms/sidebar/SidebarSection";
@@ -25,7 +25,6 @@ interface SidebarProps {
  * collapse control.
  * Used in X case: main authenticated app shell layout.
  */
-
 export function Sidebar({
   sections: sectionConfigs = APP_NAVIGATION_SECTIONS,
   collapsed = false,
@@ -41,14 +40,9 @@ export function Sidebar({
   const [internalCollapsed, setInternalCollapsed] =
     useState<boolean>(collapsed);
 
-  // When the sidebar is collapsing we want to suppress layout/height
-  // animations in child components and only use opacity fades. This state
-  // is enabled briefly while the aside width transition runs.
-  const [suppressLayoutAnimations, setSuppressLayoutAnimations] =
-    useState<boolean>(false);
-
   const isControlled = typeof onToggleCollapse === "function";
   const effectiveCollapsed = isControlled ? collapsed : internalCollapsed;
+  const suppressLayoutAnimations = effectiveCollapsed;
 
   function handleToggle() {
     if (isControlled) {
@@ -57,27 +51,6 @@ export function Sidebar({
       setInternalCollapsed((s) => !s);
     }
   }
-
-  // Monitor effectiveCollapsed changes: when collapsing (true) enable the
-  // suppression for the duration of the aside width transition so children
-  // don't animate geometry (max-height, margins, transforms) while the
-  // sidebar itself animates. Keep margin slightly larger than the aside
-  // transition to ensure visual stability.
-  useState(() => {});
-  useEffect(() => {
-    let t: ReturnType<typeof setTimeout> | undefined;
-    if (effectiveCollapsed) {
-      setSuppressLayoutAnimations(true);
-      t = setTimeout(() => setSuppressLayoutAnimations(false), 350);
-    } else {
-      // Ensure suppression is off when expanding
-      setSuppressLayoutAnimations(false);
-    }
-
-    return () => {
-      if (t) clearTimeout(t);
-    };
-  }, [effectiveCollapsed]);
 
   return (
     <aside

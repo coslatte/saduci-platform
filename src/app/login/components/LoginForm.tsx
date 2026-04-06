@@ -16,6 +16,10 @@ import {
   LOGIN_PROMPT,
   LOGIN_BUTTON,
   LOGIN_ERROR_MSG,
+  LOGIN_EMAIL_LABEL,
+  LOGIN_EMAIL_PLACEHOLDER,
+  LOGIN_PASSWORD_LABEL,
+  LOGIN_PASSWORD_PLACEHOLDER,
   ALERT_ERROR_TITLE,
 } from "@/constants/constants";
 
@@ -51,19 +55,8 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-white border shadow-xl rounded-2xl border-slate-200 md:p-10">
+    <div className="w-full max-w-md space-y-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-xl sm:space-y-8 sm:p-8 md:p-10">
       <div className="text-center">
-        <div className="flex items-center justify-center mx-auto mb-4 text-white shadow-md size-14 rounded-xl bg-primary-700">
-          <Text
-            as="span"
-            size="xl"
-            weight="bold"
-            family="secondary"
-            className="text-white"
-          >
-            S
-          </Text>
-        </div>
         <Text
           as="h1"
           size="3xl"
@@ -72,7 +65,7 @@ export default function LoginForm() {
           tracking="tight"
           className="text-slate-900"
         >
-          {APP_NAME}
+          {APP_NAME.toUpperCase()}
         </Text>
         <Text as="p" size="sm" muted className="mt-2">
           {LOGIN_PROMPT}
@@ -87,29 +80,39 @@ export default function LoginForm() {
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="login-email">Correo electrónico</Label>
+          <Label htmlFor="login-email">{LOGIN_EMAIL_LABEL}</Label>
           <Input
             id="login-email"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="usuario@ejemplo.com"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setEmail(event.target.value)
+            }
+            placeholder={LOGIN_EMAIL_PLACEHOLDER}
             fullWidth
             autoFocus
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="login-password">Contraseña</Label>
+          <Label htmlFor="login-password">{LOGIN_PASSWORD_LABEL}</Label>
           <Input
             id="login-password"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setPassword(event.target.value)
+            }
+            placeholder={LOGIN_PASSWORD_PLACEHOLDER}
             fullWidth
           />
         </div>
-        <Button type="submit" loading={loading} className="w-full" size="lg">
+        <Button
+          variant="glass"
+          type="submit"
+          loading={loading}
+          className="w-full"
+          size="lg"
+        >
           {LOGIN_BUTTON}
         </Button>
       </form>

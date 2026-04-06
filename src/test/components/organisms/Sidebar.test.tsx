@@ -6,7 +6,14 @@ import { Sidebar } from "@/components/organisms/Sidebar";
 const sections = [
   {
     title: "Principal",
-    items: [{ label: "Dashboard", href: "/", active: true }],
+    items: [
+      {
+        label: "Dashboard",
+        href: "/",
+        active: true,
+        iconKey: "home",
+      },
+    ],
   },
 ];
 
@@ -79,8 +86,19 @@ describe("Sidebar", () => {
 
   it("marks the active route link with aria-current", () => {
     const { container } = render(<Sidebar sections={sections} />);
-    const activeLink = container.querySelector("a[aria-current='page']");
+    const activeLink = within(container).getByRole("link", {
+      name: /dashboard/i,
+    });
     expect(activeLink).toBeTruthy();
+
+    expect(activeLink.getAttribute("aria-current")).toBe("page");
+
+    const iconContainer = activeLink.querySelector("span[aria-hidden='true']");
+    expect(iconContainer).toBeTruthy();
+    if (!iconContainer) return;
+
+    expect(iconContainer.className.includes("bg-primary-500/15")).toBe(true);
+    expect(iconContainer.className.includes("bg-white")).toBe(false);
   });
 
   it("keeps parent hierarchy item as navigation link", () => {
@@ -168,6 +186,21 @@ describe("Sidebar", () => {
     );
 
     expect(onToggleCollapse).toHaveBeenCalledTimes(1);
+  });
+
+  it("centers the collapse toggle vertically on desktop", () => {
+    const { container } = render(<Sidebar sections={sections} />);
+
+    const toggle = container.querySelector(
+      "button[aria-label='Contraer barra lateral']",
+    );
+
+    expect(toggle).toBeTruthy();
+    if (!toggle) return;
+
+    expect(toggle.className.includes("top-1/2")).toBe(true);
+    expect(toggle.className.includes("-translate-y-1/2")).toBe(true);
+    expect(toggle.className.includes("my-auto")).toBe(false);
   });
 
   it("does not render user panel in sidebar", () => {

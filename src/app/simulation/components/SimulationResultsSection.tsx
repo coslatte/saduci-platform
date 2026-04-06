@@ -55,7 +55,7 @@ export function SimulationResultsSection({
       className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5"
       aria-busy={showSkeleton}
     >
-      <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+      <div className="flex flex-col gap-3 border-b border-slate-200 pb-3 sm:flex-row sm:items-center sm:justify-between">
         {showSkeleton ? (
           <Skeleton className="h-4 w-48" />
         ) : (
@@ -71,6 +71,7 @@ export function SimulationResultsSection({
             size="sm"
             onClick={onDownload}
             aria-label="Descargar resultados en CSV"
+            className="w-full sm:w-auto"
           >
             <FiDownload className="size-4" />
             {DOWNLOAD_CSV}
@@ -100,13 +101,14 @@ export function SimulationResultsSection({
                 {SIMULATION_RESULTS_PAGE_SUMMARY(currentRun, totalRuns)}
               </span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
               <Button
                 variant="outline"
                 size="sm"
                 disabled={!canGoPrevious}
                 onClick={() => onActiveIndexChange(activeIndex - 1)}
                 aria-label={SIMULATION_PAGINATION_PREVIOUS}
+                className="w-full sm:w-auto"
               >
                 <FiChevronLeft className="size-4" />
                 {SIMULATION_PAGINATION_PREVIOUS}
@@ -117,6 +119,7 @@ export function SimulationResultsSection({
                 disabled={!canGoNext}
                 onClick={() => onActiveIndexChange(activeIndex + 1)}
                 aria-label={SIMULATION_PAGINATION_NEXT}
+                className="w-full sm:w-auto"
               >
                 {SIMULATION_PAGINATION_NEXT}
                 <FiChevronRight className="size-4" />
@@ -128,7 +131,7 @@ export function SimulationResultsSection({
 
       {showSkeleton ? (
         <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-3">
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 overflow-x-auto">
             <Skeleton className="h-4 w-52" />
             <div className="grid gap-3">
               {Array.from({ length: 4 }, (_, rowIndex) => (

@@ -106,7 +106,7 @@ export default function UserSettingsPage() {
 
   return (
     <main className="p-0">
-      <div className="mb-8 flex items-start justify-between gap-4">
+      <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <Text as="h1" size="2xl" weight="semibold" className="text-zinc-900">
             {SETTINGS_PAGE_TITLE}
@@ -115,7 +115,7 @@ export default function UserSettingsPage() {
             {SETTINGS_PAGE_SUBTITLE}
           </Text>
         </div>
-        <label className="mt-1 flex shrink-0 cursor-pointer select-none items-center gap-1.5 text-(length:--font-size-xs) text-zinc-400">
+        <label className="flex cursor-pointer select-none items-center gap-1.5 self-start text-(length:--font-size-xs) text-zinc-400 sm:mt-1 sm:self-auto">
           <input
             type="checkbox"
             checked={useMock}
@@ -129,7 +129,7 @@ export default function UserSettingsPage() {
 
       <Divider className="mb-6 border-slate-200/80" />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <div className="md:col-span-1 flex flex-col gap-4 border-b border-slate-100 pb-6 md:border-b-0 md:border-r md:pr-6">
           <div className="flex items-center gap-2 text-zinc-700">
             <FiUser size={14} />
@@ -211,8 +211,12 @@ export default function UserSettingsPage() {
               </Alert>
             )}
 
-            <div className="flex justify-end pt-1">
-              <Button type="submit" disabled={loading}>
+            <div className="flex justify-stretch pt-1 sm:justify-end">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full sm:w-auto"
+              >
                 {loading ? (
                   <span className="flex items-center gap-2">
                     <Spinner size="sm" />

@@ -10,7 +10,12 @@ function resolveCoreApiUrl(): string {
 }
 
 const CORE_API_URL = resolveCoreApiUrl();
-const CORE_PREDICTION_PATH = "/prediccion";
+const PREDICTION_ENDPOINTS = [
+  `${CORE_API_URL}/api/predictions`,
+  `${CORE_API_URL}/prediction`,
+  `${CORE_API_URL}/prediccion`,
+  "http://localhost:8002/predictions",
+];
 
 function getUpstreamErrorMessage(data: unknown): string | null {
   if (typeof data === "string" && data.trim().length > 0) return data;
@@ -44,6 +49,13 @@ function getUpstreamErrorMessage(data: unknown): string | null {
 }
 
 export async function POST(req: NextRequest) {
+  return handlePredictionRequest(req);
+}
+
+export async function handlePredictionRequest(
+  req: Request | NextRequest,
+  fetcher: typeof fetch = fetch,
+) {
   let body: unknown;
   try {
     body = await req.json();
@@ -58,32 +70,42 @@ export async function POST(req: NextRequest) {
   const timeout = setTimeout(() => controller.abort(), 15_000);
 
   try {
-    const upstream = await fetch(`${CORE_API_URL}${CORE_PREDICTION_PATH}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
+    let lastStatus = 502;
+    let lastUrl = PREDICTION_ENDPOINTS[0];
+    let lastData: unknown = null;
 
-    const contentType = upstream.headers.get("content-type") ?? "";
-    const data: unknown = contentType.includes("application/json")
-      ? await upstream.json()
-      : { error: await upstream.text() };
+    for (const endpoint of PREDICTION_ENDPOINTS) {
+      lastUrl = endpoint;
+      const upstream = await fetcher(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
 
-    if (upstream.status === 404) {
-      return NextResponse.json(
-        {
-          error:
-            "El backend activo no expone el endpoint /prediccion. Verifica que saduci-core esté actualizado y desplegado con la versión compatible para predicción.",
-          upstream_status: upstream.status,
-          upstream_url: `${CORE_API_URL}${CORE_PREDICTION_PATH}`,
-          upstream_error: getUpstreamErrorMessage(data),
-        },
-        { status: 502 },
-      );
+      const contentType = upstream.headers.get("content-type") ?? "";
+      const data: unknown = contentType.includes("application/json")
+        ? await upstream.json()
+        : { error: await upstream.text() };
+
+      lastStatus = upstream.status;
+      lastData = data;
+
+      if (upstream.status !== 404) {
+        return NextResponse.json(data, { status: upstream.status });
+      }
     }
 
-    return NextResponse.json(data, { status: upstream.status });
+    return NextResponse.json(
+      {
+        error:
+          "El backend activo no expone un endpoint compatible de predicción. Verifica la versión desplegada de saduci-core o el servicio legacy.",
+        upstream_status: lastStatus,
+        upstream_url: lastUrl,
+        upstream_error: getUpstreamErrorMessage(lastData),
+      },
+      { status: 502 },
+    );
   } catch (err) {
     const isTimeout = err instanceof Error && err.name === "AbortError";
     return NextResponse.json(

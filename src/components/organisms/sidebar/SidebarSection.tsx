@@ -111,22 +111,22 @@ function TreeItem({
       </div>
 
       {hasChildren && (
-          <div
-              aria-hidden={!showChildren}
-              className={cn(
-                "ml-7 overflow-hidden border-l border-slate-200/80 pl-4 pr-1",
-                depth > 0 && "ml-5",
-                // Use only opacity transition when suppression requested,
-                // otherwise animate max-height and related layout properties.
-                suppressLayoutAnimations
-                  ? "transition-opacity duration-200"
-                  : "transition-[max-height,opacity,margin,padding] duration-300",
-                showChildren ? "mt-1 py-1" : "mt-0 py-0",
-                showChildren
-                  ? "max-h-96 opacity-100"
-                  : "max-h-0 opacity-0 pointer-events-none",
-              )}
-            >
+        <div
+          aria-hidden={!showChildren}
+          className={cn(
+            "ml-7 overflow-hidden border-l border-slate-200/80 pl-4 pr-1",
+            depth > 0 && "ml-5",
+            // Use only opacity transition when suppression requested,
+            // otherwise animate max-height and related layout properties.
+            suppressLayoutAnimations
+              ? "transition-opacity duration-200"
+              : "transition-[max-height,opacity,margin,padding] duration-300",
+            showChildren ? "mt-1 py-1" : "mt-0 py-0",
+            showChildren
+              ? "max-h-96 opacity-100"
+              : "max-h-0 opacity-0 pointer-events-none",
+          )}
+        >
           <ul className="flex flex-col gap-2">
             {item.children!.map((child) => (
               <TreeItem

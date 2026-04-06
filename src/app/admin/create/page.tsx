@@ -9,6 +9,7 @@ import { Card } from "@/components/molecules";
 import { Button } from "@/components/atoms";
 import { Input } from "@/components/atoms";
 import { Label } from "@/components/atoms";
+import { ADMIN_CREATE_PAGE_SUBMIT_BUTTON } from "@/constants/constants";
 
 function CreatePageContent() {
   const { user } = useAuth();
@@ -57,13 +58,8 @@ function CreatePageContent() {
     setError("");
     setSaving(true);
     try {
-      const page = await createPage({
-        title,
-        slug,
-        description,
-        showInSidebar,
-      });
-      router.push(`/admin/builder/${page.id}`);
+      await createPage({ title, slug, description, showInSidebar });
+      router.push("/admin");
     } catch {
       setError("No se pudo crear la pagina. Intenta de nuevo.");
       setSaving(false);
@@ -71,17 +67,14 @@ function CreatePageContent() {
   }
 
   return (
-    <div className="max-w-lg mx-auto text-center">
-      <h1 className="mb-6 text-2xl font-semibold text-slate-800">
+    <div className="mx-auto w-full max-w-lg">
+      <h1 className="mb-6 text-center text-2xl font-semibold text-slate-800">
         Nueva página
       </h1>
       <Card padded={false}>
         <div className="px-5 pt-4 pb-2">
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col items-center gap-4"
-          >
-            <div>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div className="w-full">
               <Label htmlFor="title">Titulo</Label>
               <Input
                 id="title"
@@ -92,13 +85,15 @@ function CreatePageContent() {
               />
             </div>
 
-            <div>
+            <div className="w-full">
               <Label htmlFor="slug">Slug (URL)</Label>
               <Input
                 id="slug"
                 fullWidth
                 value={slug}
-                onChange={(e) => setSlug(slugify(e.target.value))}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setSlug(slugify(event.target.value))
+                }
                 placeholder="mi-pagina"
               />
               <p className="mt-1 text-xs text-slate-400">
@@ -106,7 +101,7 @@ function CreatePageContent() {
               </p>
             </div>
 
-            <div>
+            <div className="w-full">
               <Label htmlFor="description">Descripcion (opcional)</Label>
               <textarea
                 id="description"
@@ -137,14 +132,20 @@ function CreatePageContent() {
 
             {error && <p className="text-sm text-red-600">{error}</p>}
 
-            <div className="flex justify-center gap-2 pb-4">
-              <Button type="submit" variant="primary" disabled={saving}>
-                {saving ? "Creando..." : "Crear y abrir builder"}
+            <div className="flex w-full flex-col gap-2 pb-4 sm:flex-row sm:justify-end">
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={saving}
+                className="w-full sm:w-auto"
+              >
+                {saving ? "Creando..." : ADMIN_CREATE_PAGE_SUBMIT_BUTTON}
               </Button>
               <Button
                 type="button"
                 variant="ghost"
                 onClick={() => router.push("/admin")}
+                className="w-full sm:w-auto"
               >
                 Cancelar
               </Button>

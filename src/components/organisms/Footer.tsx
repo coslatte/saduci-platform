@@ -24,12 +24,17 @@ export function Footer({ className, disabled }: FooterProps) {
   return (
     <footer
       className={cn(
-        "sticky bottom-0 z-20 flex h-12 shrink-0 items-center justify-between border-t border-slate-200/80 bg-white/75 supports-backdrop-filter:bg-white/60 surface-backdrop-opaque px-8 transition-colors",
+        "sticky bottom-0 z-20 flex min-h-12 shrink-0 flex-wrap items-center justify-between gap-x-3 gap-y-2 border-t border-slate-200/80 bg-white/75 px-3 py-2 supports-backdrop-filter:bg-white/60 surface-backdrop-opaque transition-colors sm:px-4 lg:px-8",
         disabled && "opacity-50 grayscale pointer-events-none",
         className,
       )}
     >
-      <Text as="p" size="xs" weight="medium" className="text-slate-200">
+      <Text
+        as="p"
+        size="xs"
+        weight="medium"
+        className="text-(length:--font-size-xs) text-slate-500"
+      >
         &copy; {currentYear} Saduci Platform
       </Text>
 

@@ -19,7 +19,7 @@ export function Container({
     <div
       {...dataDisabledProps(disabled)}
       className={cn(
-        "mx-auto w-full px-8 sm:px-12 lg:px-16",
+        "mx-auto w-full px-4 sm:px-6 lg:px-8",
         size === "sm"
           ? "max-w-3xl"
           : size === "md"
@@ -27,7 +27,7 @@ export function Container({
             : size === "lg"
               ? "max-w-7xl"
               : size === "xl"
-                ? "max-w-[96rem]"
+                ? "max-w-384"
                 : "max-w-full",
         className,
       )}

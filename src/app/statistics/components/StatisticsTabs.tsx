@@ -18,7 +18,7 @@ interface StatisticsTabsProps {
 export function StatisticsTabs({ activeTab, onChange }: StatisticsTabsProps) {
   return (
     <div
-      className="flex border-b border-slate-200"
+      className="flex overflow-x-auto border-b border-slate-200 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       role="tablist"
       aria-label={STATS_TABLIST_LABEL}
     >
@@ -29,7 +29,7 @@ export function StatisticsTabs({ activeTab, onChange }: StatisticsTabsProps) {
         id="tab-wilcoxon"
         type="button"
         className={cn(
-          "border-b-2 px-4 py-2 text-(length:--font-size-sm) font-medium transition-colors focus:outline-none",
+          "shrink-0 whitespace-nowrap border-b-2 px-4 py-2 text-(length:--font-size-sm) font-medium transition-colors focus:outline-none",
           activeTab === "wilcoxon"
             ? "border-primary-600 text-primary-700"
             : "border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700",
@@ -45,7 +45,7 @@ export function StatisticsTabs({ activeTab, onChange }: StatisticsTabsProps) {
         id="tab-friedman"
         type="button"
         className={cn(
-          "border-b-2 px-4 py-2 text-(length:--font-size-sm) font-medium transition-colors focus:outline-none",
+          "shrink-0 whitespace-nowrap border-b-2 px-4 py-2 text-(length:--font-size-sm) font-medium transition-colors focus:outline-none",
           activeTab === "friedman"
             ? "border-primary-600 text-primary-700"
             : "border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700",

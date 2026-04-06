@@ -22,7 +22,7 @@ function AdminPageContent() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-slate-800">
             Administracion
@@ -32,7 +32,7 @@ function AdminPageContent() {
           </p>
         </div>
         <Link href="/admin/create">
-          <Button variant="primary" size="sm">
+          <Button variant="primary" size="sm" className="w-full sm:w-auto">
             <FiPlus className="mr-1.5" />
             Nueva página
           </Button>
@@ -65,20 +65,14 @@ function AdminPageContent() {
           <Card
             key={page.id}
             header={
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-slate-800">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <span className="wrap-break-word font-semibold text-slate-800">
                   {page.title}
                 </span>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <Link href={`/pages/${page.slug}`} target="_blank">
                     <Button variant="ghost" size="xs">
                       Ver
-                    </Button>
-                  </Link>
-                  <Link href={`/admin/builder/${page.id}`}>
-                    <Button variant="outline" size="xs">
-                      <FiLayout className="mr-1" />
-                      Builder
                     </Button>
                   </Link>
                   <Button
@@ -100,7 +94,7 @@ function AdminPageContent() {
               </div>
             }
           >
-            <div className="flex gap-6 text-sm text-slate-500">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500">
               <span>
                 <strong className="text-slate-600">Slug:</strong> /{page.slug}
               </span>

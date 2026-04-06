@@ -18,7 +18,7 @@ describe("Container", () => {
       { size: "sm" as const, className: "max-w-3xl" },
       { size: "md" as const, className: "max-w-5xl" },
       { size: "lg" as const, className: "max-w-7xl" },
-      { size: "xl" as const, className: "max-w-[96rem]" },
+      { size: "xl" as const, className: "max-w-384" },
       { size: "full" as const, className: "max-w-full" },
     ];
 

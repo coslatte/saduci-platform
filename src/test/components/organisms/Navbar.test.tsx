@@ -1,7 +1,7 @@
 import "../../setup";
 import { fireEvent, render, within } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
-import { NAV_BRAND_SHORT } from "@/constants/constants";
+import { NAVBAR_OPEN_NAVIGATION, NAV_BRAND_SHORT } from "@/constants/constants";
 
 // Provide navigation stubs before the static Navbar import is resolved.
 // Without this, NavBreadcrumb's useRouter() would throw in the test env.
@@ -74,5 +74,30 @@ describe("Navbar", () => {
     const logout = dialogScope.getByRole("button", { name: /cerrar sesión/i });
     fireEvent.click(logout);
     expect(onLogout).toHaveBeenCalledTimes(1);
+  });
+
+  it("renders and handles mobile sidebar trigger", () => {
+    const onOpenSidebar = mock(() => {});
+    const { container } = render(
+      <Navbar
+        pathname="/"
+        showSidebarTrigger
+        sidebarOpen={false}
+        onOpenSidebar={onOpenSidebar}
+      />,
+    );
+
+    const scope = within(container);
+    const trigger = scope.getByRole("button", {
+      name: NAVBAR_OPEN_NAVIGATION,
+    });
+
+    expect(trigger.getAttribute("aria-controls")).toBe(
+      "app-shell-sidebar-mobile",
+    );
+
+    fireEvent.click(trigger);
+
+    expect(onOpenSidebar).toHaveBeenCalledTimes(1);
   });
 });

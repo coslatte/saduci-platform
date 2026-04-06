@@ -29,25 +29,25 @@ export function NavBreadcrumb({
     <nav
       aria-label="Breadcrumb"
       className={cn(
-        "flex items-center gap-2 text-(length:--font-size-sm) text-slate-500",
+        "flex min-w-0 items-center gap-1.5 text-(length:--font-size-xs) text-slate-500 sm:gap-2 sm:text-(length:--font-size-sm)",
         className,
       )}
     >
       <Link
         href="/"
-        className="select-none transition-colors hover:text-slate-800 focus:outline-none focus-visible:underline"
+        className="max-w-28 truncate select-none transition-colors hover:text-slate-800 focus:outline-none focus-visible:underline sm:max-w-none"
         aria-label={`Ir al inicio — ${brandName}`}
       >
         {brandName}
       </Link>
       {segments?.map((seg) => (
-        <span key={seg.href} className="contents">
+        <span key={seg.href} className="hidden md:contents">
           <span aria-hidden="true" className="text-slate-300">
             /
           </span>
           <Link
             href={seg.href}
-            className="transition-colors hover:text-slate-800"
+            className="truncate transition-colors hover:text-slate-800"
           >
             {seg.label}
           </Link>
@@ -56,7 +56,11 @@ export function NavBreadcrumb({
       <span aria-hidden="true" className="text-slate-300">
         /
       </span>
-      <span className="font-semibold text-primary-700" aria-current="page">
+      <span
+        className="max-w-36 truncate font-semibold text-primary-700 sm:max-w-52 md:max-w-none"
+        aria-current="page"
+        title={currentPage}
+      >
         {currentPage}
       </span>
     </nav>
